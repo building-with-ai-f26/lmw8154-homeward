@@ -23,7 +23,7 @@ Grade the prototype against this. For each planted conflict: did it flag it, att
 
 ## 04 — Fence (HOA vs city fire rule)
 - **Oct 5, HOA:** redwood fence connected to the house.
-- **Oct 16, City/LAFD:** nothing combustible within 5 ft of the house; the connection must be metal or masonry.
+- **Oct 16, City Fire Department (sample):** nothing combustible within 5 ft of the house; the connection must be metal or masonry.
 - **Oct 17, Builder:** HOA approval takes priority; will build in redwood to the house. *Conflicts with the fire rule.*
 - **Open questions:** Ask the HOA whether a metal or masonry section for the first 5 ft is acceptable. Tell the builder not to proceed until resolved.
 - **Note:** Homeward should flag the conflict, not decide who's right (non-goal #1).

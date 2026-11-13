@@ -1,17 +1,19 @@
-Subject: FW: Plan Check Correction Notice — 1180 Ridgeview Lane
+FICTIONAL SAMPLE. Not a real communication. All names are invented.
 
-From: Ellen Morrow
-To: Marco Delgado <marco@summitbuilt.example>
+Subject: FW: Plan Check Correction Notice — 1180 Example Lane
+
+From: Ellen Sample
+To: Sam Builder <sam@examplebuilders.example>
 Date: Oct 21, 2026, 7:40 PM
 
-Marco, the city just sent this. You told us in August the design qualified as like-for-like. Can you explain?
+Sam, the city just sent this. You told us in August the design qualified as like-for-like. Can you explain?
 
 Ellen
 
 ---------- Forwarded message ----------
-From: LADBS Plan Check — Palisades Rebuild Team <noreply-plancheck@ladbs.example>
+From: City Building Department (sample) Plan Check <plancheck@citybuilding.example>
 Date: Oct 21, 2026, 3:12 PM
-Subject: Plan Check Correction Notice — 1180 Ridgeview Lane
+Subject: Plan Check Correction Notice — 1180 Example Lane
 
 Plan Check No.: B26-SAMPLE-0042
 
@@ -22,7 +24,7 @@ Correction Item 4: Provide Chapter 7A (Wildland-Urban Interface) compliance deta
 Please address all corrections and resubmit.
 
 ---------- Earlier message ----------
-From: Marco Delgado <marco@summitbuilt.example>
+From: Sam Builder <sam@examplebuilders.example>
 Date: Aug 19, 2026, 10:05 AM
 Subject: Design update
 
@@ -31,5 +33,5 @@ Hi Ellen and Ray,
 Good news. The bonus room over the garage still keeps us under the like-for-like rules since the footprint isn't changing, so we stay on the fast-track permit path. No extra review needed.
 
 Thanks,
-Marco
-Summit Built Homes
+Sam
+Example Builders Co.

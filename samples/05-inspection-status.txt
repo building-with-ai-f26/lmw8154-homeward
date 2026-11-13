@@ -1,7 +1,9 @@
+FICTIONAL SAMPLE. Not a real communication. All names are invented.
+
 Subject: Weekly update — week of Oct 26
 
-From: Marco Delgado <marco@summitbuilt.example>
-To: Ellen Morrow; Ray Morrow
+From: Sam Builder <sam@examplebuilders.example>
+To: Ellen Sample; Ray Sample
 Date: Oct 30, 2026, 5:10 PM
 
 Hi both,
@@ -9,12 +11,12 @@ Hi both,
 Great week. Framing inspection passed on Tuesday, so we're clear to start rough plumbing and electrical Monday. Windows arrive Nov 12. Still tracking to our schedule.
 
 Thanks,
-Marco
-Summit Built Homes
+Sam
+Example Builders Co.
 
 ---
 
-[Pasted from LADBS online permit record, viewed Oct 31, 2026]
+[Pasted from City Building Department (sample) online permit record, viewed Oct 31, 2026]
 
 Permit: B26-SAMPLE-0042
 Inspection: Frame

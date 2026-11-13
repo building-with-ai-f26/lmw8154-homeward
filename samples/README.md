@@ -4,7 +4,15 @@ Fictional email threads for testing Homeward. Every person, company, address, an
 
 These files are safe to commit. Real family emails go in `private/`, never here.
 
-The fictional family: the Morrows, rebuilding at 1180 Ridgeview Lane after the fire.
+The fictional family: the Samples, rebuilding at 1180 Example Lane after the fire.
+
+The fictional parties:
+- **HOA:** Example Estates HOA (Dana Reviewer, Architectural Review Committee)
+- **Builder:** Example Builders Co. (Sam Builder, project manager)
+- **Insurer:** Sample Mutual Insurance (Alex Adjuster, claims adjuster)
+- **City:** City Building Department (sample) and City Fire Department (sample)
+
+Each thread starts with a "FICTIONAL SAMPLE" header line.
 
 | File | Parties | Planted problem |
 |---|---|---|
