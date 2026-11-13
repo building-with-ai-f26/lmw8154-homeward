@@ -12,116 +12,92 @@
         integrity="sha512-h9FcoyWjHcOcmEVkxOfTLnmZFWIH0iZhZT1H2TbOq55xssQGEJHEaIm+PgoUaZbRvQTNTluNOEfb1ZRy6D3BOw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" />
+  <link rel="stylesheet" href="theme.css" />
+
   <style>
-    /* Same palette as docs/index.html */
+    /* Pin colors: from the photo palette, checked to stay distinguishable
+       under protanopia, deuteranopia and tritanopia (min ΔE 23.9).
+       "Not re-verified" pins are hollow ocean rings, a shape cue on top of color. */
     :root {
-      --bg: #fafafa;
-      --card: #ffffff;
-      --text: #111827;
-      --muted: #4b5563;
-      --border: #e5e7eb;
-      --accent: #1d63dc;
-      --tag-bg: #eff6ff;
-      --tag-text: #1e40af;
-      --warn-bg: #fffbeb;
-      --warn-border: #f59e0b;
-
-      /* Pin colors by status */
-      --open: #15803d;
-      --rebuilding: #b45309;
-      --closed: #b91c1c;
-      --unknown: #6b7280;
-      --unverified: #7c3aed; /* reported in 2025, not re-verified */
+      --open: #3D4C34;        /* deep sage */
+      --rebuilding: #E8892B;  /* poppy */
+      --closed: #D9367A;      /* bougainvillea */
+      --unknown: #B6BCC2;     /* light stone */
+      --unverified: #2E6F95;  /* ocean ring */
+      --pin-outline: #1F2A33;
     }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "DM Sans", "Segoe UI", Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
-    .container { max-width: 1000px; margin: 0 auto; padding: 32px 16px 64px; }
-    a { color: var(--accent); }
-    .back { font-size: 14px; text-decoration: none; }
-    h1 { font-size: 30px; line-height: 1.2; margin: 8px 0 8px; letter-spacing: -0.02em; }
-    h2 { font-size: 20px; margin: 36px 0 8px; }
-    .intro { color: var(--muted); margin: 0 0 16px; }
-    .updated { margin: 0 0 8px; }
-    .meta { color: var(--muted); font-size: 14px; }
-
-    .disclaimer {
-      background: var(--warn-bg);
-      border-left: 4px solid var(--warn-border);
-      padding: 10px 14px;
-      border-radius: 6px;
-      font-size: 15px;
-      margin: 0 0 16px;
-    }
+    .container { max-width: 1040px; }
+    h1 { font-size: 40px; }
+    @media (max-width: 600px) { h1 { font-size: 30px; } }
+    h2 { margin-top: 8px; }
+    .intro { color: var(--muted); font-size: 17px; margin: 0 0 18px; }
 
     .legend {
-      display: flex; flex-wrap: wrap; gap: 8px 18px;
-      font-size: 14px; margin: 0 0 10px; padding: 0; list-style: none;
+      display: flex; flex-wrap: wrap; gap: 10px 20px;
+      font-size: 14px; margin: 0 0 14px; padding: 0; list-style: none;
     }
-    .legend li { display: flex; align-items: center; gap: 6px; }
+    .legend li { display: flex; align-items: center; gap: 7px; margin: 0; }
     .dot {
-      display: inline-block; width: 12px; height: 12px; border-radius: 50%;
-      border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,0.35); flex: none;
+      display: inline-block; width: 14px; height: 14px; border-radius: 50%;
+      border: 1.5px solid var(--pin-outline); flex: none;
     }
     .dot.open { background: var(--open); }
     .dot.rebuilding { background: var(--rebuilding); }
     .dot.closed { background: var(--closed); }
     .dot.unknown { background: var(--unknown); }
-    .dot.unverified { background: var(--unverified); }
+    .dot.unverified { background: var(--card); border: 3.5px solid var(--unverified); }
 
+    .map-card { padding: 14px; }
     #map {
-      height: 520px; width: 100%;
-      border: 1px solid var(--border); border-radius: 10px;
-      background: #e5e7eb;
+      height: 540px; width: 100%;
+      border-radius: 12px;
+      background: var(--sky-tint);
     }
-    @media (max-width: 600px) { #map { height: 420px; } h1 { font-size: 25px; } }
+    @media (max-width: 600px) { #map { height: 440px; } .map-card { padding: 8px; } }
+    #summary { margin: 10px 6px 2px; }
 
     /* Group pin: several businesses at one point (shopping center or shared address) */
     .group-pin {
       display: flex; align-items: center; justify-content: center;
-      width: 30px; height: 30px; border-radius: 50%;
-      color: #fff; font-weight: 700; font-size: 13px;
-      border: 3px solid #fff; box-shadow: 0 0 0 1.5px rgba(0,0,0,0.45);
+      width: 32px; height: 32px; border-radius: 50%;
+      font-weight: 700; font-size: 13px;
+      border: 2px solid var(--pin-outline);
+      box-shadow: 0 0 0 2px rgba(255, 253, 249, 0.9);
+      background: var(--unknown); color: var(--ink);
     }
-    .legend .group-pin { width: 20px; height: 20px; font-size: 10px; border-width: 2px; background: var(--unknown); }
+    .group-pin.pin-open { background: var(--open); color: #fff; }
+    .group-pin.pin-rebuilding { background: var(--rebuilding); color: var(--ink); }
+    .group-pin.pin-closed { background: var(--closed); color: #fff; }
+    .group-pin.pin-unverified { background: var(--card); color: var(--unverified); border: 4px solid var(--unverified); }
+    .legend .group-pin { width: 22px; height: 22px; font-size: 10px; box-shadow: none; }
 
     /* Popups */
-    .leaflet-popup-content { margin: 12px 14px; font-size: 14px; line-height: 1.45; }
+    .leaflet-popup-content-wrapper { border-radius: 14px; box-shadow: var(--shadow); }
+    .leaflet-popup-content { margin: 14px 16px; font-family: var(--font-body); font-size: 14px; line-height: 1.45; color: var(--ink); }
     .leaflet-popup-content p { margin: 2px 0; } /* override Leaflet's large default spacing */
-    .pop-name { font-weight: 700; font-size: 15px; margin: 0; }
+    .pop-name { font-family: var(--font-heading); font-weight: 600; font-size: 16px; margin: 0; }
     .pop-row { margin: 2px 0; }
     .pop-label { color: var(--muted); }
     .pop-status { font-weight: 600; }
-    .pop-group-head { font-weight: 700; margin: 0 0 2px; }
+    .pop-group-head { font-family: var(--font-heading); font-weight: 600; font-size: 16px; margin: 0 0 2px; }
     .pop-group-note { color: var(--muted); font-size: 13px; margin: 0 0 8px; }
     .pop-list { max-height: 260px; overflow-y: auto; margin: 0; padding: 0; list-style: none; }
-    .pop-list li { padding: 8px 0; border-top: 1px solid var(--border); }
+    .pop-list li { padding: 8px 0; border-top: 1px solid var(--border); margin: 0; }
+    .pop-row .dot { width: 11px; height: 11px; }
+    .pop-row .dot.unverified { border-width: 3px; }
 
     /* Not-on-map list */
-    .cards { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; font-size: 14px; }
-    .card .pop-name { margin-bottom: 4px; }
-    .flag { font-size: 13px; color: var(--muted); font-style: italic; margin-top: 6px; }
+    .cards { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+    .cards .card { padding: 20px 22px; margin: 0; font-size: 14px; }
+    .cards .card .pop-name { margin-bottom: 6px; }
+    .flag { font-size: 13px; color: var(--muted); font-style: italic; margin-top: 8px; }
 
-    .error { color: var(--closed); font-weight: 600; }
-    footer { margin-top: 40px; font-size: 13px; color: var(--muted); }
-    /* Short photo banner at the top */
-    .banner { margin: 0 0 20px; }
-    .banner img {
-      display: block;
-      width: 100%;
-      height: 170px;
-      object-fit: cover;
-      object-position: center 55%;
-      border-radius: 12px;
-    }
-    .banner .photo-credit { font-size: 12px; color: var(--muted); margin: 4px 0 0; text-align: right; }
-    @media (max-width: 600px) { .banner img { height: 110px; } }
+    .error { color: #B5285F; font-weight: 600; }
+    footer { font-size: 13px; color: var(--muted); }
+    .banner img { object-position: center 55%; }
   </style>
 </head>
 <body>
@@ -136,7 +112,7 @@
     <p class="meta updated">Last updated: Nov 13, 2026</p>
     <p class="intro">Which Pacific Palisades businesses are open, rebuilding, or closed after the fire. Tap a pin for details and the news source.</p>
 
-    <p class="disclaimer">Compiled from published news reports. Information may be out of date; confirm with the business before visiting.</p>
+    <p class="notice">Compiled from published news reports. Information may be out of date; confirm with the business before visiting.</p>
 
     <ul class="legend" aria-label="Map legend">
       <li><span class="dot open"></span> Open</li>
@@ -147,8 +123,10 @@
       <li><span class="group-pin">12</span> Several businesses at one spot (number = how many)</li>
     </ul>
 
-    <div id="map" role="region" aria-label="Map of Palisades businesses"></div>
-    <p class="meta" id="summary"></p>
+    <div class="card map-card">
+      <div id="map" role="region" aria-label="Map of Palisades businesses"></div>
+      <p class="meta" id="summary"></p>
+    </div>
 
     <h2>Not shown on the map</h2>
     <p class="meta">These addresses could not be placed confidently, so they are listed here instead of guessed.</p>
@@ -245,15 +223,21 @@
       return box;
     }
 
+    // Filled dots with a dark outline; "not re-verified" is a hollow ocean ring.
+    function pinStyle(key) {
+      if (key === "unverified") return { radius: 7, weight: 4, color: color("unverified"), fillColor: "#FFFDF9", fillOpacity: 1 };
+      return { radius: 8, weight: 1.5, color: color("pin-outline"), fillColor: color(key), fillOpacity: 1 };
+    }
+
     function groupIcon(list) {
       const set = new Set(list.map(pinKey));
-      const fill = set.size === 1 ? color([...set][0]) : color("unknown");
+      const key = set.size === 1 ? [...set][0] : "unknown"; // mixed statuses show as unknown
       return L.divIcon({
         className: "",
-        html: `<div class="group-pin" style="background:${fill}">${list.length}</div>`,
-        iconSize: [30, 30],
-        iconAnchor: [15, 15],
-        popupAnchor: [0, -14],
+        html: `<div class="group-pin pin-${key}">${list.length}</div>`,
+        iconSize: [32, 32],
+        iconAnchor: [16, 16],
+        popupAnchor: [0, -15],
       });
     }
 
@@ -313,7 +297,7 @@
         if (list.length === 1) {
           const b = list[0];
           L.circleMarker(ll, {
-            radius: 8, weight: 2, color: "#fff", fillColor: color(pinKey(b)), fillOpacity: 1,
+            ...pinStyle(pinKey(b)),
           }).bindPopup(details(b), { maxWidth: 300 }).bindTooltip(b.name).addTo(map);
         } else {
           L.marker(ll, { icon: groupIcon(list), title: list[0].address })

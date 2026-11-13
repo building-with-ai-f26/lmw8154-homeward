@@ -9,87 +9,108 @@
        Build 2: paste your project's current PostHog web snippet here,
        then install analytics in the local app and verify events. -->
 
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" />
+  <link rel="stylesheet" href="theme.css" />
+
   <style>
-    :root {
-      --bg: #fafafa;
-      --card: #ffffff;
-      --text: #111827;
-      --muted: #4b5563;
-      --border: #e5e7eb;
-      --accent: #1d63dc;
-      --tag-bg: #eff6ff;
-      --tag-text: #1e40af;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "DM Sans", "Segoe UI", Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
-    .container {
-      max-width: 820px;
-      margin: 0 auto;
-      padding: 48px 24px 80px;
-    }
-    header {
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 28px;
-      margin-bottom: 32px;
-    }
-    /* Hero: photo behind the title, with a dark overlay so white text stays readable */
-    header.hero {
+    /* ---------- Hero slideshow ---------- */
+    .hero {
       position: relative;
       overflow: hidden;
-      border: none;
-      border-radius: 16px;
-      padding: 56px 40px 44px;
+      border-radius: 24px;
+      min-height: 460px;
+      padding: 64px 48px 72px;
+      margin-bottom: 32px;
       color: #fff;
-      background: #1f2937; /* shown until the photo loads */
+      background: #2E4A5C; /* shown until the first photo loads */
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
     }
-    .hero-photo {
+    .hero-slides { position: absolute; inset: 0; }
+    .slide {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center 60%;
-      z-index: 0;
+      object-position: var(--pos, center);
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
     }
-    header.hero::after {
+    .slide.is-active { opacity: 1; }
+    /* Soft gradient behind the text only; the right side of each photo stays clear */
+    .hero::before {
       content: "";
       position: absolute;
       inset: 0;
-      /* Darker behind the text on the left, lighter over the coast on the right */
-      background: linear-gradient(90deg, rgba(10, 18, 32, 0.62) 0%, rgba(10, 18, 32, 0.52) 62%, rgba(10, 18, 32, 0.1) 100%);
       z-index: 1;
+      background: linear-gradient(90deg,
+        rgba(18, 28, 38, 0.64) 0%,
+        rgba(18, 28, 38, 0.58) 52%,
+        rgba(18, 28, 38, 0.48) 64%,
+        rgba(18, 28, 38, 0) 88%);
+      pointer-events: none;
     }
-    header.hero h1,
-    header.hero .tagline { text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45); }
-    .hero-content { position: relative; z-index: 2; }
-    header.hero .tagline { color: rgba(255, 255, 255, 0.92); max-width: 520px; } /* keeps text over the darker side */
-    header.hero .eyebrow { background: rgba(255, 255, 255, 0.92); }
-    .photo-credit {
-      font-size: 12px;
-      color: var(--muted);
-      margin: 6px 0 0;
+    .hero-content { position: relative; z-index: 2; max-width: 600px; } /* wide enough for the 3 buttons; tagline stays 470px */
+    .hero h1 { color: #fff; font-size: 56px; margin-bottom: 14px; }
+    .hero h1, .hero .tagline { text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45), 0 0 18px rgba(0, 0, 0, 0.25); }
+    .hero .tagline { font-size: 19px; line-height: 1.55; margin: 0 0 26px; color: #fff; max-width: 470px; }
+    .hero .eyebrow { background: rgba(255, 253, 249, 0.94); color: var(--sage-dark); }
+    .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .hero .btn-secondary { background: rgba(255, 253, 249, 0.96); border-color: transparent; }
+
+    /* Credit pill + pause button, bottom right */
+    .hero-controls {
+      position: absolute;
+      right: 18px;
+      bottom: 16px;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-    header.hero .photo-credit { color: rgba(255, 255, 255, 0.75); margin-top: 20px; }
+    .hero .photo-credit {
+      margin: 0;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(18, 28, 38, 0.72); /* keeps 12px text readable on any photo */
+      color: #fff;
+    }
+    .hero-pause {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 253, 249, 0.94);
+      color: var(--ink);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      padding: 0;
+    }
+    .hero-pause svg { width: 14px; height: 14px; }
+    .hero-pause[hidden] { display: none; }
+
+    /* On tablets and phones the text spans most of the photo, so the gradient covers it evenly */
+    @media (max-width: 820px) {
+      .hero::before { background: linear-gradient(180deg, rgba(18, 28, 38, 0.53) 0%, rgba(18, 28, 38, 0.62) 100%); }
+    }
     @media (max-width: 600px) {
-      .container { padding: 24px 16px 64px; }
-      header.hero { padding: 36px 20px 28px; }
-      /* Text spans the full width on phones, so use an even overlay */
-      header.hero::after { background: linear-gradient(180deg, rgba(10, 18, 32, 0.45) 0%, rgba(10, 18, 32, 0.6) 100%); }
-      h1 { font-size: 30px; }
-      .tagline { font-size: 17px; }
+      .hero { min-height: 0; padding: 40px 22px 64px; border-radius: 20px; }
+      .hero h1 { font-size: 42px; }
+      .hero .eyebrow { font-size: 10.5px; letter-spacing: 0.05em; }
+      .hero .tagline { font-size: 17px; }
+      .hero-controls { left: 16px; right: 16px; justify-content: space-between; }
     }
 
-    /* Photo strip: 4 across on desktop, stacks on phones */
+    /* ---------- Photo strip: 4 across on desktop, stacks on phones ---------- */
     .photo-strip {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
+      gap: 12px;
       margin: 8px 0 4px;
     }
     .photo-strip img {
@@ -97,157 +118,113 @@
       aspect-ratio: 4 / 3;
       height: auto;
       object-fit: cover;
-      border-radius: 8px;
+      border-radius: 14px;
       display: block;
+      box-shadow: 0 2px 8px rgba(31, 42, 51, 0.10);
     }
     @media (max-width: 760px) { .photo-strip { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 480px) { .photo-strip { grid-template-columns: 1fr; } }
-    .eyebrow {
-      display: inline-block;
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      background: var(--tag-bg);
-      color: var(--tag-text);
-      padding: 4px 10px;
-      border-radius: 999px;
-      margin-bottom: 12px;
-    }
-    h1 {
-      font-size: 36px;
-      line-height: 1.15;
-      margin: 0 0 12px;
-      letter-spacing: -0.02em;
-    }
-    .tagline {
-      font-size: 19px;
-      color: var(--muted);
-      margin: 0 0 20px;
-    }
-    .cta-row {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .btn {
-      display: inline-block;
-      padding: 10px 18px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 15px;
-      text-decoration: none;
-      background: var(--accent);
-      color: #fff;
-    }
-    .btn-secondary {
-      background: var(--card);
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-    section {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 24px 28px;
-      margin-bottom: 24px;
-    }
-    h2 {
-      font-size: 20px;
-      margin: 0 0 14px;
-      letter-spacing: -0.01em;
-    }
-    h3 {
-      font-size: 16px;
-      margin: 18px 0 6px;
-    }
-    p, ul {
-      margin: 0 0 12px;
-      color: #1f2937;
-    }
+
+    /* ---------- Showcase + resources ---------- */
+    .screenshot { width: 100%; border: 1px solid var(--border); border-radius: 14px; display: block; margin: 4px 0 10px; }
+    .resource { padding: 18px 0; border-top: 1px solid var(--border); }
+    .resource:first-of-type { border-top: none; padding-top: 4px; }
+    .resource p { margin-bottom: 10px; }
+    .resource .meta { margin: 8px 0 0; }
+
+    /* ---------- PRD: easy to scan ---------- */
+    #prd h3 { padding-top: 22px; margin-top: 26px; border-top: 1px solid var(--border); }
+    #prd h3:first-of-type { border-top: none; padding-top: 0; }
+    #prd li { margin-bottom: 10px; }
     .grid-2 {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
+      gap: 14px;
     }
-    .stat-box {
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 14px 16px;
-      background: var(--bg);
-    }
+    .stat-box { border-radius: 14px; padding: 16px 18px; background: var(--sky-tint); }
     .stat-label {
       font-size: 12px;
+      font-weight: 700;
       color: var(--muted);
       text-transform: uppercase;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.06em;
     }
-    .stat-value {
-      font-size: 20px;
-      font-weight: 700;
-      margin-top: 4px;
-    }
+    .stat-value { font-size: 16px; font-weight: 600; margin-top: 6px; line-height: 1.5; }
+
+    /* ---------- Build log: each build is its own block with a colored edge ---------- */
     .log-entry {
-      border-top: 1px solid var(--border);
-      padding-top: 16px;
-      margin-top: 16px;
+      border-left: 4px solid var(--sky);
+      background: var(--sand);
+      border-radius: 0 14px 14px 0;
+      padding: 18px 22px 8px;
+      margin-top: 18px;
     }
-    .log-entry:first-of-type {
-      border-top: none;
-      padding-top: 0;
-      margin-top: 0;
-    }
-    .meta {
-      font-size: 13px;
-      color: var(--muted);
-    }
+    .log-entry:first-of-type { border-left-color: var(--sage); }
+    .log-entry h3 { margin-top: 0; }
+    .log-entry li { margin-bottom: 10px; }
+    @media (max-width: 600px) { .log-entry { padding: 16px 14px 6px; } .log-entry ul { padding-left: 16px; } }
   </style>
 </head>
 <body>
   <div class="container">
     <!-- HERO / PRODUCT PITCH -->
     <header class="hero">
-      <img class="hero-photo" src="images/hero-coast.jpg" width="1536" height="768"
-           alt="A sunny view down onto a long sandy beach and Pacific Coast Highway, with palm trees, hillside homes, and hazy mountains along the coast." />
-      <div class="hero-content">
-      <span class="eyebrow">NYU Stern · Building with AI · Fall 2026</span>
-      <h1>Homeward</h1>
-      <p class="tagline">Homeward is a single source of truth for families rebuilding after a wildfire. It tracks what the HOA, builder, insurer, and city each said, and flags when they contradict each other.</p>
-      <div class="cta-row">
-        <a class="btn" href="#live-demo" onclick="window.posthog && posthog.capture('clicked_try_product')">See the Product →</a>
-        <a class="btn btn-secondary" href="#prd">Read the Living PRD</a>
-        <a class="btn btn-secondary" href="#build-log">Weekly Build Log</a>
+      <!-- The first photo is in the HTML so it loads right away. The script below
+           adds the other four after the page has loaded, unless "reduce motion" is on. -->
+      <div class="hero-slides" id="hero-slides">
+        <img class="slide is-active" src="images/hero-coast.jpg" width="1536" height="768" style="--pos: 45% 60%"
+             alt="A sunny view down onto a long sandy beach and Pacific Coast Highway, with palm trees, hillside homes, and hazy mountains along the coast." />
       </div>
-      <p class="photo-credit">Photos by Laura Wendelin</p>
+      <div class="hero-content">
+        <span class="eyebrow">NYU Stern · Building with AI · Fall 2026</span>
+        <h1>Homeward</h1>
+        <p class="tagline">Homeward is a single source of truth for families rebuilding after a wildfire. It tracks what the HOA, builder, insurer, and city each said, and flags when they contradict each other.</p>
+        <div class="cta-row">
+          <a class="btn" href="#live-demo" onclick="window.posthog && posthog.capture('clicked_try_product')">See the Product →</a>
+          <a class="btn btn-secondary" href="#prd">Read the Living PRD</a>
+          <a class="btn btn-secondary" href="#build-log">Weekly Build Log</a>
+        </div>
+      </div>
+      <div class="hero-controls">
+        <p class="photo-credit">Photos by Laura Wendelin</p>
+        <button class="hero-pause" id="hero-pause" type="button" aria-label="Pause slideshow" hidden>
+          <svg viewBox="0 0 14 14" aria-hidden="true"><rect x="2" y="1" width="3.5" height="12" rx="1" fill="currentColor"/><rect x="8.5" y="1" width="3.5" height="12" rx="1" fill="currentColor"/></svg>
+        </button>
       </div>
     </header>
 
     <!-- DEMO / SCREENSHOT / VIDEO SHOWCASE -->
-    <section id="live-demo">
+    <section class="card" id="live-demo">
       <h2>Product Showcase (Prototype / Live App / 2-Min Video)</h2>
       <p>
         <strong>Current Status:</strong> Build 1: local prototype
       </p>
-      <img src="prototype-build1.png" alt="Homeward prototype flagging a contradiction: the builder said the design qualifies as like-for-like, while the city's plan check says it does not. Both statements are shown side by side with dates, followed by open questions and who to ask." style="width: 100%; border: 1px solid var(--border); border-radius: 8px;" />
+      <img src="prototype-build1.png" alt="Homeward prototype flagging a contradiction: the builder said the design qualifies as like-for-like, while the city's plan check says it does not. Both statements are shown side by side with dates, followed by open questions and who to ask." class="screenshot" loading="lazy" />
       <p class="meta">
         Local prototype running on a synthetic sample thread. Homeward shows the builder’s and the city’s statements side by side, then lists open questions and who to ask.
       </p>
     </section>
 
     <!-- RELATED RESOURCES -->
-    <section id="resources">
+    <section class="card" id="resources">
       <h2>Related Resources</h2>
-      <p>See which Palisades homes are being rebuilt on the Pali Post's Rebuild Map, an independent site run by the Palisadian-Post.</p>
-      <a class="btn btn-secondary" href="https://map.palipost.com" target="_blank" rel="noopener noreferrer">View the Pali Post's Rebuild Map →</a>
-      <p class="meta">External link. Not affiliated with Homeward.</p>
-      <p>See which Palisades businesses are open, rebuilding, or closed on our Business Recovery Map, compiled from published news reports.</p>
-      <a class="btn btn-secondary" href="business-map.html">View the Business Recovery Map →</a>
-      <p>Find mental health support, community recovery groups, and city, county and state services for Palisades fire survivors.</p>
-      <a class="btn btn-secondary" href="resources.html">Recovery Resources →</a>
+      <div class="resource">
+        <p>See which Palisades homes are being rebuilt on the Pali Post's Rebuild Map, an independent site run by the Palisadian-Post.</p>
+        <a class="btn btn-secondary" href="https://map.palipost.com" target="_blank" rel="noopener noreferrer">View the Pali Post's Rebuild Map →</a>
+        <p class="meta">External link. Not affiliated with Homeward.</p>
+      </div>
+      <div class="resource">
+        <p>See which Palisades businesses are open, rebuilding, or closed on our Business Recovery Map, compiled from published news reports.</p>
+        <a class="btn btn-secondary" href="business-map.html">View the Business Recovery Map →</a>
+      </div>
+      <div class="resource">
+        <p>Find mental health support, community recovery groups, and city, county and state services for Palisades fire survivors.</p>
+        <a class="btn btn-secondary" href="resources.html">Recovery Resources →</a>
+      </div>
     </section>
 
     <!-- LIVING PRD (Updated every week!) -->
-    <section id="prd">
+    <section class="card" id="prd">
       <h2>Living PRD (Product Requirements Document)</h2>
       <p class="meta">Updated every week as we test with real users and learn what works.</p>
 
@@ -307,7 +284,7 @@
     </section>
 
     <!-- WEEKLY BUILD LOG (Updated at least twice a week via Git commits) -->
-    <section id="build-log">
+    <section class="card" id="build-log">
       <h2>Weekly Build Log</h2>
       <p class="meta">Build on at least two separate days each week outside class, including the November 3 break. Push commits and log actual progress, failures, PRD changes, costs, and hours here. All build deadlines are noon, New York time.</p>
 
@@ -359,5 +336,83 @@
       </div>
     </section>
   </div>
+  <script>
+    // Hero slideshow: about 10 seconds per photo with a 2-second crossfade (CSS).
+    // Shows one still photo if the visitor prefers reduced motion, pauses while
+    // the tab is hidden, and has a pause/play button.
+    (function () {
+      const SLIDES = [
+        { src: "images/header-ocean.jpg", pos: "40% 50%",
+          alt: "Calm blue ocean under a clear sky, seen over palm trees and a green hillside with a tile-roofed house." },
+        { src: "images/header-sunset.jpg", pos: "72% 60%",
+          alt: "The sun setting behind a dark mountain ridge, lighting up scrub-covered hills and a hazy sky." },
+        { src: "images/strip-overlook.jpg", pos: "center 60%",
+          alt: "Looking down through eucalyptus branches at homes along the coast, with the beach curving to the left and mountains behind." },
+        { src: "images/strip-wildflowers.jpg", pos: "center 55%",
+          alt: "Orange and yellow wildflowers covering a grassy hillside, with green hills and the ocean beyond." },
+      ];
+      const SECONDS_PER_PHOTO = 10;
+
+      const box = document.getElementById("hero-slides");
+      const button = document.getElementById("hero-pause");
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      if (reduceMotion.matches) return; // one still photo, nothing else loads
+
+      let timer = null;
+      let pausedByUser = false;
+      let current = 0;
+      let slides = [box.querySelector(".slide")];
+
+      function show(i) {
+        slides[current].classList.remove("is-active");
+        slides[current].setAttribute("aria-hidden", "true");
+        current = i;
+        slides[current].classList.add("is-active");
+        slides[current].removeAttribute("aria-hidden");
+      }
+      function next() {
+        // Move to the next photo that has finished loading (skips any that haven't yet).
+        for (let step = 1; step < slides.length; step++) {
+          const i = (current + step) % slides.length;
+          if (slides[i].complete && slides[i].naturalWidth) { show(i); return; }
+        }
+      }
+      function start() { if (!timer && !pausedByUser && !document.hidden) timer = setInterval(next, SECONDS_PER_PHOTO * 1000); }
+      function stop() { clearInterval(timer); timer = null; }
+
+      function setButton() {
+        button.setAttribute("aria-label", pausedByUser ? "Play slideshow" : "Pause slideshow");
+        button.innerHTML = pausedByUser
+          ? '<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9.5-5.5z" fill="currentColor"/></svg>'
+          : '<svg viewBox="0 0 14 14" aria-hidden="true"><rect x="2" y="1" width="3.5" height="12" rx="1" fill="currentColor"/><rect x="8.5" y="1" width="3.5" height="12" rx="1" fill="currentColor"/></svg>';
+      }
+      button.addEventListener("click", () => {
+        pausedByUser = !pausedByUser;
+        setButton();
+        pausedByUser ? stop() : start();
+      });
+      document.addEventListener("visibilitychange", () => (document.hidden ? stop() : start()));
+      reduceMotion.addEventListener("change", (e) => { if (e.matches) { stop(); button.hidden = true; } });
+
+      // Load the other photos only after the page itself has finished loading.
+      function loadRest() {
+        for (const s of SLIDES) {
+          const img = document.createElement("img");
+          img.className = "slide";
+          img.src = s.src;
+          img.alt = s.alt;
+          img.decoding = "async";
+          img.style.setProperty("--pos", s.pos);
+          img.setAttribute("aria-hidden", "true");
+          box.append(img);
+          slides.push(img);
+        }
+        button.hidden = false;
+        start();
+      }
+      if (document.readyState === "complete") loadRest();
+      else window.addEventListener("load", loadRest);
+    })();
+  </script>
 </body>
 </html>
