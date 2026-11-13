@@ -110,10 +110,27 @@
 
     .error { color: var(--closed); font-weight: 600; }
     footer { margin-top: 40px; font-size: 13px; color: var(--muted); }
+    /* Short photo banner at the top */
+    .banner { margin: 0 0 20px; }
+    .banner img {
+      display: block;
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+      object-position: center 55%;
+      border-radius: 12px;
+    }
+    .banner .photo-credit { font-size: 12px; color: var(--muted); margin: 4px 0 0; text-align: right; }
+    @media (max-width: 600px) { .banner img { height: 110px; } }
   </style>
 </head>
 <body>
   <div class="container">
+    <figure class="banner">
+      <img src="images/header-ocean.jpg" width="1536" height="640"
+           alt="Calm blue ocean under a clear sky, seen over palm trees and a green hillside with a tile-roofed house." />
+      <figcaption class="photo-credit">Photos by Laura Wendelin</figcaption>
+    </figure>
     <a class="back" href="index.html">&larr; Back to Homeward</a>
     <h1>Palisades Business Recovery Map</h1>
     <p class="meta updated">Last updated: Nov 13, 2026</p>
