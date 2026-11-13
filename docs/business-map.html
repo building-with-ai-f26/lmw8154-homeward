@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Palisades Business Recovery Map · Homeward</title>
+  <meta name="robots" content="noindex" />
+  <meta name="description" content="Which Pacific Palisades businesses are open, rebuilding, or closed, compiled from published news reports." />
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"
+        integrity="sha512-h9FcoyWjHcOcmEVkxOfTLnmZFWIH0iZhZT1H2TbOq55xssQGEJHEaIm+PgoUaZbRvQTNTluNOEfb1ZRy6D3BOw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    /* Same palette as docs/index.html */
+    :root {
+      --bg: #fafafa;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #4b5563;
+      --border: #e5e7eb;
+      --accent: #1d63dc;
+      --tag-bg: #eff6ff;
+      --tag-text: #1e40af;
+      --warn-bg: #fffbeb;
+      --warn-border: #f59e0b;
+
+      /* Pin colors by status */
+      --open: #15803d;
+      --rebuilding: #b45309;
+      --closed: #b91c1c;
+      --unknown: #6b7280;
+      --unverified: #7c3aed; /* reported in 2025, not re-verified */
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "DM Sans", "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .container { max-width: 1000px; margin: 0 auto; padding: 32px 16px 64px; }
+    a { color: var(--accent); }
+    .back { font-size: 14px; text-decoration: none; }
+    h1 { font-size: 30px; line-height: 1.2; margin: 8px 0 8px; letter-spacing: -0.02em; }
+    h2 { font-size: 20px; margin: 36px 0 8px; }
+    .intro { color: var(--muted); margin: 0 0 16px; }
+    .updated { margin: 0 0 8px; }
+    .meta { color: var(--muted); font-size: 14px; }
+
+    .disclaimer {
+      background: var(--warn-bg);
+      border-left: 4px solid var(--warn-border);
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 15px;
+      margin: 0 0 16px;
+    }
+
+    .legend {
+      display: flex; flex-wrap: wrap; gap: 8px 18px;
+      font-size: 14px; margin: 0 0 10px; padding: 0; list-style: none;
+    }
+    .legend li { display: flex; align-items: center; gap: 6px; }
+    .dot {
+      display: inline-block; width: 12px; height: 12px; border-radius: 50%;
+      border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,0.35); flex: none;
+    }
+    .dot.open { background: var(--open); }
+    .dot.rebuilding { background: var(--rebuilding); }
+    .dot.closed { background: var(--closed); }
+    .dot.unknown { background: var(--unknown); }
+    .dot.unverified { background: var(--unverified); }
+
+    #map {
+      height: 520px; width: 100%;
+      border: 1px solid var(--border); border-radius: 10px;
+      background: #e5e7eb;
+    }
+    @media (max-width: 600px) { #map { height: 420px; } h1 { font-size: 25px; } }
+
+    /* Group pin: several businesses at one point (shopping center or shared address) */
+    .group-pin {
+      display: flex; align-items: center; justify-content: center;
+      width: 30px; height: 30px; border-radius: 50%;
+      color: #fff; font-weight: 700; font-size: 13px;
+      border: 3px solid #fff; box-shadow: 0 0 0 1.5px rgba(0,0,0,0.45);
+    }
+    .legend .group-pin { width: 20px; height: 20px; font-size: 10px; border-width: 2px; background: var(--unknown); }
+
+    /* Popups */
+    .leaflet-popup-content { margin: 12px 14px; font-size: 14px; line-height: 1.45; }
+    .leaflet-popup-content p { margin: 2px 0; } /* override Leaflet's large default spacing */
+    .pop-name { font-weight: 700; font-size: 15px; margin: 0; }
+    .pop-row { margin: 2px 0; }
+    .pop-label { color: var(--muted); }
+    .pop-status { font-weight: 600; }
+    .pop-group-head { font-weight: 700; margin: 0 0 2px; }
+    .pop-group-note { color: var(--muted); font-size: 13px; margin: 0 0 8px; }
+    .pop-list { max-height: 260px; overflow-y: auto; margin: 0; padding: 0; list-style: none; }
+    .pop-list li { padding: 8px 0; border-top: 1px solid var(--border); }
+
+    /* Not-on-map list */
+    .cards { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; font-size: 14px; }
+    .card .pop-name { margin-bottom: 4px; }
+    .flag { font-size: 13px; color: var(--muted); font-style: italic; margin-top: 6px; }
+
+    .error { color: var(--closed); font-weight: 600; }
+    footer { margin-top: 40px; font-size: 13px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="index.html">&larr; Back to Homeward</a>
+    <h1>Palisades Business Recovery Map</h1>
+    <p class="meta updated">Last updated: Nov 13, 2026</p>
+    <p class="intro">Which Pacific Palisades businesses are open, rebuilding, or closed after the fire. Tap a pin for details and the news source.</p>
+
+    <p class="disclaimer">Compiled from published news reports. Information may be out of date; confirm with the business before visiting.</p>
+    <p class="meta">Business owner? Email <a href="mailto:lmw8154@nyu.edu">lmw8154@nyu.edu</a> to correct or remove a listing.</p>
+
+    <ul class="legend" aria-label="Map legend">
+      <li><span class="dot open"></span> Open</li>
+      <li><span class="dot rebuilding"></span> Rebuilding</li>
+      <li><span class="dot closed"></span> Closed</li>
+      <li><span class="dot unknown"></span> Unknown</li>
+      <li><span class="dot unverified"></span> Reported open in 2025, not re-verified</li>
+      <li><span class="group-pin">12</span> Several businesses at one spot (number = how many)</li>
+    </ul>
+
+    <div id="map" role="region" aria-label="Map of Palisades businesses"></div>
+    <p class="meta" id="summary"></p>
+
+    <h2>Not shown on the map</h2>
+    <p class="meta">These addresses could not be placed confidently, so they are listed here instead of guessed.</p>
+    <div class="cards" id="unplaced"></div>
+
+    <footer>
+      Business locations geocoded with Nominatim. &copy; OpenStreetMap contributors, ODbL. This location data is shared under the same license.
+      The Palisades Village pin was placed by hand. Business details restated from the linked news sources. Not affiliated with any business listed.
+    </footer>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"
+          integrity="sha512-puJW3E/qXDqYp9IfhAI54BJEaWIfloJ7JWs7OeD5i6ruC9JZL1gERT1wjtwXFlh7CjE7ZJ+/vcRZRkIYIb6p4g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    const STATUSES = ["open", "rebuilding", "closed", "unknown"];
+    const LABELS = { open: "Open", rebuilding: "Rebuilding", closed: "Closed", unknown: "Unknown" };
+    const css = getComputedStyle(document.documentElement);
+    const color = (s) => css.getPropertyValue("--" + s).trim();
+    const statusOf = (b) => (STATUSES.includes(b.status) ? b.status : "unknown");
+
+    // Reports from 2025 are too old to trust as-is: own pin color and wording.
+    const isUnverified = (b) => String(b.status_as_of || "").startsWith("2025");
+    const pinKey = (b) => (isUnverified(b) ? "unverified" : statusOf(b));
+    function statusText(b) {
+      const label = LABELS[statusOf(b)];
+      if (!isUnverified(b)) return label;
+      return `Reported ${label.toLowerCase()} (${monthYear(b.status_as_of)}), not re-verified`;
+    }
+    // "2025-05" or "2025-07-04" -> "May 2025" / "Jul 2025"
+    function monthYear(iso) {
+      const d = new Date(iso.slice(0, 7) + "-01T00:00:00Z");
+      return isNaN(d) ? iso : d.toLocaleDateString("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
+    }
+
+    // "2026-08-15" -> "Aug 15, 2026"; "2025-05" -> "May 2025" (no made-up day)
+    function niceDate(iso) {
+      if (!iso) return "not given";
+      if (/^\d{4}-\d{2}$/.test(iso)) return monthYear(iso);
+      const d = new Date(iso + "T00:00:00Z");
+      if (isNaN(d)) return iso;
+      return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+    }
+
+    // Small DOM helper. All data goes in as text, never as HTML.
+    function el(tag, className, text) {
+      const e = document.createElement(tag);
+      if (className) e.className = className;
+      if (text != null) e.textContent = text;
+      return e;
+    }
+    function row(label, value) {
+      const p = el("p", "pop-row");
+      p.append(el("span", "pop-label", label + ": "), document.createTextNode(value || "—"));
+      return p;
+    }
+
+    // One business's details: name, category, address, status, as-of date, notes, source.
+    function details(b) {
+      const box = el("div");
+      box.append(el("p", "pop-name", b.name));
+      box.append(row("Category", b.category));
+      box.append(row("Address", b.address));
+
+      const st = el("p", "pop-row");
+      const dot = el("span", "dot " + pinKey(b));
+      dot.style.marginRight = "6px";
+      dot.style.verticalAlign = "-1px";
+      st.append(el("span", "pop-label", "Status: "), dot, el("span", "pop-status", statusText(b)));
+      box.append(st);
+
+      box.append(row("Status as of", niceDate(b.status_as_of)));
+      if (b.notes) box.append(row("Notes", b.notes));
+
+      if (b.source_url) {
+        const p = el("p", "pop-row");
+        const a = el("a", null, b.source_title || "Source");
+        a.href = b.source_url;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        p.append(el("span", "pop-label", "Source: "), a);
+        box.append(p);
+      }
+      return box;
+    }
+
+    function groupPopup(title, note, list) {
+      const box = el("div");
+      box.append(el("p", "pop-group-head", title));
+      if (note) box.append(el("p", "pop-group-note", note));
+      const ul = el("ul", "pop-list");
+      list.forEach((b) => { const li = el("li"); li.append(details(b)); ul.append(li); });
+      box.append(ul);
+      return box;
+    }
+
+    function groupIcon(list) {
+      const set = new Set(list.map(pinKey));
+      const fill = set.size === 1 ? color([...set][0]) : color("unknown");
+      return L.divIcon({
+        className: "",
+        html: `<div class="group-pin" style="background:${fill}">${list.length}</div>`,
+        iconSize: [30, 30],
+        iconAnchor: [15, 15],
+        popupAnchor: [0, -14],
+      });
+    }
+
+    async function main() {
+      const map = L.map("map", { scrollWheelZoom: false }).setView([34.042, -118.535], 13);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
+
+      let data;
+      try {
+        const res = await fetch("map-data/palisades-businesses.json");
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        data = await res.json();
+      } catch (err) {
+        document.getElementById("summary").append(el("span", "error",
+          "Could not load business data (" + err.message + "). If you opened this file directly, view it through GitHub Pages or a local web server instead."));
+        return;
+      }
+
+      const businesses = data.businesses || [];
+      const shared = data.shared_pins || {};
+      const bounds = [];
+      const unplaced = [];
+
+      // 1. Shared pins (e.g. the Palisades Village shopping center).
+      const byShared = {};
+      for (const b of businesses) {
+        if (b.shared_pin && shared[b.shared_pin] && shared[b.shared_pin].latitude != null) {
+          (byShared[b.shared_pin] ||= []).push(b);
+        }
+      }
+      for (const [id, list] of Object.entries(byShared)) {
+        const pin = shared[id];
+        const ll = [pin.latitude, pin.longitude];
+        L.marker(ll, { icon: groupIcon(list), title: pin.label })
+          .bindPopup(groupPopup(pin.label + " (" + list.length + " businesses)", pin.note, list), { maxWidth: 300 })
+          .addTo(map);
+        bounds.push(ll);
+      }
+
+      // 2. Businesses with their own coordinates. Ones at the exact same point share a pin.
+      const byPoint = new Map();
+      for (const b of businesses) {
+        if (b.shared_pin) {
+          if (!byShared[b.shared_pin]) unplaced.push(b);
+          continue;
+        }
+        if (b.latitude == null || b.longitude == null) { unplaced.push(b); continue; }
+        const key = b.latitude + "," + b.longitude;
+        if (!byPoint.has(key)) byPoint.set(key, []);
+        byPoint.get(key).push(b);
+      }
+      for (const list of byPoint.values()) {
+        const ll = [list[0].latitude, list[0].longitude];
+        if (list.length === 1) {
+          const b = list[0];
+          L.circleMarker(ll, {
+            radius: 8, weight: 2, color: "#fff", fillColor: color(pinKey(b)), fillOpacity: 1,
+          }).bindPopup(details(b), { maxWidth: 300 }).bindTooltip(b.name).addTo(map);
+        } else {
+          L.marker(ll, { icon: groupIcon(list), title: list[0].address })
+            .bindPopup(groupPopup(list[0].address + " (" + list.length + " businesses)", "These businesses share one address.", list), { maxWidth: 300 })
+            .addTo(map);
+        }
+        bounds.push(ll);
+      }
+      if (bounds.length) map.fitBounds(bounds, { padding: [30, 30] });
+
+      // 3. Summary and the not-on-map list.
+      const onMap = businesses.length - unplaced.length;
+      document.getElementById("summary").textContent =
+        `${onMap} of ${businesses.length} businesses on the map.`;
+
+      const box = document.getElementById("unplaced");
+      if (!unplaced.length) box.append(el("p", "meta", "None — every business is on the map."));
+      for (const b of unplaced) {
+        const card = el("div", "card");
+        card.append(details(b));
+        card.append(el("p", "flag", "Why it's not on the map: " + (b.geocode_note || "No confirmed location.")));
+        box.append(card);
+      }
+    }
+
+    main();
+  </script>
+</body>
+</html>
