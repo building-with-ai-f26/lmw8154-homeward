@@ -201,7 +201,7 @@
       <p><strong>Second risk:</strong> Families will trust Homeward enough to paste their real messages. Privacy concerns may limit what they share.</p>
       <p><strong>Simple Architecture:</strong> [Pasted email / letter] → [Local web app] → [AI model] → [Structured claims + conflict flags]</p>
       <p>A local web app running on my laptop. The user pastes text from an email or letter. An AI model reads it and returns structured claims (party, topic, statement, date). Claims are saved locally. On each new message, the model compares new claims against saved ones and flags conflicts. Real family documents stay in a private/ folder that git ignores and are never committed. The API key lives in .env.</p>
-      <p><strong>Privacy:</strong> Homeward runs locally with no account, and data stays on the family’s computer. Users can paste whole email threads. Planned: on-device cleanup that strips signatures and repeated replies, and redaction that replaces names and policy numbers with role labels like [HOA rep], with a summary preview before anything is sent to a zero-retention AI provider.</p>
+      <p><strong>Privacy:</strong> Homeward runs locally with no account, and saved data stays on the family’s computer. Text you analyze is sent to an AI provider through OpenRouter. Planned: on-device cleanup that strips signatures and repeated replies, and redaction that replaces names and policy numbers with role labels like [HOA rep], with a summary preview before anything is sent to a zero-retention AI provider.</p>
 
       <h3>4. Unit Economics & Analytics Snapshot (Updated Weekly)</h3>
       <div class="grid-2">
