@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Recovery Resources · Homeward</title>
+  <meta name="description" content="Organizations helping Pacific Palisades fire survivors: mental health support, community recovery groups, and city, county and state services." />
+
+  <style>
+    /* Same palette and card styles as docs/index.html */
+    :root {
+      --bg: #fafafa;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #4b5563;
+      --border: #e5e7eb;
+      --accent: #1d63dc;
+      --tag-bg: #eff6ff;
+      --tag-text: #1e40af;
+      --warn-bg: #fffbeb;
+      --warn-border: #f59e0b;
+      --care-bg: #f5f3ff;
+      --care-border: #7c3aed;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "DM Sans", "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .container { max-width: 820px; margin: 0 auto; padding: 48px 24px 80px; }
+    @media (max-width: 600px) { .container { padding: 32px 16px 64px; } }
+    a { color: var(--accent); }
+    header { border-bottom: 1px solid var(--border); padding-bottom: 24px; margin-bottom: 24px; }
+    .back { font-size: 14px; text-decoration: none; }
+    .eyebrow {
+      display: inline-block; font-size: 12px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.06em; background: var(--tag-bg); color: var(--tag-text);
+      padding: 4px 10px; border-radius: 999px; margin: 16px 0 12px;
+    }
+    h1 { font-size: 36px; line-height: 1.15; margin: 0 0 8px; letter-spacing: -0.02em; }
+    @media (max-width: 600px) { h1 { font-size: 28px; } }
+    .meta { font-size: 13px; color: var(--muted); }
+    .updated { margin: 0 0 12px; }
+    .notice {
+      background: var(--warn-bg); border-left: 4px solid var(--warn-border);
+      padding: 10px 14px; border-radius: 6px; font-size: 15px; margin: 0;
+    }
+
+    /* Crisis callout: written into the page so it shows even if the data fails to load */
+    .crisis {
+      background: var(--care-bg); border: 1px solid var(--care-border);
+      border-radius: 12px; padding: 18px 22px; margin-bottom: 24px;
+    }
+    .crisis p { margin: 0 0 10px; }
+    .crisis strong { font-size: 17px; }
+    .crisis .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+    nav.jump { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 14px; margin: 0 0 24px; }
+
+    section {
+      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+      padding: 24px 28px; margin-bottom: 24px;
+    }
+    @media (max-width: 600px) { section { padding: 20px 18px; } }
+    h2 { font-size: 20px; margin: 0 0 4px; letter-spacing: -0.01em; }
+    .org { border-top: 1px solid var(--border); padding-top: 16px; margin-top: 16px; }
+    .org:first-of-type { border-top: none; padding-top: 0; margin-top: 16px; }
+    h3 { font-size: 16px; margin: 0 0 4px; }
+    .org p { margin: 0 0 8px; color: #1f2937; }
+    .org .note { font-size: 14px; color: var(--muted); font-style: italic; }
+    .links { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+
+    .btn {
+      display: inline-block; padding: 8px 16px; border-radius: 8px; font-weight: 600;
+      font-size: 14px; text-decoration: none; background: var(--card); color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn:hover { border-color: var(--accent); }
+    .btn-primary { background: var(--care-border); color: #fff; border-color: var(--care-border); }
+    .source { font-size: 13px; color: var(--muted); }
+
+    .error { color: #b91c1c; font-weight: 600; }
+    footer { margin-top: 32px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a class="back" href="index.html">&larr; Back to Homeward</a><br />
+      <span class="eyebrow">Palisades fire recovery</span>
+      <h1>Recovery Resources</h1>
+      <p class="meta updated">Last updated: Nov 13, 2026</p>
+      <p class="notice">Programs, addresses, and hours change. Confirm with each organization. Homeward is not affiliated with any organization listed.</p>
+    </header>
+
+    <div class="crisis" role="note" aria-label="Crisis support">
+      <p><strong>Need to talk to someone now?</strong> The 988 Suicide &amp; Crisis Lifeline is free and open 24/7. Call or text 988.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="tel:988">Call 988</a>
+        <a class="btn" href="sms:988">Text 988</a>
+        <a class="btn" href="https://988lifeline.org" target="_blank" rel="noopener noreferrer">988lifeline.org →</a>
+      </div>
+    </div>
+
+    <nav class="jump" id="jump" aria-label="Jump to a group"></nav>
+    <div id="groups"><p class="meta">Loading organizations…</p></div>
+
+    <footer class="meta">
+      Descriptions are written in our own words; each entry links to the organization and to the source we used.
+    </footer>
+  </div>
+
+  <script>
+    // Mental health first; any other groups follow in the order they appear in the data.
+    const FIRST = "Mental health and grief support";
+
+    function el(tag, className, text) {
+      const e = document.createElement(tag);
+      if (className) e.className = className;
+      if (text != null) e.textContent = text; // data is always inserted as text, never HTML
+      return e;
+    }
+    function link(text, href, className, title) {
+      const a = el("a", className, text);
+      a.href = href;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      if (title) a.title = title;
+      return a;
+    }
+    const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+    function card(o) {
+      const div = el("div", "org");
+      div.append(el("h3", null, o.name));
+      if (o.description) div.append(el("p", null, o.description));
+      if (o.notes) div.append(el("p", "note", o.notes));
+
+      const links = el("div", "links");
+      if (o.url) links.append(link("Visit website →", o.url, "btn"));
+      else if (o.source_url) links.append(link("Learn more →", o.source_url, "btn"));
+      if (o.source_url) links.append(link("Source", o.source_url, "source", o.source_title || ""));
+      div.append(links);
+      return div;
+    }
+
+    async function main() {
+      const groupsBox = document.getElementById("groups");
+      let data;
+      try {
+        const res = await fetch("resources-data/palisades-organizations.json");
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        data = await res.json();
+      } catch (err) {
+        groupsBox.replaceChildren(el("p", "error",
+          "Could not load the organization list (" + err.message + "). If you opened this file directly, view it through GitHub Pages or a local web server instead."));
+        return;
+      }
+
+      const groups = new Map();
+      for (const o of data.organizations || []) {
+        const g = o.group || "Other";
+        if (!groups.has(g)) groups.set(g, []);
+        groups.get(g).push(o);
+      }
+      const order = [...groups.keys()].sort((a, b) => (b === FIRST) - (a === FIRST));
+
+      const jump = document.getElementById("jump");
+      groupsBox.replaceChildren();
+      for (const name of order) {
+        const id = slug(name);
+        const a = el("a", null, name);
+        a.href = "#" + id;
+        jump.append(a);
+
+        const section = el("section");
+        section.id = id;
+        section.append(el("h2", null, name));
+        groups.get(name).forEach((o) => section.append(card(o)));
+        groupsBox.append(section);
+      }
+    }
+
+    main();
+  </script>
+</body>
+</html>

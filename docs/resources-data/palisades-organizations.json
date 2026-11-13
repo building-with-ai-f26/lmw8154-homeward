@@ -1,0 +1,177 @@
+{
+  "_about": "Hand-compiled list of organizations helping Palisades fire survivors. Descriptions are written in our own words; each entry links to the organization and to the source we used. Programs, addresses, and hours change: confirm with each organization. Not affiliated with any organization listed.",
+  "last_compiled": "2026-11-13",
+  "open_questions": [],
+  "organizations": [
+    {
+      "name": "Palisades Towne Hall",
+      "group": "Community recovery groups",
+      "url": "https://townehall.org",
+      "description": "An outdoor community gathering space and marketplace in Pacific Palisades that hosts events. Its profits go toward rebuilding the Palisades.",
+      "source_title": "Palisades Towne Hall website",
+      "source_url": "https://townehall.org",
+      "notes": "",
+      "last_checked": "2026-11-13"
+    },
+    {
+      "name": "Palisades Long Term Recovery Group",
+      "group": "Community recovery groups",
+      "url": "https://paliltrg.org/",
+      "description": "Connects fire survivors to relief money and support, including disaster case management and help applying for recovery grants. Focuses on residents who need extra help, such as seniors and underinsured homeowners.",
+      "source_title": "Palisades News: Pali Leaders Launch Relief Organization (Aug 2025)",
+      "source_url": "https://palisadesnews.com/?p=42073",
+      "notes": "",
+      "last_checked": "2026-11-13"
+    },
+    {
+      "name": "Palisades Recovery Coalition",
+      "group": "Community recovery groups",
+      "url": "https://palirecovery.org/",
+      "description": "A community coalition working on a plan for how the Palisades rebuilds, presented to the Pacific Palisades Community Council.",
+      "source_title": "Palisadian-Post: Palisades Recovery Coalition presents draft plan",
+      "source_url": "https://palipost.com/palisades-recovery-coalition-presents-draft-plan-at-ppcc-meeting",
+      "notes": "",
+      "last_checked": "2026-11-13"
+    },
+    {
+      "name": "Steadfast LA",
+      "group": "Community recovery groups",
+      "url": null,
+      "description": "A nonprofit founded by Rick Caruso in February 2025 to speed up rebuilding in fire-affected areas by connecting private-sector help with public agencies.",
+      "source_title": "FOX 11 LA: Rick Caruso launches Steadfast LA (Feb 2025)",
+      "source_url": "https://www.foxla.com/news/la-fires-rick-caruso-new-program-steadfast-la",
+      "notes": "Official website not confirmed yet. Link to the news article until verified.",
+      "last_checked": "2026-11-13"
+    },
+    {
+      "name": "Pacific Palisades Community Council",
+      "group": "Community recovery groups",
+      "url": "http://pacpalicc.org",
+      "description": "The neighborhood's community council. Hosts public meetings and shares recovery updates.",
+      "source_title": "Palisadian-Post: Palisades Fire Resources (updated May 2026)",
+      "source_url": "https://www.palipost.com/palisades-fire-resources",
+      "notes": "",
+      "last_checked": "2026-11-13"
+    },
+    {
+      "name": "Palisades Community Renewal Center",
+      "group": "Community recovery groups",
+      "url": "https://www.pcrcsm.org/",
+      "description": "A community center serving Palisades residents during recovery.",
+      "source_title": "Palisadian-Post: Palisades Fire Resources (updated May 2026)",
+      "source_url": "https://www.palipost.com/palisades-fire-resources",
+      "notes": "",
+      "last_checked": "2026-11-13"
+    },
+    {
+      "name": "PaliBu Chamber of Commerce",
+      "group": "Community recovery groups",
+      "url": "http://palibu.org",
+      "description": "The local chamber of commerce for Palisades and Malibu businesses.",
+      "source_title": "Palisadian-Post: Palisades Fire Resources (updated May 2026)",
+      "source_url": "https://www.palipost.com/palisades-fire-resources",
+      "notes": "",
+      "last_checked": "2026-11-13"
+    },
+    {
+      "name": "City of Los Angeles Wildfire Recovery",
+      "group": "City, county and state services",
+      "url": "https://emergency.lacity.gov/recovery",
+      "description": "The city's main page for recovery information.",
+      "source_title": "Palisadian-Post: Palisades Fire Resources (updated May 2026)",
+      "source_url": "https://www.palipost.com/palisades-fire-resources",
+      "notes": "",
+      "last_checked": "2026-11-13"
+    },
+    {
+      "name": "Palisades Inspections and Permitting Support Center",
+      "group": "City, county and state services",
+      "url": "https://emergency.lacity.gov/Palisades-Permitting",
+      "description": "In-person help with rebuild permits and inspections.",
+      "source_title": "Palisadian-Post: Palisades Fire Resources (updated May 2026)",
+      "source_url": "https://www.palipost.com/palisades-fire-resources",
+      "notes": "Listed at 16925 Marquez Ave, weekdays 9 a.m. to 5 p.m. Confirm before going.",
+      "last_checked": "2026-11-13"
+    },
+    {
+      "name": "One-Stop Rebuilding Center",
+      "group": "City, county and state services",
+      "url": "https://mayor.lacity.gov/news/mayor-bass-opens-la-one-stop-rebuilding-center-palisades-homeowners-and-businesses",
+      "description": "In-person rebuilding help for Palisades homeowners and businesses.",
+      "source_title": "Palisadian-Post: Palisades Fire Resources (updated May 2026)",
+      "source_url": "https://www.palipost.com/palisades-fire-resources",
+      "notes": "Listed at 1828 Sawtelle Blvd, weekdays 9 a.m. to 5 p.m. Confirm before going.",
+      "last_checked": "2026-11-13"
+    },
+    {
+      "name": "Councilmember Traci Park: Palisades Recovery Updates",
+      "group": "City, county and state services",
+      "url": "https://cd11.lacity.gov/palisades-recovery-updates",
+      "description": "Regular recovery updates from the Palisades' city council office.",
+      "source_title": "CD11: Palisades recovery updates",
+      "source_url": "https://cd11.lacity.gov/palisades-recovery-updates",
+      "notes": "",
+      "last_checked": "2026-11-13"
+    },
+    {
+      "name": "LA County Recovery",
+      "group": "City, county and state services",
+      "url": "https://recovery.lacounty.gov/",
+      "description": "Los Angeles County's recovery information and resources.",
+      "source_title": "LA County Recovery: City of LA Palisades Fire recovery resources",
+      "source_url": "https://recovery.lacounty.gov/city-of-los-angeles-palisades-fire-recovery-information-resources/",
+      "notes": "",
+      "last_checked": "2026-11-13"
+    },
+    {
+      "name": "211 LA",
+      "group": "City, county and state services",
+      "url": "https://211la.org/",
+      "description": "A free referral line and website that points people to local services, including disaster recovery help.",
+      "source_title": "Palisadian-Post: Palisades Fire Resources (updated May 2026)",
+      "source_url": "https://www.palipost.com/palisades-fire-resources",
+      "notes": "",
+      "last_checked": "2026-11-13"
+    },
+    {
+      "name": "988 Suicide & Crisis Lifeline",
+      "group": "Mental health and grief support",
+      "url": "http://988lifeline.org",
+      "description": "Free, 24/7 crisis support. Call or text 988.",
+      "source_title": "Palisadian-Post: Palisades Fire Resources (updated May 2026)",
+      "source_url": "https://www.palipost.com/palisades-fire-resources",
+      "notes": "",
+      "last_checked": "2026-11-13"
+    },
+    {
+      "name": "Didi Hirsch Mental Health Services",
+      "group": "Mental health and grief support",
+      "url": "https://didihirsch.org/treatment/wildfire-recovery/",
+      "description": "Mental health support, including programs for people recovering from the wildfires.",
+      "source_title": "Palisadian-Post: Palisades Fire Resources (updated May 2026)",
+      "source_url": "https://www.palipost.com/palisades-fire-resources",
+      "notes": "",
+      "last_checked": "2026-11-13"
+    },
+    {
+      "name": "griefHaven",
+      "group": "Mental health and grief support",
+      "url": "https://griefhaven.org/",
+      "description": "Grief support services.",
+      "source_title": "Palisadian-Post: Palisades Fire Resources (updated May 2026)",
+      "source_url": "https://www.palipost.com/palisades-fire-resources",
+      "notes": "",
+      "last_checked": "2026-11-13"
+    },
+    {
+      "name": "Maple Counseling",
+      "group": "Mental health and grief support",
+      "url": "https://www.maple4counseling.org/programs-and-services/pcrc",
+      "description": "Counseling services, including a program with the Palisades Community Renewal Center.",
+      "source_title": "Palisadian-Post: Palisades Fire Resources (updated May 2026)",
+      "source_url": "https://www.palipost.com/palisades-fire-resources",
+      "notes": "",
+      "last_checked": "2026-11-13"
+    }
+  ]
+}
