@@ -3,99 +3,58 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Palisades Business Recovery Map · Homeward</title>
+  <title>Palisades Business Directory · Homeward</title>
   <meta name="robots" content="noindex" />
-  <meta name="description" content="Which Pacific Palisades businesses are open, rebuilding, or closed, compiled from published news reports." />
-
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"
-        integrity="sha512-h9FcoyWjHcOcmEVkxOfTLnmZFWIH0iZhZT1H2TbOq55xssQGEJHEaIm+PgoUaZbRvQTNTluNOEfb1ZRy6D3BOw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <meta name="description" content="Pacific Palisades and nearby businesses that are open or rebuilding after the fire, grouped by area and compiled from published news reports." />
 
   <link rel="preload" href="fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="theme.css" />
 
   <style>
-    /* Pin colors: from the photo palette, checked to stay distinguishable
-       under protanopia, deuteranopia and tritanopia (min ΔE 23.9).
-       "Not re-verified" pins are hollow ocean rings, a shape cue on top of color. */
-    :root {
-      --open: #3D4C34;        /* deep sage */
-      --rebuilding: #E8892B;  /* poppy */
-      --closed: #D9367A;      /* bougainvillea */
-      --unknown: #B6BCC2;     /* light stone */
-      --unverified: #2E6F95;  /* ocean ring */
-      --pin-outline: #1F2A33;
-    }
     .container { max-width: 1040px; }
     h1 { font-size: 40px; }
     @media (max-width: 600px) { h1 { font-size: 30px; } }
-    h2 { margin-top: 8px; }
     .intro { color: var(--muted); font-size: 17px; margin: 0 0 18px; }
+    .banner img { object-position: center 55%; }
 
-    .legend {
-      display: flex; flex-wrap: wrap; gap: 10px 20px;
-      font-size: 14px; margin: 0 0 14px; padding: 0; list-style: none;
+    /* Status filter */
+    .filter { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 8px; }
+    .filter button {
+      font: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--ink);
+      cursor: pointer;
     }
-    .legend li { display: flex; align-items: center; gap: 7px; margin: 0; }
-    .dot {
-      display: inline-block; width: 14px; height: 14px; border-radius: 50%;
-      border: 1.5px solid var(--pin-outline); flex: none;
-    }
-    .dot.open { background: var(--open); }
-    .dot.rebuilding { background: var(--rebuilding); }
-    .dot.closed { background: var(--closed); }
-    .dot.unknown { background: var(--unknown); }
-    .dot.unverified { background: var(--card); border: 3.5px solid var(--unverified); }
+    .filter button:hover { border-color: var(--ocean); }
+    .filter button[aria-pressed="true"] { background: var(--ocean); border-color: var(--ocean); color: #fff; }
+    .filter .count { font-weight: 500; opacity: 0.85; }
+    #showing { margin: 0 0 22px; }
 
-    .map-card { padding: 14px; }
-    #map {
-      height: 540px; width: 100%;
-      border-radius: 12px;
-      background: var(--sky-tint);
-    }
-    @media (max-width: 600px) { #map { height: 440px; } .map-card { padding: 8px; } }
-    #summary { margin: 10px 6px 2px; }
+    /* Area groups */
+    .group h2 .count { font-family: var(--font-body); font-size: 14px; font-weight: 600; color: var(--muted); margin-left: 10px; white-space: nowrap; }
+    .biz-list { list-style: none; margin: 0; padding: 0; }
+    .biz { margin: 0; padding: 16px 0; border-top: 1px solid var(--border); }
+    .biz:first-child { border-top: none; padding-top: 4px; }
+    .biz-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; }
+    .biz h3 { margin: 0; font-size: 18px; }
+    .biz .small { font-size: 14px; color: var(--muted); margin: 4px 0 0; }
+    .biz .links { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 14px; margin-top: 8px; }
 
-    /* Group pin: several businesses at one point (shopping center or shared address) */
-    .group-pin {
-      display: flex; align-items: center; justify-content: center;
-      width: 32px; height: 32px; border-radius: 50%;
-      font-weight: 700; font-size: 13px;
-      border: 2px solid var(--pin-outline);
-      box-shadow: 0 0 0 2px rgba(255, 253, 249, 0.9);
-      background: var(--unknown); color: var(--ink);
-    }
-    .group-pin.pin-open { background: var(--open); color: #fff; }
-    .group-pin.pin-rebuilding { background: var(--rebuilding); color: var(--ink); }
-    .group-pin.pin-closed { background: var(--closed); color: #fff; }
-    .group-pin.pin-unverified { background: var(--card); color: var(--unverified); border: 4px solid var(--unverified); }
-    .legend .group-pin { width: 22px; height: 22px; font-size: 10px; box-shadow: none; }
-
-    /* Popups */
-    .leaflet-popup-content-wrapper { border-radius: 14px; box-shadow: var(--shadow); }
-    .leaflet-popup-content { margin: 14px 16px; font-family: var(--font-body); font-size: 14px; line-height: 1.45; color: var(--ink); }
-    .leaflet-popup-content p { margin: 2px 0; } /* override Leaflet's large default spacing */
-    .pop-name { font-family: var(--font-heading); font-weight: 600; font-size: 16px; margin: 0; }
-    .pop-row { margin: 2px 0; }
-    .pop-label { color: var(--muted); }
-    .pop-status { font-weight: 600; }
-    .pop-group-head { font-family: var(--font-heading); font-weight: 600; font-size: 16px; margin: 0 0 2px; }
-    .pop-group-note { color: var(--muted); font-size: 13px; margin: 0 0 8px; }
-    .pop-list { max-height: 260px; overflow-y: auto; margin: 0; padding: 0; list-style: none; }
-    .pop-list li { padding: 8px 0; border-top: 1px solid var(--border); margin: 0; }
-    .pop-row .dot { width: 11px; height: 11px; }
-    .pop-row .dot.unverified { border-width: 3px; }
-
-    /* Not-on-map list */
-    .cards { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
-    .cards .card { padding: 20px 22px; margin: 0; font-size: 14px; }
-    .cards .card .pop-name { margin-bottom: 6px; }
-    .flag { font-size: 13px; color: var(--muted); font-style: italic; margin-top: 8px; }
+    /* Status tags (text colors checked for AA contrast on their tints) */
+    .tag { display: inline-block; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; }
+    .tag.open { background: var(--sage-tint); color: var(--sage-dark); }        /* 5.3:1 */
+    .tag.reported { background: var(--sky-tint); color: var(--ocean); }         /* 4.9:1 */
+    .tag.rebuilding { background: var(--poppy-tint); color: #8C4A12; }          /* 6.0:1 */
+    .tag.closed { background: #FBE7EF; color: #B5285F; }
+    .tag.unknown { background: #EEF0F2; color: var(--ink); }
 
     .error { color: #B5285F; font-weight: 600; }
     footer { font-size: 13px; color: var(--muted); }
-    .banner img { object-position: center 55%; }
   </style>
 </head>
 <body>
@@ -106,219 +65,165 @@
            alt="Calm blue ocean under a clear sky, seen over palm trees and a green hillside with a tile-roofed house." />
       <figcaption class="photo-credit">Photos by Laura Wendelin</figcaption>
     </figure>
-    <h1>Palisades Business Recovery Map</h1>
+    <h1>Palisades Business Directory</h1>
     <p class="meta updated">Last updated: Nov 13, 2026</p>
-    <p class="intro">Which Pacific Palisades businesses are open, rebuilding, or closed after the fire. Tap a pin for details and the news source.</p>
+    <p class="intro">Which Pacific Palisades businesses are open or rebuilding after the fire, grouped by area. Each listing links to the news report it came from.</p>
 
     <p class="notice">Compiled from published news reports. Information may be out of date; confirm with the business before visiting.</p>
 
-    <ul class="legend" aria-label="Map legend">
-      <li><span class="dot open"></span> Open</li>
-      <li><span class="dot rebuilding"></span> Rebuilding</li>
-      <li><span class="dot closed"></span> Closed</li>
-      <li><span class="dot unknown"></span> Unknown</li>
-      <li><span class="dot unverified"></span> Reported open in 2025, not re-verified</li>
-      <li><span class="group-pin">12</span> Several businesses at one spot (number = how many)</li>
-    </ul>
-
-    <div class="card map-card">
-      <div id="map" role="region" aria-label="Map of Palisades businesses"></div>
-      <p class="meta" id="summary"></p>
+    <div class="filter" role="group" aria-label="Filter by status" id="filter">
+      <button type="button" data-filter="all" aria-pressed="true">All</button>
+      <button type="button" data-filter="open" aria-pressed="false">Open</button>
+      <button type="button" data-filter="reported" aria-pressed="false">Reported 2025</button>
+      <button type="button" data-filter="rebuilding" aria-pressed="false">Rebuilding</button>
     </div>
+    <p class="meta" id="showing" aria-live="polite"></p>
 
-    <h2>Not shown on the map</h2>
-    <p class="meta">These addresses could not be placed confidently, so they are listed here instead of guessed.</p>
-    <div class="cards" id="unplaced"></div>
+    <div id="groups"><p class="meta">Loading businesses…</p></div>
 
     <footer>
-      Business locations geocoded with Nominatim. &copy; OpenStreetMap contributors, ODbL. This location data is shared under the same license.
-      The Palisades Village pin was placed by hand. Business details restated from the linked news sources. Not affiliated with any business listed.
+      Business details restated from the linked news sources. Not affiliated with any business listed.
     </footer>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"
-          integrity="sha512-puJW3E/qXDqYp9IfhAI54BJEaWIfloJ7JWs7OeD5i6ruC9JZL1gERT1wjtwXFlh7CjE7ZJ+/vcRZRkIYIb6p4g=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
-    const STATUSES = ["open", "rebuilding", "closed", "unknown"];
-    const LABELS = { open: "Open", rebuilding: "Rebuilding", closed: "Closed", unknown: "Unknown" };
-    const css = getComputedStyle(document.documentElement);
-    const color = (s) => css.getPropertyValue("--" + s).trim();
-    const statusOf = (b) => (STATUSES.includes(b.status) ? b.status : "unknown");
+    // Area groups, in display order. Any other area in the data is added at the end.
+    const AREAS = ["Palisades Village", "Sunset & Swarthmore", "Palisades Highlands", "Pacific Coast Hwy", "Nearby: Santa Monica Canyon"];
 
-    // Reports from 2025 are too old to trust as-is: own pin color and wording.
-    const isUnverified = (b) => String(b.status_as_of || "").startsWith("2025");
-    const pinKey = (b) => (isUnverified(b) ? "unverified" : statusOf(b));
-    function statusText(b) {
-      const label = LABELS[statusOf(b)];
-      if (!isUnverified(b)) return label;
-      return `Reported ${label.toLowerCase()} (${monthYear(b.status_as_of)}), not re-verified`;
-    }
-    // "2025-05" or "2025-07-04" -> "May 2025" / "Jul 2025"
-    function monthYear(iso) {
-      const d = new Date(iso.slice(0, 7) + "-01T00:00:00Z");
-      return isNaN(d) ? iso : d.toLocaleDateString("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
+    // Status tag for each business. Reports from 2025 are too old to trust as-is.
+    function statusOf(b) {
+      if (b.status === "rebuilding") return { key: "rebuilding", label: "Rebuilding" };
+      if (String(b.status_as_of || "").startsWith("2025")) {
+        return { key: "reported", label: `Reported ${b.status || "open"} in 2025, not re-verified` };
+      }
+      if (b.status === "open") return { key: "open", label: "Open" };
+      if (b.status === "closed") return { key: "closed", label: "Closed" };
+      return { key: "unknown", label: "Unknown" };
     }
 
     // "2026-08-15" -> "Aug 15, 2026"; "2025-05" -> "May 2025" (no made-up day)
     function niceDate(iso) {
       if (!iso) return "not given";
-      if (/^\d{4}-\d{2}$/.test(iso)) return monthYear(iso);
-      const d = new Date(iso + "T00:00:00Z");
+      const monthOnly = /^\d{4}-\d{2}$/.test(iso);
+      const d = new Date((monthOnly ? iso + "-01" : iso) + "T00:00:00Z");
       if (isNaN(d)) return iso;
-      return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+      return d.toLocaleDateString("en-US", monthOnly
+        ? { month: "short", year: "numeric", timeZone: "UTC" }
+        : { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
     }
 
-    // Small DOM helper. All data goes in as text, never as HTML.
+    // Google Maps search for name + address + city. Notes in parentheses such as
+    // "(verify exact unit address)" are left out, and the city keeps the search local.
+    function directionsUrl(b) {
+      const address = String(b.address || "").replace(/\s*\([^)]*\)/g, "").trim();
+      const city = String(b.area || "").startsWith("Nearby:") ? "Los Angeles, CA" : "Pacific Palisades, CA";
+      const query = [b.name, address, city].filter(Boolean).join(", ");
+      return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(query);
+    }
+
+    // Small DOM helpers. All data goes in as text, never as HTML.
     function el(tag, className, text) {
       const e = document.createElement(tag);
       if (className) e.className = className;
       if (text != null) e.textContent = text;
       return e;
     }
-    function row(label, value) {
-      const p = el("p", "pop-row");
-      p.append(el("span", "pop-label", label + ": "), document.createTextNode(value || "—"));
-      return p;
+    function link(text, href) {
+      const a = el("a", null, text);
+      a.href = href;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      return a;
     }
 
-    // One business's details: name, category, address, status, as-of date, notes, source.
-    function details(b) {
-      const box = el("div");
-      box.append(el("p", "pop-name", b.name));
-      box.append(row("Category", b.category));
-      box.append(row("Address", b.address));
+    function entry(b) {
+      const s = statusOf(b);
+      const li = el("li", "biz");
+      li.dataset.status = s.key;
 
-      const st = el("p", "pop-row");
-      const dot = el("span", "dot " + pinKey(b));
-      dot.style.marginRight = "6px";
-      dot.style.verticalAlign = "-1px";
-      st.append(el("span", "pop-label", "Status: "), dot, el("span", "pop-status", statusText(b)));
-      box.append(st);
+      const head = el("div", "biz-head");
+      head.append(el("h3", null, b.name), el("span", "tag " + s.key, s.label));
+      li.append(head);
 
-      box.append(row("Status as of", niceDate(b.status_as_of)));
-      if (b.notes) box.append(row("Notes", b.notes));
+      li.append(el("p", "small", [b.category, b.address].filter(Boolean).join(" · ")));
+      li.append(el("p", "small", "Status as of " + niceDate(b.status_as_of) + (b.notes ? " · " + b.notes : "")));
 
+      const links = el("div", "links");
       if (b.source_url) {
-        const p = el("p", "pop-row");
-        const a = el("a", null, b.source_title || "Source");
-        a.href = b.source_url;
-        a.target = "_blank";
-        a.rel = "noopener noreferrer";
-        p.append(el("span", "pop-label", "Source: "), a);
-        box.append(p);
+        const src = el("span");
+        src.append("Source: ", link(b.source_title || "news report", b.source_url));
+        links.append(src);
       }
-      return box;
+      const dir = link("Directions ↗", directionsUrl(b));
+      dir.setAttribute("aria-label", `Directions to ${b.name} (opens Google Maps in a new tab)`);
+      links.append(dir);
+      li.append(links);
+      return li;
     }
 
-    function groupPopup(title, note, list) {
-      const box = el("div");
-      box.append(el("p", "pop-group-head", title));
-      if (note) box.append(el("p", "pop-group-note", note));
-      const ul = el("ul", "pop-list");
-      list.forEach((b) => { const li = el("li"); li.append(details(b)); ul.append(li); });
-      box.append(ul);
-      return box;
-    }
-
-    // Filled dots with a dark outline; "not re-verified" is a hollow ocean ring.
-    function pinStyle(key) {
-      if (key === "unverified") return { radius: 7, weight: 4, color: color("unverified"), fillColor: "#FFFDF9", fillOpacity: 1 };
-      return { radius: 8, weight: 1.5, color: color("pin-outline"), fillColor: color(key), fillOpacity: 1 };
-    }
-
-    function groupIcon(list) {
-      const set = new Set(list.map(pinKey));
-      const key = set.size === 1 ? [...set][0] : "unknown"; // mixed statuses show as unknown
-      return L.divIcon({
-        className: "",
-        html: `<div class="group-pin pin-${key}">${list.length}</div>`,
-        iconSize: [32, 32],
-        iconAnchor: [16, 16],
-        popupAnchor: [0, -15],
-      });
+    let current = "all";
+    function applyFilter() {
+      let shown = 0;
+      let total = 0;
+      for (const section of document.querySelectorAll(".group")) {
+        let inGroup = 0;
+        for (const li of section.querySelectorAll(".biz")) {
+          total++;
+          const visible = current === "all" || li.dataset.status === current;
+          li.hidden = !visible;
+          if (visible) inGroup++;
+        }
+        section.hidden = inGroup === 0;
+        section.querySelector(".count").textContent = `${inGroup} ${inGroup === 1 ? "business" : "businesses"}`;
+        shown += inGroup;
+      }
+      document.getElementById("showing").textContent = `Showing ${shown} of ${total} businesses.`;
+      for (const btn of document.querySelectorAll("#filter button")) {
+        btn.setAttribute("aria-pressed", String(btn.dataset.filter === current));
+      }
     }
 
     async function main() {
-      const map = L.map("map", { scrollWheelZoom: false }).setView([34.042, -118.535], 13);
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        maxZoom: 19,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      }).addTo(map);
-
+      const box = document.getElementById("groups");
       let data;
       try {
         const res = await fetch("map-data/palisades-businesses.json");
         if (!res.ok) throw new Error("HTTP " + res.status);
         data = await res.json();
       } catch (err) {
-        document.getElementById("summary").append(el("span", "error",
-          "Could not load business data (" + err.message + "). If you opened this file directly, view it through GitHub Pages or a local web server instead."));
+        box.replaceChildren(el("p", "error",
+          "Could not load the business list (" + err.message + "). If you opened this file directly, view it through GitHub Pages or the local app instead."));
         return;
       }
 
       const businesses = data.businesses || [];
-      const shared = data.shared_pins || {};
-      const bounds = [];
-      const unplaced = [];
-
-      // 1. Shared pins (e.g. the Palisades Village shopping center).
-      const byShared = {};
+      const byArea = new Map(AREAS.map((a) => [a, []]));
       for (const b of businesses) {
-        if (b.shared_pin && shared[b.shared_pin] && shared[b.shared_pin].latitude != null) {
-          (byShared[b.shared_pin] ||= []).push(b);
-        }
-      }
-      for (const [id, list] of Object.entries(byShared)) {
-        const pin = shared[id];
-        const ll = [pin.latitude, pin.longitude];
-        L.marker(ll, { icon: groupIcon(list), title: pin.label })
-          .bindPopup(groupPopup(pin.label + " (" + list.length + " businesses)", pin.note, list), { maxWidth: 300 })
-          .addTo(map);
-        bounds.push(ll);
+        const area = b.area || "Other";
+        if (!byArea.has(area)) byArea.set(area, []);
+        byArea.get(area).push(b);
       }
 
-      // 2. Businesses with their own coordinates. Ones at the exact same point share a pin.
-      const byPoint = new Map();
-      for (const b of businesses) {
-        if (b.shared_pin) {
-          if (!byShared[b.shared_pin]) unplaced.push(b);
-          continue;
-        }
-        if (b.latitude == null || b.longitude == null) { unplaced.push(b); continue; }
-        const key = b.latitude + "," + b.longitude;
-        if (!byPoint.has(key)) byPoint.set(key, []);
-        byPoint.get(key).push(b);
+      box.replaceChildren();
+      for (const [area, list] of byArea) {
+        if (!list.length) continue;
+        const section = el("section", "card group");
+        const h2 = el("h2");
+        h2.append(el("span", null, area), el("span", "count"));
+        const ul = el("ul", "biz-list");
+        list.forEach((b) => ul.append(entry(b)));
+        section.append(h2, ul);
+        box.append(section);
       }
-      for (const list of byPoint.values()) {
-        const ll = [list[0].latitude, list[0].longitude];
-        if (list.length === 1) {
-          const b = list[0];
-          L.circleMarker(ll, {
-            ...pinStyle(pinKey(b)),
-          }).bindPopup(details(b), { maxWidth: 300 }).bindTooltip(b.name).addTo(map);
-        } else {
-          L.marker(ll, { icon: groupIcon(list), title: list[0].address })
-            .bindPopup(groupPopup(list[0].address + " (" + list.length + " businesses)", "These businesses share one address.", list), { maxWidth: 300 })
-            .addTo(map);
-        }
-        bounds.push(ll);
-      }
-      if (bounds.length) map.fitBounds(bounds, { padding: [30, 30] });
 
-      // 3. Summary and the not-on-map list.
-      const onMap = businesses.length - unplaced.length;
-      document.getElementById("summary").textContent =
-        `${onMap} of ${businesses.length} businesses on the map.`;
-
-      const box = document.getElementById("unplaced");
-      if (!unplaced.length) box.append(el("p", "meta", "None — every business is on the map."));
-      for (const b of unplaced) {
-        const card = el("div", "card");
-        card.append(details(b));
-        card.append(el("p", "flag", "Why it's not on the map: " + (b.geocode_note || "No confirmed location.")));
-        box.append(card);
+      // Show how many businesses each filter matches.
+      const counts = { all: businesses.length, open: 0, reported: 0, rebuilding: 0 };
+      for (const b of businesses) { const k = statusOf(b).key; if (k in counts) counts[k]++; }
+      for (const btn of document.querySelectorAll("#filter button")) {
+        btn.append(" ", el("span", "count", `(${counts[btn.dataset.filter]})`));
+        btn.addEventListener("click", () => { current = btn.dataset.filter; applyFilter(); });
       }
+      applyFilter();
     }
 
     main();

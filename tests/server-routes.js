@@ -52,7 +52,7 @@ async function main() {
     // 1. Pages and shared files load with the right content type
     const ok = [
       ["/", "text/html", "Conflict Tracker"],
-      ["/business-map.html", "text/html", "Palisades Business Recovery Map"],
+      ["/business-map.html", "text/html", "Palisades Business Directory"],
       ["/resources.html", "text/html", "Recovery Resources"],
       ["/theme.css", "text/css", "--ocean"],
       ["/nav.js", "text/javascript", "site-nav"],

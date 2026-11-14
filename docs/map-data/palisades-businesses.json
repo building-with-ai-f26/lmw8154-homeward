@@ -1,5 +1,6 @@
 {
-  "_about": "Hand-compiled from published news sources, facts restated in our own words. Statuses can change; confirm with each business before visiting. Business locations geocoded with Nominatim. © OpenStreetMap contributors, ODbL. This location data is shared under the same license.",
+  "_about": "Hand-compiled from published news sources, facts restated in our own words. Statuses can change; confirm with each business before visiting.",
+  "attribution": "Business details compiled by hand from the linked news sources.",
   "last_compiled": "2026-11-13",
   "businesses": [
     {
@@ -12,13 +13,7 @@
       "notes": "Returning business",
       "source_title": "NBC Los Angeles: Palisades Village reopens with new and returning businesses (Aug 15, 2026)",
       "source_url": "https://www.nbclosangeles.com/news/california-wildfires/palisades-village-reopening-new-businesses/3929997/",
-      "last_checked": "2026-11-13",
-      "latitude": null,
-      "longitude": null,
-      "geocode_status": "shared_pin",
-      "shared_pin": "palisades_village",
-      "geocode_note": "Exact unit not known; shown on the shopping center pin.",
-      "geocode_match": ""
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Blue Ribbon Sushi",
@@ -30,13 +25,7 @@
       "notes": "Returning business",
       "source_title": "NBC Los Angeles: Palisades Village reopens with new and returning businesses (Aug 15, 2026)",
       "source_url": "https://www.nbclosangeles.com/news/california-wildfires/palisades-village-reopening-new-businesses/3929997/",
-      "last_checked": "2026-11-13",
-      "latitude": null,
-      "longitude": null,
-      "geocode_status": "shared_pin",
-      "shared_pin": "palisades_village",
-      "geocode_note": "Exact unit not known; shown on the shopping center pin.",
-      "geocode_match": ""
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Buck Mason",
@@ -48,13 +37,7 @@
       "notes": "Returning business",
       "source_title": "NBC Los Angeles: Palisades Village reopens with new and returning businesses (Aug 15, 2026)",
       "source_url": "https://www.nbclosangeles.com/news/california-wildfires/palisades-village-reopening-new-businesses/3929997/",
-      "last_checked": "2026-11-13",
-      "latitude": null,
-      "longitude": null,
-      "geocode_status": "shared_pin",
-      "shared_pin": "palisades_village",
-      "geocode_note": "Exact unit not known; shown on the shopping center pin.",
-      "geocode_match": ""
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Anine Bing",
@@ -66,13 +49,7 @@
       "notes": "Returning business",
       "source_title": "NBC Los Angeles: Palisades Village reopens with new and returning businesses (Aug 15, 2026)",
       "source_url": "https://www.nbclosangeles.com/news/california-wildfires/palisades-village-reopening-new-businesses/3929997/",
-      "last_checked": "2026-11-13",
-      "latitude": null,
-      "longitude": null,
-      "geocode_status": "shared_pin",
-      "shared_pin": "palisades_village",
-      "geocode_note": "Exact unit not known; shown on the shopping center pin.",
-      "geocode_match": ""
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "K Bakery",
@@ -84,13 +61,7 @@
       "notes": "Returning business",
       "source_title": "NBC Los Angeles: Palisades Village reopens with new and returning businesses (Aug 15, 2026)",
       "source_url": "https://www.nbclosangeles.com/news/california-wildfires/palisades-village-reopening-new-businesses/3929997/",
-      "last_checked": "2026-11-13",
-      "latitude": null,
-      "longitude": null,
-      "geocode_status": "shared_pin",
-      "shared_pin": "palisades_village",
-      "geocode_note": "Exact unit not known; shown on the shopping center pin.",
-      "geocode_match": ""
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Loomey's Toys",
@@ -102,13 +73,7 @@
       "notes": "Returning business",
       "source_title": "NBC Los Angeles: Palisades Village reopens with new and returning businesses (Aug 15, 2026)",
       "source_url": "https://www.nbclosangeles.com/news/california-wildfires/palisades-village-reopening-new-businesses/3929997/",
-      "last_checked": "2026-11-13",
-      "latitude": null,
-      "longitude": null,
-      "geocode_status": "shared_pin",
-      "shared_pin": "palisades_village",
-      "geocode_note": "Exact unit not known; shown on the shopping center pin.",
-      "geocode_match": ""
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "PAIGE",
@@ -120,13 +85,7 @@
       "notes": "Store reopened",
       "source_title": "NBC Los Angeles: Palisades Village reopens with new and returning businesses (Aug 15, 2026)",
       "source_url": "https://www.nbclosangeles.com/news/california-wildfires/palisades-village-reopening-new-businesses/3929997/",
-      "last_checked": "2026-11-13",
-      "latitude": null,
-      "longitude": null,
-      "geocode_status": "shared_pin",
-      "shared_pin": "palisades_village",
-      "geocode_note": "Exact unit not known; shown on the shopping center pin.",
-      "geocode_match": ""
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Elyse Walker",
@@ -138,13 +97,7 @@
       "notes": "",
       "source_title": "NBC Los Angeles: Palisades Village reopens with new and returning businesses (Aug 15, 2026)",
       "source_url": "https://www.nbclosangeles.com/news/california-wildfires/palisades-village-reopening-new-businesses/3929997/",
-      "last_checked": "2026-11-13",
-      "latitude": null,
-      "longitude": null,
-      "geocode_status": "shared_pin",
-      "shared_pin": "palisades_village",
-      "geocode_note": "Exact unit not known; shown on the shopping center pin.",
-      "geocode_match": ""
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Spacca Tutto",
@@ -156,13 +109,7 @@
       "notes": "New: Italian steakhouse",
       "source_title": "NBC Los Angeles: Palisades Village reopens with new and returning businesses (Aug 15, 2026)",
       "source_url": "https://www.nbclosangeles.com/news/california-wildfires/palisades-village-reopening-new-businesses/3929997/",
-      "last_checked": "2026-11-13",
-      "latitude": null,
-      "longitude": null,
-      "geocode_status": "shared_pin",
-      "shared_pin": "palisades_village",
-      "geocode_note": "Exact unit not known; shown on the shopping center pin.",
-      "geocode_match": ""
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Violet Grey",
@@ -174,13 +121,7 @@
       "notes": "New",
       "source_title": "NBC Los Angeles: Palisades Village reopens with new and returning businesses (Aug 15, 2026)",
       "source_url": "https://www.nbclosangeles.com/news/california-wildfires/palisades-village-reopening-new-businesses/3929997/",
-      "last_checked": "2026-11-13",
-      "latitude": null,
-      "longitude": null,
-      "geocode_status": "shared_pin",
-      "shared_pin": "palisades_village",
-      "geocode_note": "Exact unit not known; shown on the shopping center pin.",
-      "geocode_match": ""
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "LESET",
@@ -192,13 +133,7 @@
       "notes": "New",
       "source_title": "NBC Los Angeles: Palisades Village reopens with new and returning businesses (Aug 15, 2026)",
       "source_url": "https://www.nbclosangeles.com/news/california-wildfires/palisades-village-reopening-new-businesses/3929997/",
-      "last_checked": "2026-11-13",
-      "latitude": null,
-      "longitude": null,
-      "geocode_status": "shared_pin",
-      "shared_pin": "palisades_village",
-      "geocode_note": "Exact unit not known; shown on the shopping center pin.",
-      "geocode_match": ""
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Alphabet Bar & Grill",
@@ -210,234 +145,163 @@
       "notes": "New. Announced hours: daily 11 a.m. until late",
       "source_title": "Santa Monica Daily Press: New neighborhood grill to open Aug 15 (Aug 2026)",
       "source_url": "https://www.smdp.com/new-neighborhood-grill-to-open-aug-15-in-rebuilding-pacific-palisades/",
-      "last_checked": "2026-11-13",
-      "latitude": null,
-      "longitude": null,
-      "geocode_status": "shared_pin",
-      "shared_pin": "palisades_village",
-      "geocode_note": "Exact unit not known; shown on the shopping center pin.",
-      "geocode_match": ""
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Anawalt's Palisades Hardware",
       "category": "Hardware",
-      "area": "Village / Sunset Blvd",
+      "area": "Sunset & Swarthmore",
       "address": "15130 Sunset Blvd",
       "status": "open",
       "status_as_of": "2025-05",
       "notes": "",
       "source_title": "Palisadian-Post: What Businesses Have Reopened in Pacific Palisades? (May 2025)",
       "source_url": "https://palipost.com/what-businesses-have-reopened-in-pacific-palisades/",
-      "last_checked": "2026-11-13",
-      "latitude": 34.045476,
-      "longitude": -118.5236391,
-      "geocode_status": "ok",
-      "geocode_note": "",
-      "geocode_match": "15130, West Sunset Boulevard, Pacific Palisades, Los Angeles, Los Angeles County, California, 90272, United States"
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Vons",
       "category": "Grocery",
-      "area": "Sunset Blvd (west)",
+      "area": "Pacific Coast Hwy",
       "address": "17380 Sunset Blvd",
       "status": "open",
       "status_as_of": "2025-05",
       "notes": "",
       "source_title": "Palisadian-Post: What Businesses Have Reopened in Pacific Palisades? (May 2025)",
       "source_url": "https://palipost.com/what-businesses-have-reopened-in-pacific-palisades/",
-      "last_checked": "2026-11-13",
-      "latitude": 34.0392752,
-      "longitude": -118.5539879,
-      "geocode_status": "ok",
-      "geocode_note": "",
-      "geocode_match": "Vons, 17380, West Sunset Boulevard, Inceville, Los Angeles, Los Angeles County, California, 90272, United States"
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Palisades Garden Café",
       "category": "Restaurant",
-      "area": "Village",
+      "area": "Sunset & Swarthmore",
       "address": "15231 La Cruz Dr",
       "status": "open",
       "status_as_of": "2025-05",
       "notes": "",
       "source_title": "Palisadian-Post: What Businesses Have Reopened in Pacific Palisades? (May 2025)",
       "source_url": "https://palipost.com/what-businesses-have-reopened-in-pacific-palisades/",
-      "last_checked": "2026-11-13",
-      "latitude": 34.0456074,
-      "longitude": -118.5255249,
-      "geocode_status": "ok",
-      "geocode_note": "",
-      "geocode_match": "15231, La Cruz Drive, Pacific Palisades, Los Angeles, Los Angeles County, California, 90272, United States"
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Chipotle",
       "category": "Restaurant",
-      "area": "Village / Sunset Blvd",
+      "area": "Sunset & Swarthmore",
       "address": "15207 Sunset Blvd",
       "status": "open",
       "status_as_of": "2025-05",
       "notes": "",
       "source_title": "Palisadian-Post: Additional Restaurants Reopen Within Pacific Palisades (spring 2025)",
       "source_url": "https://www.palipost.com/additional-restaurants-reopen-within-pacific-palisades",
-      "last_checked": "2026-11-13",
-      "latitude": 34.0464203,
-      "longitude": -118.524303,
-      "geocode_status": "ok",
-      "geocode_note": "",
-      "geocode_match": "Chipotle, 15207, West Sunset Boulevard, Pacific Palisades, Los Angeles, Los Angeles County, California, 90272, United States"
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Moku Sushi",
       "category": "Restaurant",
-      "area": "Highlands",
+      "area": "Palisades Highlands",
       "address": "524 Palisades Dr",
       "status": "open",
       "status_as_of": "2025-05",
       "notes": "",
       "source_title": "Palisadian-Post: Additional Restaurants Reopen Within Pacific Palisades (spring 2025)",
       "source_url": "https://www.palipost.com/additional-restaurants-reopen-within-pacific-palisades",
-      "last_checked": "2026-11-13",
-      "latitude": 34.044704,
-      "longitude": -118.5521893,
-      "geocode_status": "ok",
-      "geocode_note": "",
-      "geocode_match": "524, Palisades Drive, Los Angeles, Los Angeles County, California, 90272, United States"
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Spruzzo Restaurant & Bar",
       "category": "Restaurant",
-      "area": "Highlands",
+      "area": "Palisades Highlands",
       "address": "538 Palisades Dr",
       "status": "open",
       "status_as_of": "2025-05",
       "notes": "",
       "source_title": "Palisadian-Post: What Businesses Have Reopened in Pacific Palisades? (May 2025)",
       "source_url": "https://palipost.com/what-businesses-have-reopened-in-pacific-palisades/",
-      "last_checked": "2026-11-13",
-      "latitude": 34.0448465,
-      "longitude": -118.5521899,
-      "geocode_status": "ok",
-      "geocode_note": "",
-      "geocode_match": "538, Palisades Drive, Los Angeles, Los Angeles County, California, 90272, United States"
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Prima Cantina",
       "category": "Restaurant",
-      "area": "Village / Sunset Blvd",
+      "area": "Sunset & Swarthmore",
       "address": "15246 Sunset Blvd",
       "status": "open",
       "status_as_of": "2025-05",
       "notes": "",
       "source_title": "Palisadian-Post: What Businesses Have Reopened in Pacific Palisades? (May 2025)",
       "source_url": "https://palipost.com/what-businesses-have-reopened-in-pacific-palisades/",
-      "last_checked": "2026-11-13",
-      "latitude": null,
-      "longitude": null,
-      "geocode_status": "flagged",
-      "geocode_note": "OpenStreetMap found the street but not house number 15246.",
-      "geocode_match": "West Sunset Boulevard, Brentwood, Los Angeles, Los Angeles County, California, 90272, United States"
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Highland Postal Center",
       "category": "Services",
-      "area": "Highlands",
+      "area": "Palisades Highlands",
       "address": "528 Palisades Dr",
       "status": "open",
       "status_as_of": "2025-05",
       "notes": "",
       "source_title": "Palisadian-Post: What Businesses Have Reopened in Pacific Palisades? (May 2025)",
       "source_url": "https://palipost.com/what-businesses-have-reopened-in-pacific-palisades/",
-      "last_checked": "2026-11-13",
-      "latitude": 34.0447447,
-      "longitude": -118.5521895,
-      "geocode_status": "ok",
-      "geocode_note": "",
-      "geocode_match": "528, Palisades Drive, Los Angeles, Los Angeles County, California, 90272, United States"
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Wells Fargo",
       "category": "Bank",
-      "area": "Village / Sunset Blvd",
+      "area": "Sunset & Swarthmore",
       "address": "15249 Sunset Blvd",
       "status": "open",
       "status_as_of": "2025-05",
       "notes": "",
       "source_title": "Palisadian-Post: What Businesses Have Reopened in Pacific Palisades? (May 2025)",
       "source_url": "https://palipost.com/what-businesses-have-reopened-in-pacific-palisades/",
-      "last_checked": "2026-11-13",
-      "latitude": 34.0465931,
-      "longitude": -118.5247152,
-      "geocode_status": "ok",
-      "geocode_note": "",
-      "geocode_match": "15249, West Sunset Boulevard, Pacific Palisades, Los Angeles, Los Angeles County, California, 90272, United States"
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Citibank",
       "category": "Bank",
-      "area": "Village / Sunset Blvd",
+      "area": "Sunset & Swarthmore",
       "address": "15215 Sunset Blvd",
       "status": "open",
       "status_as_of": "2025-05",
       "notes": "",
       "source_title": "Palisadian-Post: What Businesses Have Reopened in Pacific Palisades? (May 2025)",
       "source_url": "https://palipost.com/what-businesses-have-reopened-in-pacific-palisades/",
-      "last_checked": "2026-11-13",
-      "latitude": 34.0463451,
-      "longitude": -118.5244147,
-      "geocode_status": "ok",
-      "geocode_note": "",
-      "geocode_match": "15215, West Sunset Boulevard, Pacific Palisades, Los Angeles, Los Angeles County, California, 90272, United States"
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Village 76",
       "category": "Gas station",
-      "area": "Sunset Blvd",
+      "area": "Sunset & Swarthmore",
       "address": "15400 Sunset Blvd",
       "status": "open",
       "status_as_of": "2025-05",
       "notes": "",
       "source_title": "Palisadian-Post: What Businesses Have Reopened in Pacific Palisades? (May 2025)",
       "source_url": "https://palipost.com/what-businesses-have-reopened-in-pacific-palisades/",
-      "last_checked": "2026-11-13",
-      "latitude": 34.047955,
-      "longitude": -118.527057,
-      "geocode_status": "ok",
-      "geocode_note": "",
-      "geocode_match": "15400, West Sunset Boulevard, Pacific Palisades, Los Angeles, Los Angeles County, California, 90272, United States"
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Palisades Gas & Wash",
       "category": "Gas station / car wash",
-      "area": "Alma Real",
+      "area": "Sunset & Swarthmore",
       "address": "890 Alma Real Dr",
       "status": "open",
       "status_as_of": "2025-05",
       "notes": "",
       "source_title": "Palisadian-Post: What Businesses Have Reopened in Pacific Palisades? (May 2025)",
       "source_url": "https://palipost.com/what-businesses-have-reopened-in-pacific-palisades/",
-      "last_checked": "2026-11-13",
-      "latitude": 34.04415,
-      "longitude": -118.524502,
-      "geocode_status": "ok",
-      "geocode_note": "",
-      "geocode_match": "890, Alma Real Drive, Pacific Palisades, Los Angeles, Los Angeles County, California, 90272, United States"
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Village General Store",
       "category": "Convenience",
-      "area": "Sunset Blvd",
+      "area": "Sunset & Swarthmore",
       "address": "Sunset Blvd (exact address not given)",
       "status": "open",
       "status_as_of": "2025-05",
       "notes": "Reopened Feb 15, 2025.",
       "source_title": "Palisadian-Post: Additional Restaurants Reopen Within Pacific Palisades (spring 2025)",
       "source_url": "https://www.palipost.com/additional-restaurants-reopen-within-pacific-palisades",
-      "last_checked": "2026-11-13",
-      "latitude": null,
-      "longitude": null,
-      "geocode_status": "flagged",
-      "geocode_note": "Address is not specific enough to place; not looked up.",
-      "geocode_match": ""
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Pacific West General Store",
@@ -449,12 +313,7 @@
       "notes": "",
       "source_title": "Palisadian-Post: Additional Restaurants Reopen Within Pacific Palisades (spring 2025)",
       "source_url": "https://www.palipost.com/additional-restaurants-reopen-within-pacific-palisades",
-      "last_checked": "2026-11-13",
-      "latitude": 34.0389723,
-      "longitude": -118.5546333,
-      "geocode_status": "ok",
-      "geocode_note": "",
-      "geocode_match": "Taco Bell, 17299, Pacific Coast Highway, Inceville, Los Angeles, Los Angeles County, California, 90272, United States"
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Taco Bell",
@@ -466,12 +325,7 @@
       "notes": "Connected to Pacific West General Store",
       "source_title": "Palisadian-Post: What Businesses Have Reopened in Pacific Palisades? (May 2025)",
       "source_url": "https://palipost.com/what-businesses-have-reopened-in-pacific-palisades/",
-      "last_checked": "2026-11-13",
-      "latitude": 34.0389723,
-      "longitude": -118.5546333,
-      "geocode_status": "ok",
-      "geocode_note": "",
-      "geocode_match": "Taco Bell, 17299, Pacific Coast Highway, Inceville, Los Angeles, Los Angeles County, California, 90272, United States"
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "76 (PCH)",
@@ -483,114 +337,79 @@
       "notes": "",
       "source_title": "Palisadian-Post: What Businesses Have Reopened in Pacific Palisades? (May 2025)",
       "source_url": "https://palipost.com/what-businesses-have-reopened-in-pacific-palisades/",
-      "last_checked": "2026-11-13",
-      "latitude": 34.0389723,
-      "longitude": -118.5546333,
-      "geocode_status": "ok",
-      "geocode_note": "",
-      "geocode_match": "Taco Bell, 17299, Pacific Coast Highway, Inceville, Los Angeles, Los Angeles County, California, 90272, United States"
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Chevron (PCH)",
       "category": "Gas station",
-      "area": "Pacific Coast Hwy",
+      "area": "Nearby: Santa Monica Canyon",
       "address": "14791 Pacific Coast Hwy",
       "status": "open",
       "status_as_of": "2025-05",
       "notes": "",
       "source_title": "Palisadian-Post: What Businesses Have Reopened in Pacific Palisades? (May 2025)",
       "source_url": "https://palipost.com/what-businesses-have-reopened-in-pacific-palisades/",
-      "last_checked": "2026-11-13",
-      "latitude": 34.0276435,
-      "longitude": -118.5181233,
-      "geocode_status": "ok",
-      "geocode_note": "",
-      "geocode_match": "Chevron, 14791, Pacific Coast Highway, Los Angeles, Los Angeles County, California, 90402, United States"
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Caffé Delfini",
       "category": "Restaurant",
-      "area": "Santa Monica Canyon / Channel Rd",
+      "area": "Nearby: Santa Monica Canyon",
       "address": "147 W Channel Rd",
       "status": "open",
       "status_as_of": "2025-05",
       "notes": "",
       "source_title": "Palisadian-Post: What Businesses Have Reopened in Pacific Palisades? (May 2025)",
       "source_url": "https://palipost.com/what-businesses-have-reopened-in-pacific-palisades/",
-      "last_checked": "2026-11-13",
-      "latitude": 34.0287168,
-      "longitude": -118.5187899,
-      "geocode_status": "ok",
-      "geocode_note": "",
-      "geocode_match": "147, West Channel Road, Los Angeles, Los Angeles County, California, 90402, United States"
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "The Golden Bull",
       "category": "Restaurant",
-      "area": "Santa Monica Canyon / Channel Rd",
+      "area": "Nearby: Santa Monica Canyon",
       "address": "170 W Channel Rd",
       "status": "open",
       "status_as_of": "2025-05",
       "notes": "",
       "source_title": "Palisadian-Post: What Businesses Have Reopened in Pacific Palisades? (May 2025)",
       "source_url": "https://palipost.com/what-businesses-have-reopened-in-pacific-palisades/",
-      "last_checked": "2026-11-13",
-      "latitude": 34.0288609,
-      "longitude": -118.5182138,
-      "geocode_status": "ok",
-      "geocode_note": "",
-      "geocode_match": "170, West Channel Road, Los Angeles, Los Angeles County, California, 90402, United States"
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "MUSE Santa Monica",
       "category": "Restaurant",
-      "area": "Santa Monica Canyon / Channel Rd",
+      "area": "Nearby: Santa Monica Canyon",
       "address": "108 W Channel Rd",
       "status": "open",
       "status_as_of": "2025-05",
       "notes": "",
       "source_title": "Palisadian-Post: What Businesses Have Reopened in Pacific Palisades? (May 2025)",
       "source_url": "https://palipost.com/what-businesses-have-reopened-in-pacific-palisades/",
-      "last_checked": "2026-11-13",
-      "latitude": 34.0283198,
-      "longitude": -118.5191085,
-      "geocode_status": "ok",
-      "geocode_note": "",
-      "geocode_match": "108, West Channel Road, Los Angeles, Los Angeles County, California, 90402, United States"
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Giorgio Baldi",
       "category": "Restaurant",
-      "area": "Santa Monica Canyon / Channel Rd",
+      "area": "Nearby: Santa Monica Canyon",
       "address": "114 W Channel Rd",
       "status": "open",
       "status_as_of": "2025-05",
       "notes": "",
       "source_title": "Palisadian-Post: What Businesses Have Reopened in Pacific Palisades? (May 2025)",
       "source_url": "https://palipost.com/what-businesses-have-reopened-in-pacific-palisades/",
-      "last_checked": "2026-11-13",
-      "latitude": 34.0283722,
-      "longitude": -118.519022,
-      "geocode_status": "ok",
-      "geocode_note": "",
-      "geocode_match": "114, West Channel Road, Los Angeles, Los Angeles County, California, 90402, United States"
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Canyon Square",
       "category": "Restaurant",
-      "area": "Santa Monica Canyon / Channel Rd",
+      "area": "Nearby: Santa Monica Canyon",
       "address": "169 W Channel Rd",
       "status": "open",
       "status_as_of": "2025-05",
       "notes": "",
       "source_title": "Palisadian-Post: What Businesses Have Reopened in Pacific Palisades? (May 2025)",
       "source_url": "https://palipost.com/what-businesses-have-reopened-in-pacific-palisades/",
-      "last_checked": "2026-11-13",
-      "latitude": 34.0288764,
-      "longitude": -118.5185268,
-      "geocode_status": "ok",
-      "geocode_note": "",
-      "geocode_match": "169, West Channel Road, Los Angeles, Los Angeles County, California, 90402, United States"
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Gladstones",
@@ -602,41 +421,19 @@
       "notes": "Reopened July 4, 2025",
       "source_title": "NBC Los Angeles: Gladstones reopens (Jul 4, 2025)",
       "source_url": "https://www.nbclosangeles.com/news/local/gladstones-in-pacific-palisades-reopens-6-months-after-palisades-fire/3738866/?amp=1",
-      "last_checked": "2026-11-13",
-      "latitude": null,
-      "longitude": null,
-      "geocode_status": "flagged",
-      "geocode_note": "Address is not specific enough to place; not looked up.",
-      "geocode_match": ""
+      "compiled_on": "2026-11-13"
     },
     {
       "name": "Gelson's",
       "category": "Grocery",
-      "area": "Village / Sunset Blvd",
+      "area": "Sunset & Swarthmore",
       "address": "15424 Sunset Blvd",
       "status": "rebuilding",
       "status_as_of": "2026-04-13",
       "notes": "Announced plans to rebuild at original site; no reopening date announced as of Apr 2026",
       "source_title": "The Shelby Report: Gelson's to rebuild, reopen Pacific Palisades store (Apr 13, 2026)",
       "source_url": "https://theshelbyreport.com/2026/04/13/gelsons-to-rebuild-reopen-pacific-palisades-store-following-2025-fire",
-      "last_checked": "2026-11-13",
-      "latitude": 34.0480092,
-      "longitude": -118.5273886,
-      "geocode_status": "ok",
-      "geocode_note": "",
-      "geocode_match": "15424, West Sunset Boulevard, Pacific Palisades, Los Angeles, Los Angeles County, California, 90272, United States"
+      "compiled_on": "2026-11-13"
     }
-  ],
-  "shared_pins": {
-    "palisades_village": {
-      "label": "Palisades Village shopping center",
-      "address": "15225 Palisades Village Lane",
-      "note": "Coordinates entered by hand; the pin marks the shopping center, not each store’s exact spot.",
-      "latitude": 34.0472,
-      "longitude": -118.526,
-      "geocode_status": "manual",
-      "geocode_note": "Coordinates entered by hand for 15225 Palisades Village Lane; Nominatim has no record of this address.",
-      "geocode_match": ""
-    }
-  }
+  ]
 }
