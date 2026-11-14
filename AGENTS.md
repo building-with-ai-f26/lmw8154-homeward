@@ -6,13 +6,13 @@
 - **What this repo builds:** Homeward, a single source of truth for families rebuilding after a wildfire. It tracks what the HOA, builder, insurer, and city each said, and flags when they contradict each other.
 - **Primary user & core workflow:** [See the living PRD in `docs/index.html`]
 - **Tech stack:** Node.js 21+ (no npm dependencies) / plain HTML page / OpenRouter API (default model `anthropic/claude-opus-5.5`) / saved data in a local JSON file under `data/` (git-ignored)
-- **Main files:** `server.js` (web server, AI call, saving), `prompt.js` (AI instructions and answer schema), `public/index.html` (the page), `tests/run-samples.js` (sample test)
+- **Main files:** `server.js` (web server, AI call, saving, and serving the shared `docs/` pages), `prompt.js` (AI instructions and answer schema), `public/index.html` (the Conflict Tracker page), `docs/` (Business Directory (`business-map.html`), Recovery Resources, shared `theme.css` and `nav.js`, photos, fonts, data; published on GitHub Pages and also served by the local app), `tests/server-routes.js` (route test), `tests/run-samples.js` (sample test)
 - **Private data:** real family documents go in `private/`; saved claims go in `data/`. Both are git-ignored and must never be committed.
 
 ## 2. Commands
 - **Install dependencies:** none (needs Node.js 21 or newer; check with `node --version`)
 - **Run locally:** `npm start`, then open http://localhost:3000
-- **Run deterministic tests:** [none yet]
+- **Run deterministic tests:** `npm test` (checks server routes: pages and shared files load, nothing outside the allowlist is reachable, local-only checks hold; free, no AI calls). If you add a file the app should serve from `docs/`, add it to the allowlist in `server.js` and to this test.
 - **Run model evals:** `npm run test:samples` (calls the real AI, about $0.20 per run; compare output with `samples/ANSWER_KEY.md`)
 
 ## 3. Non-Negotiable Engineering Rules

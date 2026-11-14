@@ -4,83 +4,118 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Homeward</title>
+  <!-- Theme, font and photos are served from docs/ by server.js (one shared copy). -->
+  <link rel="preload" href="/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="/theme.css" />
   <style>
-    :root {
-      --bg: #fafafa; --card: #fff; --text: #111827; --muted: #4b5563; --border: #e5e7eb;
-      --accent: #1d63dc; --new: #fffbeb; --flag: #b45309; --flag-bg: #fef3c7; --error: #b91c1c;
+    .container { max-width: 1040px; }
+    .banner img { object-position: 45% 62%; }
+    .sub { color: var(--muted); font-size: 17px; margin: 0 0 24px; max-width: 680px; }
+    .eyebrow { margin-bottom: 10px; }
+
+    textarea {
+      width: 100%;
+      min-height: 190px;
+      padding: 14px 16px;
+      font: 14px/1.5 ui-monospace, Menlo, monospace;
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      resize: vertical;
     }
-    * { box-sizing: border-box; }
-    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
-    .container { max-width: 1000px; margin: 0 auto; padding: 32px 20px 64px; }
-    h1 { margin: 0 0 4px; font-size: 28px; }
-    .sub { color: var(--muted); margin: 0 0 20px; }
-    section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 22px; margin-bottom: 20px; }
-    h2 { font-size: 18px; margin: 0 0 12px; }
-    textarea { width: 100%; min-height: 180px; padding: 12px; font: 14px/1.4 ui-monospace, Menlo, monospace; border: 1px solid var(--border); border-radius: 8px; resize: vertical; }
-    .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 12px; }
-    button { padding: 9px 16px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: #fff; font-weight: 600; font-size: 14px; cursor: pointer; }
-    button.secondary { background: #fff; color: var(--text); border-color: var(--border); }
+    textarea:focus { outline: 3px solid var(--sky); outline-offset: 1px; border-color: var(--ocean); }
+    .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 14px; }
     button:disabled { opacity: 0.5; cursor: wait; }
     #status { color: var(--muted); font-size: 14px; }
-    #status.error { color: var(--error); }
-    .meta { color: var(--muted); font-size: 13px; }
+    #status.error { color: #B5285F; font-weight: 600; }
     .empty { color: var(--muted); font-style: italic; }
+
+    /* Claims table */
     .table-wrap { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: 14px; }
-    th, td { text-align: left; padding: 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
-    th { font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
-    tr.new td { background: var(--new); }
+    th, td { text-align: left; padding: 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+    tr.new td { background: var(--sky-tint); }
     td.nowrap { white-space: nowrap; }
-    .conflict { border: 1px solid var(--border); border-left: 4px solid var(--flag); border-radius: 8px; padding: 14px 16px; margin-bottom: 14px; }
-    .conflict.new { background: var(--new); }
-    .badge { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--flag-bg); color: var(--flag); margin-right: 8px; text-transform: uppercase; }
-    .sides { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-top: 10px; }
-    .side { border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; background: #fff; }
-    .side .who { font-weight: 600; }
+
+    /* Conflicts: poppy edge and badge; new ones get a sky tint */
+    .conflict {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 5px solid var(--poppy);
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+    .conflict.new { background: var(--sky-tint); }
+    .conflict p { margin: 8px 0 0; }
+    .badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--poppy-tint);
+      color: #8C4A12; /* 6.0:1 on the tint */
+      margin-right: 8px;
+      text-transform: uppercase;
+    }
+    .sides { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-top: 12px; }
+    .side { border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; background: #fff; }
+    .side .who { font-weight: 700; }
     .quote { color: var(--muted); font-size: 13px; margin-top: 6px; }
-    ul.questions { margin: 0; padding-left: 20px; }
-    ul.questions li { margin-bottom: 8px; }
-    .ask { font-weight: 600; }
-    footer { color: var(--muted); font-size: 13px; text-align: center; }
-    .resource-link { display: inline-block; padding: 9px 16px; border-radius: 8px; border: 1px solid var(--border); color: var(--accent); font-weight: 600; font-size: 14px; text-decoration: none; }
-    .resource-link:hover { border-color: var(--accent); }
+
+    ul.questions { margin: 0; }
+    ul.questions li { margin-bottom: 10px; }
+    .ask { font-weight: 700; }
+
+    footer { color: var(--muted); font-size: 14px; text-align: center; }
   </style>
 </head>
 <body>
+  <script src="/nav.js"></script>
   <div class="container">
-    <h1>Homeward</h1>
+    <figure class="banner">
+      <img src="/images/hero-coast.jpg" width="1536" height="768"
+           alt="A sunny view down onto a long sandy beach and Pacific Coast Highway, with palm trees, hillside homes, and hazy mountains along the coast." />
+      <figcaption class="photo-credit">Photos by Laura Wendelin</figcaption>
+    </figure>
+    <span class="eyebrow">Homeward · runs on your computer</span>
+    <h1>Conflict Tracker</h1>
     <p class="sub">Paste one email thread or letter. Homeward pulls out what each party said and flags when they contradict each other.</p>
 
-    <section>
+    <section class="card">
       <h2>Add a message</h2>
       <textarea id="input" placeholder="Paste an email thread or letter from the HOA, builder, insurer, or city…"></textarea>
       <div class="row">
-        <button id="analyze">Analyze</button>
-        <button id="clear" class="secondary">Clear all</button>
+        <button id="analyze" class="btn">Analyze</button>
+        <button id="clear" class="btn btn-secondary">Clear all</button>
         <span id="status"></span>
       </div>
       <p class="meta" id="totals"></p>
     </section>
 
-    <section>
+    <section class="card">
       <h2>Claims</h2>
       <div id="claims"></div>
     </section>
 
-    <section>
+    <section class="card">
       <h2>Flagged conflicts</h2>
       <div id="conflicts"></div>
     </section>
 
-    <section>
+    <section class="card">
       <h2>Open questions</h2>
       <div id="questions"></div>
     </section>
 
-    <section>
+    <section class="card">
       <h2>Rebuild progress in the Palisades</h2>
-      <p class="meta" style="margin-top:0">See which homes are being rebuilt on the Pali Post's Rebuild Map, an independent site run by the Palisadian-Post.</p>
-      <a class="resource-link" href="https://map.palipost.com" target="_blank" rel="noopener noreferrer">View the Pali Post's Rebuild Map &rarr;</a>
+      <p>See which homes are being rebuilt on the Pali Post's Rebuild Map, an independent site run by the Palisadian-Post.</p>
+      <a class="btn btn-secondary" href="https://map.palipost.com" target="_blank" rel="noopener noreferrer">View the Pali Post's Rebuild Map &rarr;</a>
       <p class="meta">External link. Not affiliated with Homeward.</p>
     </section>
 

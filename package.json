@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "node server.js",
+    "test": "node tests/server-routes.js",
     "test:samples": "node tests/run-samples.js"
   }
 }

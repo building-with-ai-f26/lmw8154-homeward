@@ -18,6 +18,56 @@ const PORT = Number(process.env.PORT) || 3000;
 const DATA_FILE = process.env.HOMEWARD_DATA_FILE || path.join(__dirname, "data", "claims.json");
 const PAGE = path.join(__dirname, "public", "index.html");
 
+// ---------- Shared pages and files from docs/ ----------
+// The Business Directory and Recovery Resources pages (and the theme, fonts, photos and
+// data they use) are served straight from docs/, the same files GitHub Pages
+// publishes, so there is one copy of each. Only what's listed here can be served:
+// nothing else in the repo (data/, private/, .env, server code) is reachable.
+const DOCS = path.join(__dirname, "docs");
+const DOCS_FILES = new Map([
+  ["/business-map.html", "business-map.html"],
+  ["/resources.html", "resources.html"],
+  ["/theme.css", "theme.css"],
+  ["/nav.js", "nav.js"],
+]);
+const DOCS_FOLDERS = new Set(["images", "fonts", "map-data", "resources-data"]);
+const TYPES = {
+  ".html": "text/html; charset=utf-8",
+  ".css": "text/css; charset=utf-8",
+  ".js": "text/javascript; charset=utf-8",
+  ".json": "application/json; charset=utf-8",
+  ".jpg": "image/jpeg",
+  ".woff2": "font/woff2",
+  ".txt": "text/plain; charset=utf-8",
+};
+const FOLDER_FILE_TYPES = new Set([".jpg", ".woff2", ".json", ".txt"]);
+
+// Returns the docs/ file for a URL path, or null if it isn't one we serve.
+function docsFileFor(urlPath) {
+  if (DOCS_FILES.has(urlPath)) return path.join(DOCS, DOCS_FILES.get(urlPath));
+  // One folder plus one plain file name, e.g. /images/hero-coast.jpg. The pattern
+  // rules out "..", slashes and %-encoded tricks, so a path can't leave its folder.
+  const m = urlPath.match(/^\/([a-z-]+)\/([A-Za-z0-9][A-Za-z0-9._-]*)$/);
+  if (!m || !DOCS_FOLDERS.has(m[1]) || !FOLDER_FILE_TYPES.has(path.extname(m[2]))) return null;
+  const file = path.join(DOCS, m[1], m[2]);
+  return file.startsWith(path.join(DOCS, m[1]) + path.sep) ? file : null; // belt and braces
+}
+
+async function sendDocsFile(res, file) {
+  let body;
+  try {
+    body = await fs.promises.readFile(file);
+  } catch (err) {
+    if (err.code === "ENOENT" || err.code === "EISDIR") return sendJson(res, 404, { error: "Not found" });
+    throw err;
+  }
+  res.writeHead(200, {
+    "Content-Type": TYPES[path.extname(file)] || "application/octet-stream",
+    "X-Content-Type-Options": "nosniff", // the browser must use the type above, never guess
+  });
+  res.end(body);
+}
+
 // ---------- Saved data ----------
 
 function emptyStore() {
@@ -195,6 +245,10 @@ const server = http.createServer(async (req, res) => {
       saveStore(store);
       return sendJson(res, 200, { run, state: publicState(store) });
     }
+    if (req.method === "GET") {
+      const file = docsFileFor(req.url.split("?")[0]);
+      if (file) return sendDocsFile(res, file);
+    }
     if (req.method === "POST" && req.url === "/api/clear") {
       const store = emptyStore();
       saveStore(store);
@@ -219,4 +273,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { analyzeThread, emptyStore, loadStore, saveStore, publicState, MODEL, DATA_FILE };
+module.exports = { analyzeThread, emptyStore, loadStore, saveStore, publicState, MODEL, DATA_FILE, server, PORT };
