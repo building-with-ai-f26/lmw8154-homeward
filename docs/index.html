@@ -124,7 +124,7 @@
     @media (max-width: 480px) { .photo-strip { grid-template-columns: 1fr; } }
 
     /* ---------- Showcase + resources ---------- */
-    .screenshot { width: 100%; border: 1px solid var(--border); border-radius: 14px; display: block; margin: 4px 0 10px; }
+    .screenshot { width: 100%; height: auto; border: 1px solid var(--border); border-radius: 14px; display: block; margin: 4px 0 10px; }
     .resource { padding: 18px 0; border-top: 1px solid var(--border); }
     .resource:first-of-type { border-top: none; padding-top: 4px; }
     .resource p { margin-bottom: 10px; }
@@ -134,6 +134,10 @@
     #prd h3 { padding-top: 22px; margin-top: 26px; border-top: 1px solid var(--border); }
     #prd h3:first-of-type { border-top: none; padding-top: 0; }
     #prd li { margin-bottom: 10px; }
+    #prd h3.prd-version { font-size: 24px; margin-top: 36px; padding-top: 28px; border-top: 2px solid var(--border); }
+    #prd h3.prd-version + h3 { border-top: none; padding-top: 0; margin-top: 12px; }
+    .version-meta { display: inline-block; margin-left: 8px; font-family: var(--font-body); font-size: 13px; font-weight: 700;
+      color: var(--sage-dark); background: var(--sage-tint); padding: 3px 10px; border-radius: 999px; vertical-align: middle; }
     .grid-2 {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -209,11 +213,12 @@
     <section class="card" id="live-demo">
       <h2>Product Showcase (Prototype / Live App / 2-Min Video)</h2>
       <p>
-        <strong>Current Status:</strong> Build 1: local prototype
+        <strong>Current Status:</strong> Build 2: local app with real AI analysis and PostHog analytics
       </p>
-      <img src="prototype-build1.png" alt="Homeward prototype flagging a contradiction: the builder said the design qualifies as like-for-like, while the city's plan check says it does not. Both statements are shown side by side with dates, followed by open questions and who to ask." class="screenshot" loading="lazy" />
+      <img src="conflict-tracker-build2.png" width="2048" height="2928" class="screenshot" loading="lazy"
+           alt="The Conflict Tracker with a fictional HOA and builder email thread pasted in, a summary line reading 1 message analyzed, 7 claims, 2 conflicts, total AI cost $0.0358, and two flagged reversals shown side by side with dates and quotes: the HOA first required clay tile and later dropped the requirement, and the builder first said clay tile was in scope at no extra cost and later estimated $38,000 more." />
       <p class="meta">
-        Local prototype running on a synthetic sample thread. Homeward shows the builder’s and the city’s statements side by side, then lists open questions and who to ask.
+        One full user action: paste a thread, AI analysis, conflicts flagged. A fictional sample thread between the HOA and the builder is pasted in; the AI pulls out 7 claims in one analysis ($0.036); and Homeward flags two reversals, each with both statements, dates and quotes side by side. The claims table and open questions are left out of this image to keep it short. The text box was refilled with the same thread for this image, since the app clears it after analyzing.
       </p>
     </section>
 
@@ -252,6 +257,22 @@
              alt="Bright pink and orange bougainvillea beside a stone pillar on a bluff above the ocean." />
       </div>
       <p class="photo-credit">Photos by Laura Wendelin</p>
+
+      <h3 class="prd-version">PRD v2 <span class="version-meta">Build 2 · updated Nov 13, 2026</span></h3>
+      <p><strong>Biggest risk:</strong> Can the AI reliably catch real contradictions between the HOA, builder, insurer and city, without burying families in false alarms?</p>
+      <p><strong>How this build tests it:</strong> Six fictional email threads in <code>samples/</code>, each written with a known answer recorded in advance in <code>samples/ANSWER_KEY.md</code>. Five have planted conflicts: an HOA and builder reversal chain, the builder vs the city on like-for-like eligibility, an insurer contradicting itself, an HOA fence rule vs the city fire rule, and a builder saying an inspection passed when the city record says it didn't. The sixth has no contradiction and checks for false alarms. One command runs all six through the real AI.</p>
+      <p><strong>Latest results (Nov 13, 2026):</strong></p>
+      <ul>
+        <li><strong>Caught:</strong> 5 of 5 planted conflicts, each with the right parties and dates.</li>
+        <li><strong>Missed:</strong> 0.</li>
+        <li><strong>False alarms:</strong> 0. The clean thread flagged nothing.</li>
+        <li><strong>Total flags:</strong> 8. Some planted conflicts involve more than one pair of statements, and every flag matches a pair the answer key lists.</li>
+      </ul>
+      <p><strong>How it works:</strong> You paste an email thread or letter into the Conflict Tracker, which runs on your own computer. The app sends the text to an AI model through OpenRouter, which pulls out each statement along with who said it, the topic and the date. Homeward compares the new statements with everything saved so far and flags contradictions and reversals, showing both statements side by side with quotes, plus open questions and who to ask. Results are saved in a file on your computer.</p>
+      <p><strong>Cost per run:</strong> About $0.03 per analysis (one email thread), and about $0.20 for the full six-thread sample test ($0.20 on the latest run).</p>
+      <p><strong>Caveat:</strong> All testing so far uses fictional data written with known answers. Real, messier family emails are still the open test.</p>
+
+      <h3 class="prd-version">PRD v1 <span class="version-meta">Build 1 · Nov 9, 2026</span></h3>
 
       <h3>1. Target User & The Job to Be Done</h3>
       <p><strong>Who is this for?</strong> My parents, a couple in their late 60s rebuilding their Pacific Palisades home after the January 2025 fire. They're in the construction phase, and they manage the rebuild together. My mom keeps the records. My three sisters and I help remotely. They can introduce me to 2-3 neighbor families going through the same process.</p>
@@ -303,7 +324,7 @@
       <div class="log-entry">
         <h3>Build 1 · Intent.md & Throwaway Prototype (Due Nov 9)</h3>
         <ul>
-          <li><strong>What shipped:</strong> PRD v1 for Homeward, live on this page. Set up Git, GitHub, GitHub Pages, Claude Code, and a PostHog account. Added a private/ folder to .gitignore so real family documents can never be committed. Built a working local prototype: paste an email thread, and it extracts each party's claims, flags contradictions side by side, and lists open questions and who to ask (screenshot above). Tested on six sample threads, it caught 5 of 5 planted conflicts with 0 false alarms, for $0.20 in AI costs. The samples are synthetic and written with known answers, so real, messy emails are still the open test.</li>
+          <li><strong>What shipped:</strong> PRD v1 for Homeward, live on this page. Set up Git, GitHub, GitHub Pages, Claude Code, and a PostHog account. Added a private/ folder to .gitignore so real family documents can never be committed. Built a working local prototype: paste an email thread, and it extracts each party's claims, flags contradictions side by side, and lists open questions and who to ask (Build 1 screenshot replaced by the Build 2 one above). Tested on six sample threads, it caught 5 of 5 planted conflicts with 0 false alarms, for $0.20 in AI costs. The samples are synthetic and written with known answers, so real, messy emails are still the open test.</li>
           <li><strong>Things learned with AI:</strong> The terminal and the agent both take you literally. In Terminus, <code>cd ..crypt</code> failed because of one missing slash, and <code>rm</code> deletes with no undo. Installing Claude Code through npm failed with a permissions error. Instead of forcing it with sudo, I used the native installer and fixed my PATH. Having Claude propose a plan and wait for approval before editing caught mistakes before they happened, like flagging that "builder" and "developer" were used inconsistently, and that private/ wasn't actually ignored yet. I also learned that moving a repo into an org can cost you admin rights, which blocked GitHub Pages until the instructor fixed it.</li>
           <li><strong>What broke / changed in PRD:</strong> I explored several ideas (new parents, egg freezing, recruiting tools) before landing on my family's wildfire rebuild, the problem I have real access to. I dropped a receipts and insurance-recovery angle because it didn't match where my parents are in the process. I narrowed the core job to one thing: finding the truth when the HOA, builder, insurer, and city contradict each other. I widened input from line-by-line pasting to whole email threads, since pasting line by line was too manual. I added a privacy plan and a second risk (will families trust it with real messages?), and removed details that could identify my family.</li>
           <li><strong>Cost & time this week:</strong> $0.26 · 7 hours</li>
@@ -313,9 +334,10 @@
       <div class="log-entry">
         <h3>Build 2 · Smallest Local Version & PostHog (Due Nov 16)</h3>
         <ul>
-          <li><strong>What shipped:</strong> [Local working slice, PostHog verified on this page and the local app, PRD v2, and local setup in AGENTS.md]</li>
-          <li><strong>What broke / changed in PRD:</strong> [Fill in]</li>
-          <li><strong>Cost & time this week:</strong> $[0.00] · [0] hours</li>
+          <li><strong>What shipped:</strong> A Business Directory of 36 Palisades-area businesses, grouped by area with a status filter, source links and directions, and a Recovery Resources page with 988 crisis support first. A redesign of every page around my own photos, with a palette pulled from them, self-hosted fonts so pages never contact Google, and a shared nav. The local app now serves the Directory and Resources pages from the same files as this site. Route tests (<code>npm test</code>) check that nothing private, like saved claims or the API key, can be reached. PostHog analytics on every page: session replay with all inputs masked, the thread box and results never recorded, and custom events (<code>thread_analyzed</code>, <code>conflict_flagged</code>) that send only counts and party roles. PRD v2 is above. On the six fictional sample threads, the AI caught 5 of 5 planted conflicts with 0 false alarms.</li>
+          <li><strong>Things learned with AI:</strong> Checking the real result catches what tests miss. Passing tests didn’t show a stretched screenshot, a nav cut off on phones, or that PostHog was quietly dropping every event; looking at the pages in a browser did. Asking for a plan before multi-file changes kept surfacing decisions I needed to make, like which group three Palisades Highlands businesses belonged in, and keeping the directory’s file name so links don’t break. Accuracy needs some attention: for example, dates shown as “May 1, 2025” when the source only said May, businesses in Santa Monica Canyon labeled as Pacific Palisades, and statuses from 2025 presented as current all had to be fixed.</li>
+          <li><strong>What broke / changed in PRD:</strong> The map's data folder was <code>docs/data/</code>, which the <code>.gitignore</code> rule for private claims also blocked, so the map would have loaded nothing on GitHub Pages; I moved it to <code>docs/map-data/</code>. OpenStreetMap's Nominatim couldn't place some addresses: the Palisades Village shopping center needed hand-entered coordinates, and a few businesses could only be listed below the map. Google Fonts would have sent every visitor's browser to Google, so I self-hosted the font. Map pins, licensing and imprecise addresses added more risk than value, so I replaced the map with a simple directory. A typo in the PostHog project key made PostHog reject every event until I checked the key directly. PRD v2 adds the risk test, its results, and cost per run.</li>
+          <li><strong>Cost & time this week:</strong> $0.24 · 5 hours</li>
         </ul>
       </div>
 
