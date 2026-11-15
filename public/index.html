@@ -73,6 +73,20 @@
 
     footer { color: var(--muted); font-size: 14px; text-align: center; }
   </style>
+  <!-- PostHog analytics (official snippet; see AGENTS.md). The project key is public by design.
+       Session replay masks every input; elements marked ph-no-capture are never recorded. -->
+  <script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],Object.defineProperty(u,"toString",{configurable:!0,enumerable:!0,writable:!0,value:function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e}}),Object.defineProperty(u.people,"toString",{configurable:!0,enumerable:!0,writable:!0,value:function(){return u.toString(1)+".people (stub)"}}),o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagResult isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_sRzVSDyumMdiaAiGXNeokJrLuEGThqKGVdKUsqGx2yfT', {
+      api_host: 'https://us.i.posthog.com',
+      defaults: '2026-08-30',
+      person_profiles: 'identified_only',
+      autocapture: true,
+      capture_pageview: true,
+      disable_session_recording: false,
+      session_recording: { maskAllInputs: true },
+    })
+  </script>
 </head>
 <body>
   <script src="/nav.js"></script>
@@ -88,28 +102,28 @@
 
     <section class="card">
       <h2>Add a message</h2>
-      <textarea id="input" placeholder="Paste an email thread or letter from the HOA, builder, insurer, or city…"></textarea>
+      <textarea id="input" class="ph-no-capture" placeholder="Paste an email thread or letter from the HOA, builder, insurer, or city…"></textarea>
       <div class="row">
         <button id="analyze" class="btn">Analyze</button>
         <button id="clear" class="btn btn-secondary">Clear all</button>
         <span id="status"></span>
       </div>
-      <p class="meta" id="totals"></p>
+      <p class="meta ph-no-capture" id="totals"></p>
     </section>
 
     <section class="card">
       <h2>Claims</h2>
-      <div id="claims"></div>
+      <div id="claims" class="ph-no-capture"></div>
     </section>
 
     <section class="card">
       <h2>Flagged conflicts</h2>
-      <div id="conflicts"></div>
+      <div id="conflicts" class="ph-no-capture"></div>
     </section>
 
     <section class="card">
       <h2>Open questions</h2>
-      <div id="questions"></div>
+      <div id="questions" class="ph-no-capture"></div>
     </section>
 
     <section class="card">
@@ -133,6 +147,28 @@
       return node;
     }
     const money = (n) => (n == null ? "cost not reported" : "$" + n.toFixed(4));
+
+    // ---------- Analytics (PostHog) ----------
+    // Only counts, timings and party roles are sent. Never thread text, statements,
+    // quotes, names or addresses. Party values are limited to the app's four roles.
+    const PARTIES = new Set(["HOA", "builder", "insurer", "city"]);
+    const role = (p) => (PARTIES.has(p) ? p : "other");
+    function track(event, props) {
+      if (window.posthog && typeof window.posthog.capture === "function") window.posthog.capture(event, props);
+    }
+    function trackAnalysis(run, state, durationMs) {
+      track("thread_analyzed", { conflict_count: run.newConflictIds.length, duration_ms: durationMs });
+      const byId = new Map(state.conflicts.map((k) => [k.id, k]));
+      for (const id of run.newConflictIds) {
+        const k = byId.get(id);
+        if (!k) continue;
+        // Sorted so "city vs builder" and "builder vs city" count as the same pair.
+        const pair = [role(k.earlier?.party), role(k.later?.party)]
+          .sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }))
+          .join(" vs ");
+        track("conflict_flagged", { party_pair: pair });
+      }
+    }
 
     async function api(path, body) {
       const options = body === undefined ? {} : {
@@ -220,9 +256,11 @@
       if (!text.trim()) return setStatus("Paste an email thread or letter first.", true);
       $("#analyze").disabled = $("#clear").disabled = true;
       setStatus("Analyzing… this can take up to a minute.");
+      const started = performance.now();
       try {
         const { run, state } = await api("/api/analyze", { text });
         render(state, run);
+        trackAnalysis(run, state, Math.round(performance.now() - started));
         $("#input").value = "";
         setStatus(`Message ${run.thread}: ${run.newClaimIds.length} new claims, ${run.newConflictIds.length} new conflicts · ${money(run.cost)}. New items are highlighted.`);
       } catch (err) {
