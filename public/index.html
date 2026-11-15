@@ -6,72 +6,56 @@
   <title>Homeward</title>
   <!-- Theme, font and photos are served from docs/ by server.js (one shared copy). -->
   <link rel="preload" href="/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="/theme.css" />
+  <link rel="stylesheet" href="/editorial.css" />
   <style>
-    .container { max-width: 1040px; }
-    .banner img { object-position: 45% 62%; }
-    .sub { color: var(--muted); font-size: 17px; margin: 0 0 24px; max-width: 680px; }
-    .eyebrow { margin-bottom: 10px; }
+    .page-banner img { height: clamp(180px, 30vh, 340px); }
 
     textarea {
       width: 100%;
-      min-height: 190px;
-      padding: 14px 16px;
-      font: 14px/1.5 ui-monospace, Menlo, monospace;
+      min-height: 200px;
+      padding: 16px 18px;
+      font: 0.9rem/1.55 ui-monospace, Menlo, monospace;
       color: var(--ink);
       background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 14px;
+      border: 1px solid var(--rule);
+      border-bottom: 2px solid var(--ink);
+      border-radius: 0;
       resize: vertical;
     }
-    textarea:focus { outline: 3px solid var(--sky); outline-offset: 1px; border-color: var(--ocean); }
-    .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 14px; }
+    textarea:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 16px; }
     button:disabled { opacity: 0.5; cursor: wait; }
-    #status { color: var(--muted); font-size: 14px; }
-    #status.error { color: #B5285F; font-weight: 600; }
+    #status { color: var(--muted); font-size: 0.92rem; }
+    #status.error { color: #9E2552; font-weight: 650; }
+    #totals { margin-top: 14px; }
     .empty { color: var(--muted); font-style: italic; }
 
     /* Claims table */
-    .table-wrap { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; font-size: 14px; }
-    th, td { text-align: left; padding: 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
-    th { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
-    tr.new td { background: var(--sky-tint); }
+    .table-wrap { overflow-x: auto; margin-top: 14px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+    @media (max-width: 700px) { table { min-width: 640px; } } /* scrolls sideways inside .table-wrap on phones */
+    th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+    th { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); border-bottom-color: var(--ink); }
+    tr.new td { background: var(--tint-ocean); }
     td.nowrap { white-space: nowrap; }
 
-    /* Conflicts: poppy edge and badge; new ones get a sky tint */
-    .conflict {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-left: 5px solid var(--poppy);
-      border-radius: 14px;
-      padding: 16px 20px;
-      margin-bottom: 16px;
-    }
-    .conflict.new { background: var(--sky-tint); }
-    .conflict p { margin: 8px 0 0; }
+    /* Conflicts: a poppy rule on the left; new ones get an ocean tint */
+    .conflict { border-left: 3px solid var(--poppy); padding: 6px 0 6px 22px; margin: 22px 0 30px; }
+    .conflict.new { background: var(--tint-ocean); padding: 18px 20px 18px 22px; }
+    .conflict > div:first-child strong { font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; }
+    .conflict p { margin: 8px 0 0; max-width: 72ch; }
     .badge {
-      display: inline-block;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      padding: 3px 10px;
-      border-radius: 999px;
-      background: var(--poppy-tint);
-      color: #8C4A12; /* 6.0:1 on the tint */
-      margin-right: 8px;
-      text-transform: uppercase;
+      display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 3px 9px; border-radius: 2px; background: var(--tint-poppy); color: #8C4A12; margin-right: 10px; vertical-align: 3px;
     }
-    .sides { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-top: 12px; }
-    .side { border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; background: #fff; }
-    .side .who { font-weight: 700; }
-    .quote { color: var(--muted); font-size: 13px; margin-top: 6px; }
+    .sides { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 16px; }
+    .side { border-top: 1px solid var(--ink); padding-top: 12px; }
+    .side .who { font-weight: 700; font-size: 0.92rem; }
+    .quote { color: var(--muted); font-size: 0.88rem; margin-top: 8px; font-style: italic; }
 
-    ul.questions { margin: 0; }
-    ul.questions li { margin-bottom: 10px; }
+    ul.questions { margin: 14px 0 0; padding-left: 20px; }
+    ul.questions li { margin-bottom: 12px; }
     .ask { font-weight: 700; }
-
-    footer { color: var(--muted); font-size: 14px; text-align: center; }
   </style>
   <!-- PostHog analytics (official snippet; see AGENTS.md). The project key is public by design.
        Session replay masks every input; elements marked ph-no-capture are never recorded. -->
@@ -90,51 +74,51 @@
 </head>
 <body>
   <script src="/nav.js"></script>
-  <div class="container">
-    <figure class="banner">
-      <img src="/images/hero-coast.jpg" width="1536" height="768"
-           alt="A sunny view down onto a long sandy beach and Pacific Coast Highway, with palm trees, hillside homes, and hazy mountains along the coast." />
-      <figcaption class="photo-credit">Photos by Laura Wendelin</figcaption>
-    </figure>
-    <span class="eyebrow">Homeward · runs on your computer</span>
-    <h1>Conflict Tracker</h1>
-    <p class="sub">Paste one email thread or letter. Homeward pulls out what each party said and flags when they contradict each other.</p>
+  <figure class="page-banner">
+    <picture><source type="image/webp" srcset="/images/beach-clouds-640.webp 640w, /images/beach-clouds-1024.webp 1024w, /images/beach-clouds-1536.webp 1536w" sizes="100vw" /><img src="/images/beach-clouds-1024.jpg" srcset="/images/beach-clouds-640.jpg 640w, /images/beach-clouds-1024.jpg 1024w, /images/beach-clouds-1536.jpg 1536w" sizes="100vw" width="1536" height="1761" fetchpriority="high" decoding="async" style="--pos: 50% 60%" alt="A wide sandy beach with patches of grass, a few people near the water, and white clouds over the mountains." /></picture>
+  </figure>
+  <main class="wrap">
+    <header class="page-head">
+      <span class="kicker">Homeward · runs on your computer</span>
+      <h1 class="page-title">Conflict Tracker</h1>
+      <p class="lede">Paste one email thread or letter. Homeward pulls out what each party said and flags when they contradict each other.</p>
+    </header>
 
-    <section class="card">
+    <section class="block">
       <h2>Add a message</h2>
       <textarea id="input" class="ph-no-capture" placeholder="Paste an email thread or letter from the HOA, builder, insurer, or city…"></textarea>
       <div class="row">
         <button id="analyze" class="btn">Analyze</button>
-        <button id="clear" class="btn btn-secondary">Clear all</button>
+        <button id="clear" class="btn btn-ghost">Clear all</button>
         <span id="status"></span>
       </div>
       <p class="meta ph-no-capture" id="totals"></p>
     </section>
 
-    <section class="card">
+    <section class="block">
       <h2>Claims</h2>
       <div id="claims" class="ph-no-capture"></div>
     </section>
 
-    <section class="card">
+    <section class="block">
       <h2>Flagged conflicts</h2>
       <div id="conflicts" class="ph-no-capture"></div>
     </section>
 
-    <section class="card">
+    <section class="block">
       <h2>Open questions</h2>
       <div id="questions" class="ph-no-capture"></div>
     </section>
 
-    <section class="card">
+    <section class="block">
       <h2>Rebuild progress in the Palisades</h2>
       <p>See which homes are being rebuilt on the Pali Post's Rebuild Map, an independent site run by the Palisadian-Post.</p>
-      <a class="btn btn-secondary" href="https://map.palipost.com" target="_blank" rel="noopener noreferrer">View the Pali Post's Rebuild Map &rarr;</a>
+      <a class="text-link" href="https://map.palipost.com" target="_blank" rel="noopener noreferrer">View the Pali Post's Rebuild Map &rarr;</a>
       <p class="meta">External link. Not affiliated with Homeward.</p>
     </section>
 
-    <footer>Homeward flags conflicts between what parties said. It doesn’t decide who is right or what to do.</footer>
-  </div>
+  </main>
+  <footer class="wrap page-foot">Homeward flags conflicts between what parties said. It doesn’t decide who is right or what to do.</footer>
 
   <script>
     // Everything from the AI is shown with textContent, never as HTML,

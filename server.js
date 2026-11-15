@@ -27,7 +27,7 @@ const DOCS = path.join(__dirname, "docs");
 const DOCS_FILES = new Map([
   ["/business-map.html", "business-map.html"],
   ["/resources.html", "resources.html"],
-  ["/theme.css", "theme.css"],
+  ["/editorial.css", "editorial.css"],
   ["/nav.js", "nav.js"],
 ]);
 const DOCS_FOLDERS = new Set(["images", "fonts", "map-data", "resources-data"]);
@@ -37,15 +37,16 @@ const TYPES = {
   ".js": "text/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
   ".jpg": "image/jpeg",
+  ".webp": "image/webp",
   ".woff2": "font/woff2",
   ".txt": "text/plain; charset=utf-8",
 };
-const FOLDER_FILE_TYPES = new Set([".jpg", ".woff2", ".json", ".txt"]);
+const FOLDER_FILE_TYPES = new Set([".jpg", ".webp", ".woff2", ".json", ".txt"]);
 
 // Returns the docs/ file for a URL path, or null if it isn't one we serve.
 function docsFileFor(urlPath) {
   if (DOCS_FILES.has(urlPath)) return path.join(DOCS, DOCS_FILES.get(urlPath));
-  // One folder plus one plain file name, e.g. /images/hero-coast.jpg. The pattern
+  // One folder plus one plain file name, e.g. /images/coast-bluff-1536.webp. The pattern
   // rules out "..", slashes and %-encoded tricks, so a path can't leave its folder.
   const m = urlPath.match(/^\/([a-z-]+)\/([A-Za-z0-9][A-Za-z0-9._-]*)$/);
   if (!m || !DOCS_FOLDERS.has(m[1]) || !FOLDER_FILE_TYPES.has(path.extname(m[2]))) return null;

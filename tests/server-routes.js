@@ -54,21 +54,25 @@ async function main() {
       ["/", "text/html", "Conflict Tracker"],
       ["/business-map.html", "text/html", "Palisades Business Directory"],
       ["/resources.html", "text/html", "Recovery Resources"],
-      ["/theme.css", "text/css", "--ocean"],
+      ["/editorial.css", "text/css", "--accent"],
       ["/nav.js", "text/javascript", "site-nav"],
-      ["/images/hero-coast.jpg", "image/jpeg"],
+      ["/images/coast-bluff-1536.jpg", "image/jpeg"],
+      ["/images/coast-bluff-1536.webp", "image/webp"],
       ["/fonts/fraunces-latin.woff2", "font/woff2"],
       ["/fonts/OFL.txt", "text/plain", "Open Font License"],
       ["/map-data/palisades-businesses.json", "application/json", "businesses"],
       ["/resources-data/palisades-organizations.json", "application/json", "organizations"],
-      ["/theme.css?v=2", "text/css"],
+      ["/editorial.css?v=2", "text/css"],
+      ["/theme.css", null, null, 404],
+      ["/images/hero-coast.jpg", null, null, 404],
     ];
-    for (const [url, type, text] of ok) {
+    for (const [url, type, text, expect] of ok) {
       const r = await request(port, url);
+      if (expect === 404) { check(`GET ${url} -> 404 (removed file)`, r.status === 404, `status ${r.status}`); continue; }
       check(`GET ${url} -> 200 ${type}`, r.status === 200 && r.headers["content-type"].startsWith(type) && (!text || r.body.includes(text)),
         `status ${r.status}, type ${r.headers["content-type"]}`);
     }
-    const css = await request(port, "/theme.css");
+    const css = await request(port, "/editorial.css");
     check("docs/ files are sent with nosniff", css.headers["x-content-type-options"] === "nosniff");
 
     // 2. Everything else is unreachable
@@ -77,7 +81,7 @@ async function main() {
       "/data/claims.json", "/private/anything.txt", "/research/palisades-businesses.json",
       "/docs/index.html", "/index.html", "/public/index.html", "/samples/README.md",
       "/images/", "/images/../../.env", "/images/..%2f..%2f.env", "/images/%2e%2e/%2e%2e/.env",
-      "/fonts/../../server.js", "/map-data/..", "/images/.hidden.jpg", "/images/missing.jpg",
+      "/fonts/../../server.js", "/map-data/..", "/images/.hidden.jpg", "/images/missing.jpg", "/images/x.webp.exe", "/images/coast-bluff-1536.WEBP",
       "/map-data/palisades-businesses.js", "/images/hero-coast.jpg/x", "//etc/passwd", "/theme.css/../server.js",
     ];
     for (const url of blocked) {
@@ -87,14 +91,14 @@ async function main() {
 
     // 3. Local-only checks are unchanged
     for (const host of ["evil.example", "localhost", `localhost.evil.example:${port}`, "0.0.0.0:" + port]) {
-      const r = await request(port, "/theme.css", { host });
+      const r = await request(port, "/editorial.css", { host });
       check(`Host "${host}" -> 403`, r.status === 403, `status ${r.status}`);
     }
-    const r127 = await request(port, "/theme.css", { host: `127.0.0.1:${port}` });
+    const r127 = await request(port, "/editorial.css", { host: `127.0.0.1:${port}` });
     check(`Host "127.0.0.1:${port}" -> 200`, r127.status === 200, `status ${r127.status}`);
     const plain = await request(port, "/api/analyze", { method: "POST", headers: { "Content-Type": "text/plain" }, body: "hello" });
     check("POST /api/analyze as text/plain -> 415 (no AI call)", plain.status === 415, `status ${plain.status}`);
-    const postFile = await request(port, "/theme.css", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
+    const postFile = await request(port, "/editorial.css", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
     check("POST to a docs/ file -> 404", postFile.status === 404, `status ${postFile.status}`);
   } finally {
     server.close();

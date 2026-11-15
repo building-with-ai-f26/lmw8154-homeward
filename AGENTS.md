@@ -6,7 +6,7 @@
 - **What this repo builds:** Homeward, a single source of truth for families rebuilding after a wildfire. It tracks what the HOA, builder, insurer, and city each said, and flags when they contradict each other.
 - **Primary user & core workflow:** [See the living PRD in `docs/index.html`]
 - **Tech stack:** Node.js 21+ (no npm dependencies) / plain HTML page / OpenRouter API (default model `anthropic/claude-opus-5.5`) / saved data in a local JSON file under `data/` (git-ignored)
-- **Main files:** `server.js` (web server, AI call, saving, and serving the shared `docs/` pages), `prompt.js` (AI instructions and answer schema), `public/index.html` (the Conflict Tracker page), `docs/` (Business Directory (`business-map.html`), Recovery Resources, shared `theme.css` and `nav.js`, photos, fonts, data; published on GitHub Pages and also served by the local app), `tests/server-routes.js` (route test), `tests/posthog-pages.js` (analytics check), `tests/run-samples.js` (sample test). See the folder map in section 3.
+- **Main files:** `server.js` (web server, AI call, saving, and serving the shared `docs/` pages), `prompt.js` (AI instructions and answer schema), `public/index.html` (the Conflict Tracker page), `docs/` (Business Directory (`business-map.html`), Recovery Resources, shared `editorial.css` and `nav.js`, photos (WebP with JPG fallback), fonts, data; published on GitHub Pages and also served by the local app), `tests/server-routes.js` (route test), `tests/posthog-pages.js` (analytics check), `tests/run-samples.js` (sample test). See the folder map in section 3.
 - **Private data:** real family documents go in `private/`; saved claims go in `data/`. Both are git-ignored and must never be committed.
 
 ## 2. Setup From Scratch
@@ -32,7 +32,7 @@ docs/                GitHub Pages site, also served by the local app
   index.html         Product Page (Living PRD, build log)
   business-map.html  Business Directory
   resources.html     Recovery Resources
-  theme.css, nav.js  Shared styles and navigation
+  editorial.css, nav.js  Shared styles and navigation
   images/, fonts/    Photos; self-hosted Fraunces font (license in fonts/OFL.txt)
   map-data/, resources-data/   JSON the pages load
 research/            Hand-compiled source data (copied into docs/ for the pages)

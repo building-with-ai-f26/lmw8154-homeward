@@ -8,53 +8,29 @@
   <meta name="description" content="Pacific Palisades and nearby businesses that are open or rebuilding after the fire, grouped by area and compiled from published news reports." />
 
   <link rel="preload" href="fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="theme.css" />
+  <link rel="stylesheet" href="editorial.css" />
 
   <style>
-    .container { max-width: 1040px; }
-    h1 { font-size: 40px; }
-    @media (max-width: 600px) { h1 { font-size: 30px; } }
-    .intro { color: var(--muted); font-size: 17px; margin: 0 0 18px; }
-    .banner img { object-position: center 55%; }
-
     /* Status filter */
-    .filter { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 8px; }
+    .filter { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 10px; }
     .filter button {
-      font: inherit;
-      font-size: 14px;
-      font-weight: 600;
-      padding: 8px 16px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: var(--card);
-      color: var(--ink);
-      cursor: pointer;
+      font: inherit; font-size: 0.875rem; font-weight: 650;
+      padding: 8px 14px; border-radius: 2px; cursor: pointer;
+      border: 1px solid var(--ink); background: transparent; color: var(--ink);
     }
-    .filter button:hover { border-color: var(--ocean); }
-    .filter button[aria-pressed="true"] { background: var(--ocean); border-color: var(--ocean); color: #fff; }
+    .filter button:hover { background: var(--paper-2); }
+    .filter button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
     .filter .count { font-weight: 500; opacity: 0.85; }
-    #showing { margin: 0 0 22px; }
+    #showing { margin: 0 0 8px; }
 
-    /* Area groups */
-    .group h2 .count { font-family: var(--font-body); font-size: 14px; font-weight: 600; color: var(--muted); margin-left: 10px; white-space: nowrap; }
-    .biz-list { list-style: none; margin: 0; padding: 0; }
-    .biz { margin: 0; padding: 16px 0; border-top: 1px solid var(--border); }
-    .biz:first-child { border-top: none; padding-top: 4px; }
+    /* Two-column list of businesses inside each area */
+    .biz-list { list-style: none; margin: 18px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 48px; }
+    @media (max-width: 760px) { .biz-list { grid-template-columns: 1fr; } }
+    .biz { margin: 0; padding: 20px 0; border-top: 1px solid var(--rule); }
     .biz-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; }
-    .biz h3 { margin: 0; font-size: 18px; }
-    .biz .small { font-size: 14px; color: var(--muted); margin: 4px 0 0; }
-    .biz .links { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 14px; margin-top: 8px; }
-
-    /* Status tags (text colors checked for AA contrast on their tints) */
-    .tag { display: inline-block; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; }
-    .tag.open { background: var(--sage-tint); color: var(--sage-dark); }        /* 5.3:1 */
-    .tag.reported { background: var(--sky-tint); color: var(--ocean); }         /* 4.9:1 */
-    .tag.rebuilding { background: var(--poppy-tint); color: #8C4A12; }          /* 6.0:1 */
-    .tag.closed { background: #FBE7EF; color: #B5285F; }
-    .tag.unknown { background: #EEF0F2; color: var(--ink); }
-
-    .error { color: #B5285F; font-weight: 600; }
-    footer { font-size: 13px; color: var(--muted); }
+    .biz h3 { margin: 0; font-size: 1.3rem; }
+    .biz .small { font-size: 0.92rem; color: var(--muted); margin: 6px 0 0; }
+    .biz .links { display: flex; flex-wrap: wrap; gap: 4px 20px; font-size: 0.92rem; margin-top: 10px; }
   </style>
   <!-- PostHog analytics (official snippet; see AGENTS.md). The project key is public by design.
        Session replay masks every input; elements marked ph-no-capture are never recorded. -->
@@ -73,17 +49,18 @@
 </head>
 <body>
   <script src="nav.js"></script>
-  <div class="container">
-    <figure class="banner">
-      <img src="images/header-ocean.jpg" width="1536" height="640"
-           alt="Calm blue ocean under a clear sky, seen over palm trees and a green hillside with a tile-roofed house." />
-      <figcaption class="photo-credit">Photos by Laura Wendelin</figcaption>
-    </figure>
-    <h1>Palisades Business Directory</h1>
-    <p class="meta updated">Last updated: Nov 13, 2026</p>
-    <p class="intro">Which Pacific Palisades businesses are open or rebuilding after the fire, grouped by area. Each listing links to the news report it came from.</p>
+  <figure class="page-banner">
+    <picture><source type="image/webp" srcset="images/beach-breakwater-640.webp 640w, images/beach-breakwater-1024.webp 1024w, images/beach-breakwater-1536.webp 1536w" sizes="100vw" /><img src="images/beach-breakwater-1024.jpg" srcset="images/beach-breakwater-640.jpg 640w, images/beach-breakwater-1024.jpg 1024w, images/beach-breakwater-1536.jpg 1536w" sizes="100vw" width="1536" height="2048" fetchpriority="high" decoding="async" style="--pos: 50% 62%" alt="Waves washing up a sandy beach beside a rock breakwater, with a grassy slope in the foreground and mountains along the coast." /></picture>
+  </figure>
+  <main class="wrap">
+    <header class="page-head">
+    <span class="kicker">Homeward · Directory</span>
+    <h1 class="page-title">Palisades Business Directory</h1>
+    <p class="updated">Last updated: Nov 13, 2026</p>
+    <p class="lede">Which Pacific Palisades businesses are open or rebuilding after the fire, grouped by area. Each listing links to the news report it came from.</p>
 
     <p class="notice">Compiled from published news reports. Information may be out of date; confirm with the business before visiting.</p>
+    </header>
 
     <div class="filter" role="group" aria-label="Filter by status" id="filter">
       <button type="button" data-filter="all" aria-pressed="true">All</button>
@@ -95,10 +72,10 @@
 
     <div id="groups"><p class="meta">Loading businesses…</p></div>
 
-    <footer>
-      Business details restated from the linked news sources. Not affiliated with any business listed.
-    </footer>
-  </div>
+  </main>
+  <footer class="wrap page-foot">
+    Business details restated from the linked news sources. Not affiliated with any business listed.
+  </footer>
 
   <script>
     // Area groups, in display order. Any other area in the data is added at the end.
@@ -221,12 +198,12 @@
       box.replaceChildren();
       for (const [area, list] of byArea) {
         if (!list.length) continue;
-        const section = el("section", "card group");
-        const h2 = el("h2");
-        h2.append(el("span", null, area), el("span", "count"));
+        const section = el("section", "block group");
+        const head = el("div", "block-head");
+        head.append(el("h2", null, area), el("span", "count"));
         const ul = el("ul", "biz-list");
         list.forEach((b) => ul.append(entry(b)));
-        section.append(h2, ul);
+        section.append(head, ul);
         box.append(section);
       }
 
