@@ -1,0 +1,239 @@
+{
+ "title": "Los Angeles area home prices, quarterly (purchase-only index, seasonally adjusted)",
+ "area": "Los Angeles-Long Beach-Glendale, CA (metro division 31084)",
+ "quarters": [
+  {
+   "year": 2015,
+   "quarter": 1,
+   "index_sa": 229.45
+  },
+  {
+   "year": 2015,
+   "quarter": 2,
+   "index_sa": 232.6
+  },
+  {
+   "year": 2015,
+   "quarter": 3,
+   "index_sa": 237.01
+  },
+  {
+   "year": 2015,
+   "quarter": 4,
+   "index_sa": 242.13
+  },
+  {
+   "year": 2016,
+   "quarter": 1,
+   "index_sa": 246.59
+  },
+  {
+   "year": 2016,
+   "quarter": 2,
+   "index_sa": 249.46
+  },
+  {
+   "year": 2016,
+   "quarter": 3,
+   "index_sa": 253.36
+  },
+  {
+   "year": 2016,
+   "quarter": 4,
+   "index_sa": 259.15
+  },
+  {
+   "year": 2017,
+   "quarter": 1,
+   "index_sa": 263.25
+  },
+  {
+   "year": 2017,
+   "quarter": 2,
+   "index_sa": 269.74
+  },
+  {
+   "year": 2017,
+   "quarter": 3,
+   "index_sa": 275.65
+  },
+  {
+   "year": 2017,
+   "quarter": 4,
+   "index_sa": 282.35
+  },
+  {
+   "year": 2018,
+   "quarter": 1,
+   "index_sa": 287.7
+  },
+  {
+   "year": 2018,
+   "quarter": 2,
+   "index_sa": 287.89
+  },
+  {
+   "year": 2018,
+   "quarter": 3,
+   "index_sa": 291.17
+  },
+  {
+   "year": 2018,
+   "quarter": 4,
+   "index_sa": 291.1
+  },
+  {
+   "year": 2019,
+   "quarter": 1,
+   "index_sa": 294.09
+  },
+  {
+   "year": 2019,
+   "quarter": 2,
+   "index_sa": 300.14
+  },
+  {
+   "year": 2019,
+   "quarter": 3,
+   "index_sa": 303.06
+  },
+  {
+   "year": 2019,
+   "quarter": 4,
+   "index_sa": 306.72
+  },
+  {
+   "year": 2020,
+   "quarter": 1,
+   "index_sa": 315.16
+  },
+  {
+   "year": 2020,
+   "quarter": 2,
+   "index_sa": 317.2
+  },
+  {
+   "year": 2020,
+   "quarter": 3,
+   "index_sa": 327.77
+  },
+  {
+   "year": 2020,
+   "quarter": 4,
+   "index_sa": 344.88
+  },
+  {
+   "year": 2021,
+   "quarter": 1,
+   "index_sa": 356.29
+  },
+  {
+   "year": 2021,
+   "quarter": 2,
+   "index_sa": 373.28
+  },
+  {
+   "year": 2021,
+   "quarter": 3,
+   "index_sa": 390.68
+  },
+  {
+   "year": 2021,
+   "quarter": 4,
+   "index_sa": 404.95
+  },
+  {
+   "year": 2022,
+   "quarter": 1,
+   "index_sa": 416.1
+  },
+  {
+   "year": 2022,
+   "quarter": 2,
+   "index_sa": 423.92
+  },
+  {
+   "year": 2022,
+   "quarter": 3,
+   "index_sa": 410.17
+  },
+  {
+   "year": 2022,
+   "quarter": 4,
+   "index_sa": 405.73
+  },
+  {
+   "year": 2023,
+   "quarter": 1,
+   "index_sa": 404.81
+  },
+  {
+   "year": 2023,
+   "quarter": 2,
+   "index_sa": 418.11
+  },
+  {
+   "year": 2023,
+   "quarter": 3,
+   "index_sa": 430.31
+  },
+  {
+   "year": 2023,
+   "quarter": 4,
+   "index_sa": 432.92
+  },
+  {
+   "year": 2024,
+   "quarter": 1,
+   "index_sa": 439.26
+  },
+  {
+   "year": 2024,
+   "quarter": 2,
+   "index_sa": 442.12
+  },
+  {
+   "year": 2024,
+   "quarter": 3,
+   "index_sa": 444.32
+  },
+  {
+   "year": 2024,
+   "quarter": 4,
+   "index_sa": 446.02
+  },
+  {
+   "year": 2025,
+   "quarter": 1,
+   "index_sa": 451.97
+  },
+  {
+   "year": 2025,
+   "quarter": 2,
+   "index_sa": 446.18
+  },
+  {
+   "year": 2025,
+   "quarter": 3,
+   "index_sa": 446.92
+  },
+  {
+   "year": 2025,
+   "quarter": 4,
+   "index_sa": 454.19
+  },
+  {
+   "year": 2026,
+   "quarter": 1,
+   "index_sa": 451.51
+  },
+  {
+   "year": 2026,
+   "quarter": 2,
+   "index_sa": 446.25
+  }
+ ],
+ "note": "Mostly homes bought with standard (conforming) mortgages, so it reflects the wider LA market, not the Palisades.",
+ "source": "Source: FHFA HPI\u00ae (Purchase-Only, seasonally adjusted, nominal).",
+ "built_on": "2026-11-20"
+}

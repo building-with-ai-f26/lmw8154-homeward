@@ -1,0 +1,70 @@
+{
+ "title": "Pacific Palisades: home purchases with a mortgage, and their property values",
+ "area": "7 residential census tracts of Pacific Palisades: 2624.00, 2625.01, 2626.01, 2626.04, 2627.04, 2627.06, 2628.02",
+ "years": [
+  {
+   "year": 2019,
+   "purchase_mortgages": 271,
+   "single_family_with_value": 263,
+   "median_value": 2905000,
+   "p25_value": 1905000,
+   "p75_value": 4475000
+  },
+  {
+   "year": 2020,
+   "purchase_mortgages": 327,
+   "single_family_with_value": 320,
+   "median_value": 2925000,
+   "p25_value": 1990000,
+   "p75_value": 4405000
+  },
+  {
+   "year": 2021,
+   "purchase_mortgages": 468,
+   "single_family_with_value": 453,
+   "median_value": 3475000,
+   "p25_value": 2350000,
+   "p75_value": 5105000
+  },
+  {
+   "year": 2022,
+   "purchase_mortgages": 313,
+   "single_family_with_value": 310,
+   "median_value": 4025000,
+   "p25_value": 2792500,
+   "p75_value": 6017500
+  },
+  {
+   "year": 2023,
+   "purchase_mortgages": 185,
+   "single_family_with_value": 180,
+   "median_value": 3230000,
+   "p25_value": 2332500,
+   "p75_value": 4870000
+  },
+  {
+   "year": 2024,
+   "purchase_mortgages": 196,
+   "single_family_with_value": 194,
+   "median_value": 3230000,
+   "p25_value": 2305000,
+   "p75_value": 5015000
+  },
+  {
+   "year": 2025,
+   "purchase_mortgages": 108,
+   "single_family_with_value": 104,
+   "median_value": 3430000,
+   "p25_value": 2222500,
+   "p75_value": 5677500
+  }
+ ],
+ "caveats": [
+  "Cash purchases are not included.",
+  "Property values are reported rounded.",
+  "The median moves when the mix of homes sold changes; treat it as context, not a price index.",
+  "2025 includes sales before the fire on January 7 and sales of homes that survived."
+ ],
+ "source": "Home Mortgage Disclosure Act (HMDA) public data, FFIEC / CFPB.",
+ "built_on": "2026-11-20"
+}

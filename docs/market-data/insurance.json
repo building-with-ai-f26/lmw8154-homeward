@@ -1,0 +1,63 @@
+{
+ "title": "Pacific Palisades: homeowner insurance policies (voluntary market)",
+ "area": "ZIP 90272",
+ "years": [
+  {
+   "year": 2015,
+   "new": 775,
+   "renewed": 6565,
+   "non_renewed": 782
+  },
+  {
+   "year": 2016,
+   "new": 790,
+   "renewed": 6562,
+   "non_renewed": 789
+  },
+  {
+   "year": 2017,
+   "new": 679,
+   "renewed": 6659,
+   "non_renewed": 662
+  },
+  {
+   "year": 2018,
+   "new": 636,
+   "renewed": 6678,
+   "non_renewed": 637
+  },
+  {
+   "year": 2019,
+   "new": 748,
+   "renewed": 6473,
+   "non_renewed": 777
+  },
+  {
+   "year": 2020,
+   "new": 609,
+   "renewed": 6172,
+   "non_renewed": 560
+  },
+  {
+   "year": 2021,
+   "new": 961,
+   "renewed": 5765,
+   "non_renewed": 950
+  },
+  {
+   "year": 2022,
+   "new": 727,
+   "renewed": 5852,
+   "non_renewed": 731
+  },
+  {
+   "year": 2023,
+   "new": 408,
+   "renewed": 5907,
+   "non_renewed": 571
+  }
+ ],
+ "note": "Pre-fire years only (latest published year is 2023). Non-renewed counts both insurer- and policyholder-initiated where reported separately. Excludes the FAIR Plan.",
+ "source": "California Department of Insurance, residential policies by ZIP code.",
+ "built_on": "2026-11-20"
+}

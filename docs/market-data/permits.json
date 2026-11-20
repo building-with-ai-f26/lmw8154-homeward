@@ -1,0 +1,419 @@
+{
+ "title": "Pacific Palisades: new single-family home permits and completions by month",
+ "area": "ZIP 90272 (City of Los Angeles)",
+ "definition": "Permits of type 'Bldg-New' for 'Dwelling - Single Family'. Completions = certificate of occupancy issued.",
+ "pre_fire_monthly_average_2020_2024": 2.7,
+ "since_fire": {
+  "new_home_permits": 1416,
+  "completions": 96
+ },
+ "months": [
+  {
+   "month": "2020-01",
+   "new_home_permits": 2,
+   "completions": 0
+  },
+  {
+   "month": "2020-02",
+   "new_home_permits": 3,
+   "completions": 0
+  },
+  {
+   "month": "2020-03",
+   "new_home_permits": 4,
+   "completions": 0
+  },
+  {
+   "month": "2020-04",
+   "new_home_permits": 3,
+   "completions": 0
+  },
+  {
+   "month": "2020-05",
+   "new_home_permits": 1,
+   "completions": 0
+  },
+  {
+   "month": "2020-06",
+   "new_home_permits": 1,
+   "completions": 0
+  },
+  {
+   "month": "2020-07",
+   "new_home_permits": 1,
+   "completions": 0
+  },
+  {
+   "month": "2020-09",
+   "new_home_permits": 1,
+   "completions": 0
+  },
+  {
+   "month": "2020-10",
+   "new_home_permits": 5,
+   "completions": 0
+  },
+  {
+   "month": "2020-11",
+   "new_home_permits": 6,
+   "completions": 1
+  },
+  {
+   "month": "2020-12",
+   "new_home_permits": 2,
+   "completions": 0
+  },
+  {
+   "month": "2021-01",
+   "new_home_permits": 1,
+   "completions": 0
+  },
+  {
+   "month": "2021-02",
+   "new_home_permits": 2,
+   "completions": 0
+  },
+  {
+   "month": "2021-03",
+   "new_home_permits": 3,
+   "completions": 2
+  },
+  {
+   "month": "2021-04",
+   "new_home_permits": 3,
+   "completions": 0
+  },
+  {
+   "month": "2021-05",
+   "new_home_permits": 1,
+   "completions": 1
+  },
+  {
+   "month": "2021-06",
+   "new_home_permits": 3,
+   "completions": 0
+  },
+  {
+   "month": "2021-07",
+   "new_home_permits": 3,
+   "completions": 4
+  },
+  {
+   "month": "2021-08",
+   "new_home_permits": 3,
+   "completions": 0
+  },
+  {
+   "month": "2021-09",
+   "new_home_permits": 3,
+   "completions": 2
+  },
+  {
+   "month": "2021-10",
+   "new_home_permits": 2,
+   "completions": 1
+  },
+  {
+   "month": "2021-11",
+   "new_home_permits": 4,
+   "completions": 1
+  },
+  {
+   "month": "2021-12",
+   "new_home_permits": 5,
+   "completions": 0
+  },
+  {
+   "month": "2022-01",
+   "new_home_permits": 0,
+   "completions": 2
+  },
+  {
+   "month": "2022-02",
+   "new_home_permits": 5,
+   "completions": 1
+  },
+  {
+   "month": "2022-03",
+   "new_home_permits": 4,
+   "completions": 0
+  },
+  {
+   "month": "2022-04",
+   "new_home_permits": 3,
+   "completions": 3
+  },
+  {
+   "month": "2022-05",
+   "new_home_permits": 5,
+   "completions": 0
+  },
+  {
+   "month": "2022-06",
+   "new_home_permits": 4,
+   "completions": 1
+  },
+  {
+   "month": "2022-07",
+   "new_home_permits": 5,
+   "completions": 0
+  },
+  {
+   "month": "2022-08",
+   "new_home_permits": 2,
+   "completions": 0
+  },
+  {
+   "month": "2022-09",
+   "new_home_permits": 3,
+   "completions": 1
+  },
+  {
+   "month": "2022-10",
+   "new_home_permits": 2,
+   "completions": 1
+  },
+  {
+   "month": "2022-12",
+   "new_home_permits": 3,
+   "completions": 3
+  },
+  {
+   "month": "2023-01",
+   "new_home_permits": 2,
+   "completions": 2
+  },
+  {
+   "month": "2023-02",
+   "new_home_permits": 5,
+   "completions": 2
+  },
+  {
+   "month": "2023-03",
+   "new_home_permits": 3,
+   "completions": 2
+  },
+  {
+   "month": "2023-04",
+   "new_home_permits": 3,
+   "completions": 2
+  },
+  {
+   "month": "2023-05",
+   "new_home_permits": 1,
+   "completions": 2
+  },
+  {
+   "month": "2023-06",
+   "new_home_permits": 3,
+   "completions": 1
+  },
+  {
+   "month": "2023-07",
+   "new_home_permits": 2,
+   "completions": 1
+  },
+  {
+   "month": "2023-08",
+   "new_home_permits": 3,
+   "completions": 4
+  },
+  {
+   "month": "2023-09",
+   "new_home_permits": 3,
+   "completions": 3
+  },
+  {
+   "month": "2023-10",
+   "new_home_permits": 3,
+   "completions": 0
+  },
+  {
+   "month": "2023-11",
+   "new_home_permits": 2,
+   "completions": 4
+  },
+  {
+   "month": "2023-12",
+   "new_home_permits": 1,
+   "completions": 2
+  },
+  {
+   "month": "2024-01",
+   "new_home_permits": 2,
+   "completions": 1
+  },
+  {
+   "month": "2024-02",
+   "new_home_permits": 3,
+   "completions": 1
+  },
+  {
+   "month": "2024-03",
+   "new_home_permits": 6,
+   "completions": 2
+  },
+  {
+   "month": "2024-04",
+   "new_home_permits": 2,
+   "completions": 3
+  },
+  {
+   "month": "2024-05",
+   "new_home_permits": 3,
+   "completions": 2
+  },
+  {
+   "month": "2024-06",
+   "new_home_permits": 2,
+   "completions": 4
+  },
+  {
+   "month": "2024-07",
+   "new_home_permits": 2,
+   "completions": 4
+  },
+  {
+   "month": "2024-08",
+   "new_home_permits": 1,
+   "completions": 0
+  },
+  {
+   "month": "2024-09",
+   "new_home_permits": 1,
+   "completions": 1
+  },
+  {
+   "month": "2024-10",
+   "new_home_permits": 2,
+   "completions": 2
+  },
+  {
+   "month": "2024-11",
+   "new_home_permits": 1,
+   "completions": 0
+  },
+  {
+   "month": "2024-12",
+   "new_home_permits": 2,
+   "completions": 2
+  },
+  {
+   "month": "2025-01",
+   "new_home_permits": 0,
+   "completions": 1
+  },
+  {
+   "month": "2025-02",
+   "new_home_permits": 0,
+   "completions": 2
+  },
+  {
+   "month": "2025-03",
+   "new_home_permits": 2,
+   "completions": 1
+  },
+  {
+   "month": "2025-04",
+   "new_home_permits": 11,
+   "completions": 2
+  },
+  {
+   "month": "2025-05",
+   "new_home_permits": 31,
+   "completions": 0
+  },
+  {
+   "month": "2025-06",
+   "new_home_permits": 37,
+   "completions": 0
+  },
+  {
+   "month": "2025-07",
+   "new_home_permits": 56,
+   "completions": 0
+  },
+  {
+   "month": "2025-08",
+   "new_home_permits": 67,
+   "completions": 0
+  },
+  {
+   "month": "2025-09",
+   "new_home_permits": 88,
+   "completions": 1
+  },
+  {
+   "month": "2025-10",
+   "new_home_permits": 87,
+   "completions": 0
+  },
+  {
+   "month": "2025-11",
+   "new_home_permits": 62,
+   "completions": 3
+  },
+  {
+   "month": "2025-12",
+   "new_home_permits": 100,
+   "completions": 1
+  },
+  {
+   "month": "2026-01",
+   "new_home_permits": 97,
+   "completions": 3
+  },
+  {
+   "month": "2026-02",
+   "new_home_permits": 87,
+   "completions": 4
+  },
+  {
+   "month": "2026-03",
+   "new_home_permits": 108,
+   "completions": 6
+  },
+  {
+   "month": "2026-04",
+   "new_home_permits": 72,
+   "completions": 6
+  },
+  {
+   "month": "2026-05",
+   "new_home_permits": 62,
+   "completions": 3
+  },
+  {
+   "month": "2026-06",
+   "new_home_permits": 97,
+   "completions": 6
+  },
+  {
+   "month": "2026-07",
+   "new_home_permits": 88,
+   "completions": 11
+  },
+  {
+   "month": "2026-08",
+   "new_home_permits": 64,
+   "completions": 11
+  },
+  {
+   "month": "2026-09",
+   "new_home_permits": 84,
+   "completions": 4
+  },
+  {
+   "month": "2026-10",
+   "new_home_permits": 89,
+   "completions": 19
+  },
+  {
+   "month": "2026-11",
+   "new_home_permits": 27,
+   "completions": 12
+  }
+ ],
+ "source": "City of Los Angeles, Department of Building and Safety, 'Building Permits Issued from 2020 to Present' (data.lacity.org). Provided as is; may contain errors.",
+ "built_on": "2026-11-20"
+}

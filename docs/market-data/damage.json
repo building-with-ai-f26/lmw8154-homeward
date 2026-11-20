@@ -1,0 +1,30 @@
+{
+ "title": "Pacific Palisades: structures inspected after the January 2025 Palisades fire",
+ "area": "ZIP 90272",
+ "residential": {
+  "total": 7435,
+  "by_damage": {
+   "Destroyed (>50%)": 4412,
+   "No Damage": 2436,
+   "Affected (>0-10%)": 420,
+   "Minor (10-25%)": 100,
+   "Major (25-50%)": 37,
+   "Inaccessible": 30
+  },
+  "share_destroyed": 0.593
+ },
+ "all_structures": {
+  "total": 9031,
+  "by_damage": {
+   "Destroyed (>50%)": 5463,
+   "No Damage": 2872,
+   "Affected (>0-10%)": 492,
+   "Minor (10-25%)": 121,
+   "Major (25-50%)": 49,
+   "Inaccessible": 34
+  }
+ },
+ "note": "Residential = single and multiple residences. Inspections cover structures inside or near the fire perimeter, not every home in the ZIP code.",
+ "source": "CAL FIRE Damage Inspection (DINS) data, licensed CC BY. Credit: CAL FIRE.",
+ "built_on": "2026-11-20"
+}

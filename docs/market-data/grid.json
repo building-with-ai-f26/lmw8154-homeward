@@ -1,0 +1,1176 @@
+{
+ "title": "Pacific Palisades recovery by block (about 330 m squares)",
+ "privacy": "Totals per square only. Squares with fewer than 10 inspected homes are left out. No addresses or single properties.",
+ "cell_size_degrees": {
+  "lat": 0.003,
+  "lon": 0.0036
+ },
+ "cells": [
+  {
+   "south": 34.029,
+   "west": -118.5228,
+   "north": 34.032,
+   "east": -118.5192,
+   "homes_inspected": 33,
+   "share_destroyed": 0.0,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.032,
+   "west": -118.53,
+   "north": 34.035,
+   "east": -118.5264,
+   "homes_inspected": 19,
+   "share_destroyed": 0.95,
+   "new_home_permits_since_fire": 9
+  },
+  {
+   "south": 34.032,
+   "west": -118.5264,
+   "north": 34.035,
+   "east": -118.5228,
+   "homes_inspected": 33,
+   "share_destroyed": 0.0,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.032,
+   "west": -118.5228,
+   "north": 34.035,
+   "east": -118.5192,
+   "homes_inspected": 64,
+   "share_destroyed": 0.11,
+   "new_home_permits_since_fire": 2
+  },
+  {
+   "south": 34.035,
+   "west": -118.5408,
+   "north": 34.038,
+   "east": -118.5372,
+   "homes_inspected": 38,
+   "share_destroyed": 1.0,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.035,
+   "west": -118.5372,
+   "north": 34.038,
+   "east": -118.5336,
+   "homes_inspected": 70,
+   "share_destroyed": 1.0,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.035,
+   "west": -118.5336,
+   "north": 34.038,
+   "east": -118.53,
+   "homes_inspected": 64,
+   "share_destroyed": 1.0,
+   "new_home_permits_since_fire": 16
+  },
+  {
+   "south": 34.035,
+   "west": -118.53,
+   "north": 34.038,
+   "east": -118.5264,
+   "homes_inspected": 90,
+   "share_destroyed": 0.97,
+   "new_home_permits_since_fire": 44
+  },
+  {
+   "south": 34.035,
+   "west": -118.5264,
+   "north": 34.038,
+   "east": -118.5228,
+   "homes_inspected": 52,
+   "share_destroyed": 0.79,
+   "new_home_permits_since_fire": 13
+  },
+  {
+   "south": 34.035,
+   "west": -118.5228,
+   "north": 34.038,
+   "east": -118.5192,
+   "homes_inspected": 77,
+   "share_destroyed": 0.03,
+   "new_home_permits_since_fire": 3
+  },
+  {
+   "south": 34.035,
+   "west": -118.5192,
+   "north": 34.038,
+   "east": -118.5156,
+   "homes_inspected": 12,
+   "share_destroyed": 0.0,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.038,
+   "west": -118.5624,
+   "north": 34.041,
+   "east": -118.5588,
+   "homes_inspected": 13,
+   "share_destroyed": 0.38,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.038,
+   "west": -118.5588,
+   "north": 34.041,
+   "east": -118.5552,
+   "homes_inspected": 35,
+   "share_destroyed": 0.29,
+   "new_home_permits_since_fire": 1
+  },
+  {
+   "south": 34.038,
+   "west": -118.5516,
+   "north": 34.041,
+   "east": -118.548,
+   "homes_inspected": 32,
+   "share_destroyed": 0.91,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.038,
+   "west": -118.5444,
+   "north": 34.041,
+   "east": -118.5408,
+   "homes_inspected": 26,
+   "share_destroyed": 0.73,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.038,
+   "west": -118.5408,
+   "north": 34.041,
+   "east": -118.5372,
+   "homes_inspected": 132,
+   "share_destroyed": 0.98,
+   "new_home_permits_since_fire": 7
+  },
+  {
+   "south": 34.038,
+   "west": -118.5372,
+   "north": 34.041,
+   "east": -118.5336,
+   "homes_inspected": 103,
+   "share_destroyed": 0.94,
+   "new_home_permits_since_fire": 14
+  },
+  {
+   "south": 34.038,
+   "west": -118.5336,
+   "north": 34.041,
+   "east": -118.53,
+   "homes_inspected": 74,
+   "share_destroyed": 0.91,
+   "new_home_permits_since_fire": 18
+  },
+  {
+   "south": 34.038,
+   "west": -118.53,
+   "north": 34.041,
+   "east": -118.5264,
+   "homes_inspected": 124,
+   "share_destroyed": 0.95,
+   "new_home_permits_since_fire": 41
+  },
+  {
+   "south": 34.038,
+   "west": -118.5264,
+   "north": 34.041,
+   "east": -118.5228,
+   "homes_inspected": 49,
+   "share_destroyed": 0.86,
+   "new_home_permits_since_fire": 22
+  },
+  {
+   "south": 34.038,
+   "west": -118.5228,
+   "north": 34.041,
+   "east": -118.5192,
+   "homes_inspected": 85,
+   "share_destroyed": 0.61,
+   "new_home_permits_since_fire": 15
+  },
+  {
+   "south": 34.038,
+   "west": -118.5192,
+   "north": 34.041,
+   "east": -118.5156,
+   "homes_inspected": 24,
+   "share_destroyed": 0.17,
+   "new_home_permits_since_fire": 2
+  },
+  {
+   "south": 34.041,
+   "west": -118.566,
+   "north": 34.044,
+   "east": -118.5624,
+   "homes_inspected": 91,
+   "share_destroyed": 0.63,
+   "new_home_permits_since_fire": 11
+  },
+  {
+   "south": 34.041,
+   "west": -118.5624,
+   "north": 34.044,
+   "east": -118.5588,
+   "homes_inspected": 102,
+   "share_destroyed": 0.32,
+   "new_home_permits_since_fire": 6
+  },
+  {
+   "south": 34.041,
+   "west": -118.5588,
+   "north": 34.044,
+   "east": -118.5552,
+   "homes_inspected": 33,
+   "share_destroyed": 0.06,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.041,
+   "west": -118.5516,
+   "north": 34.044,
+   "east": -118.548,
+   "homes_inspected": 81,
+   "share_destroyed": 0.84,
+   "new_home_permits_since_fire": 23
+  },
+  {
+   "south": 34.041,
+   "west": -118.548,
+   "north": 34.044,
+   "east": -118.5444,
+   "homes_inspected": 88,
+   "share_destroyed": 0.84,
+   "new_home_permits_since_fire": 26
+  },
+  {
+   "south": 34.041,
+   "west": -118.5444,
+   "north": 34.044,
+   "east": -118.5408,
+   "homes_inspected": 84,
+   "share_destroyed": 0.9,
+   "new_home_permits_since_fire": 32
+  },
+  {
+   "south": 34.041,
+   "west": -118.5408,
+   "north": 34.044,
+   "east": -118.5372,
+   "homes_inspected": 76,
+   "share_destroyed": 0.96,
+   "new_home_permits_since_fire": 26
+  },
+  {
+   "south": 34.041,
+   "west": -118.5372,
+   "north": 34.044,
+   "east": -118.5336,
+   "homes_inspected": 118,
+   "share_destroyed": 0.29,
+   "new_home_permits_since_fire": 19
+  },
+  {
+   "south": 34.041,
+   "west": -118.5336,
+   "north": 34.044,
+   "east": -118.53,
+   "homes_inspected": 65,
+   "share_destroyed": 0.92,
+   "new_home_permits_since_fire": 20
+  },
+  {
+   "south": 34.041,
+   "west": -118.53,
+   "north": 34.044,
+   "east": -118.5264,
+   "homes_inspected": 141,
+   "share_destroyed": 0.96,
+   "new_home_permits_since_fire": 50
+  },
+  {
+   "south": 34.041,
+   "west": -118.5264,
+   "north": 34.044,
+   "east": -118.5228,
+   "homes_inspected": 46,
+   "share_destroyed": 0.8,
+   "new_home_permits_since_fire": 17
+  },
+  {
+   "south": 34.041,
+   "west": -118.5228,
+   "north": 34.044,
+   "east": -118.5192,
+   "homes_inspected": 122,
+   "share_destroyed": 0.94,
+   "new_home_permits_since_fire": 50
+  },
+  {
+   "south": 34.041,
+   "west": -118.5192,
+   "north": 34.044,
+   "east": -118.5156,
+   "homes_inspected": 76,
+   "share_destroyed": 0.66,
+   "new_home_permits_since_fire": 28
+  },
+  {
+   "south": 34.044,
+   "west": -118.5696,
+   "north": 34.047,
+   "east": -118.566,
+   "homes_inspected": 37,
+   "share_destroyed": 0.03,
+   "new_home_permits_since_fire": 1
+  },
+  {
+   "south": 34.044,
+   "west": -118.566,
+   "north": 34.047,
+   "east": -118.5624,
+   "homes_inspected": 24,
+   "share_destroyed": 0.29,
+   "new_home_permits_since_fire": 1
+  },
+  {
+   "south": 34.044,
+   "west": -118.5624,
+   "north": 34.047,
+   "east": -118.5588,
+   "homes_inspected": 41,
+   "share_destroyed": 0.29,
+   "new_home_permits_since_fire": 1
+  },
+  {
+   "south": 34.044,
+   "west": -118.5588,
+   "north": 34.047,
+   "east": -118.5552,
+   "homes_inspected": 19,
+   "share_destroyed": 0.32,
+   "new_home_permits_since_fire": 3
+  },
+  {
+   "south": 34.044,
+   "west": -118.5552,
+   "north": 34.047,
+   "east": -118.5516,
+   "homes_inspected": 22,
+   "share_destroyed": 0.36,
+   "new_home_permits_since_fire": 1
+  },
+  {
+   "south": 34.044,
+   "west": -118.5516,
+   "north": 34.047,
+   "east": -118.548,
+   "homes_inspected": 25,
+   "share_destroyed": 0.84,
+   "new_home_permits_since_fire": 4
+  },
+  {
+   "south": 34.044,
+   "west": -118.548,
+   "north": 34.047,
+   "east": -118.5444,
+   "homes_inspected": 113,
+   "share_destroyed": 0.88,
+   "new_home_permits_since_fire": 45
+  },
+  {
+   "south": 34.044,
+   "west": -118.5444,
+   "north": 34.047,
+   "east": -118.5408,
+   "homes_inspected": 99,
+   "share_destroyed": 0.92,
+   "new_home_permits_since_fire": 30
+  },
+  {
+   "south": 34.044,
+   "west": -118.5408,
+   "north": 34.047,
+   "east": -118.5372,
+   "homes_inspected": 104,
+   "share_destroyed": 0.9,
+   "new_home_permits_since_fire": 33
+  },
+  {
+   "south": 34.044,
+   "west": -118.5372,
+   "north": 34.047,
+   "east": -118.5336,
+   "homes_inspected": 142,
+   "share_destroyed": 0.25,
+   "new_home_permits_since_fire": 19
+  },
+  {
+   "south": 34.044,
+   "west": -118.5336,
+   "north": 34.047,
+   "east": -118.53,
+   "homes_inspected": 43,
+   "share_destroyed": 0.84,
+   "new_home_permits_since_fire": 14
+  },
+  {
+   "south": 34.044,
+   "west": -118.53,
+   "north": 34.047,
+   "east": -118.5264,
+   "homes_inspected": 95,
+   "share_destroyed": 0.75,
+   "new_home_permits_since_fire": 23
+  },
+  {
+   "south": 34.044,
+   "west": -118.5264,
+   "north": 34.047,
+   "east": -118.5228,
+   "homes_inspected": 23,
+   "share_destroyed": 0.91,
+   "new_home_permits_since_fire": 13
+  },
+  {
+   "south": 34.044,
+   "west": -118.5228,
+   "north": 34.047,
+   "east": -118.5192,
+   "homes_inspected": 175,
+   "share_destroyed": 0.98,
+   "new_home_permits_since_fire": 89
+  },
+  {
+   "south": 34.044,
+   "west": -118.5192,
+   "north": 34.047,
+   "east": -118.5156,
+   "homes_inspected": 108,
+   "share_destroyed": 0.87,
+   "new_home_permits_since_fire": 31
+  },
+  {
+   "south": 34.044,
+   "west": -118.5156,
+   "north": 34.047,
+   "east": -118.512,
+   "homes_inspected": 32,
+   "share_destroyed": 0.22,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.044,
+   "west": -118.512,
+   "north": 34.047,
+   "east": -118.5084,
+   "homes_inspected": 17,
+   "share_destroyed": 0.0,
+   "new_home_permits_since_fire": 1
+  },
+  {
+   "south": 34.047,
+   "west": -118.5696,
+   "north": 34.05,
+   "east": -118.566,
+   "homes_inspected": 44,
+   "share_destroyed": 0.02,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.047,
+   "west": -118.5588,
+   "north": 34.05,
+   "east": -118.5552,
+   "homes_inspected": 30,
+   "share_destroyed": 0.43,
+   "new_home_permits_since_fire": 2
+  },
+  {
+   "south": 34.047,
+   "west": -118.5552,
+   "north": 34.05,
+   "east": -118.5516,
+   "homes_inspected": 15,
+   "share_destroyed": 0.0,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.047,
+   "west": -118.5516,
+   "north": 34.05,
+   "east": -118.548,
+   "homes_inspected": 60,
+   "share_destroyed": 0.55,
+   "new_home_permits_since_fire": 10
+  },
+  {
+   "south": 34.047,
+   "west": -118.548,
+   "north": 34.05,
+   "east": -118.5444,
+   "homes_inspected": 106,
+   "share_destroyed": 0.76,
+   "new_home_permits_since_fire": 30
+  },
+  {
+   "south": 34.047,
+   "west": -118.5444,
+   "north": 34.05,
+   "east": -118.5408,
+   "homes_inspected": 108,
+   "share_destroyed": 0.9,
+   "new_home_permits_since_fire": 23
+  },
+  {
+   "south": 34.047,
+   "west": -118.5408,
+   "north": 34.05,
+   "east": -118.5372,
+   "homes_inspected": 114,
+   "share_destroyed": 0.86,
+   "new_home_permits_since_fire": 18
+  },
+  {
+   "south": 34.047,
+   "west": -118.5372,
+   "north": 34.05,
+   "east": -118.5336,
+   "homes_inspected": 103,
+   "share_destroyed": 0.28,
+   "new_home_permits_since_fire": 9
+  },
+  {
+   "south": 34.047,
+   "west": -118.5336,
+   "north": 34.05,
+   "east": -118.53,
+   "homes_inspected": 11,
+   "share_destroyed": 0.0,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.047,
+   "west": -118.53,
+   "north": 34.05,
+   "east": -118.5264,
+   "homes_inspected": 26,
+   "share_destroyed": 0.69,
+   "new_home_permits_since_fire": 7
+  },
+  {
+   "south": 34.047,
+   "west": -118.5264,
+   "north": 34.05,
+   "east": -118.5228,
+   "homes_inspected": 111,
+   "share_destroyed": 0.96,
+   "new_home_permits_since_fire": 43
+  },
+  {
+   "south": 34.047,
+   "west": -118.5228,
+   "north": 34.05,
+   "east": -118.5192,
+   "homes_inspected": 159,
+   "share_destroyed": 0.99,
+   "new_home_permits_since_fire": 80
+  },
+  {
+   "south": 34.047,
+   "west": -118.5192,
+   "north": 34.05,
+   "east": -118.5156,
+   "homes_inspected": 106,
+   "share_destroyed": 0.92,
+   "new_home_permits_since_fire": 28
+  },
+  {
+   "south": 34.047,
+   "west": -118.5156,
+   "north": 34.05,
+   "east": -118.512,
+   "homes_inspected": 34,
+   "share_destroyed": 0.79,
+   "new_home_permits_since_fire": 9
+  },
+  {
+   "south": 34.047,
+   "west": -118.512,
+   "north": 34.05,
+   "east": -118.5084,
+   "homes_inspected": 33,
+   "share_destroyed": 0.21,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.05,
+   "west": -118.5588,
+   "north": 34.053,
+   "east": -118.5552,
+   "homes_inspected": 10,
+   "share_destroyed": 0.4,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.05,
+   "west": -118.5516,
+   "north": 34.053,
+   "east": -118.548,
+   "homes_inspected": 41,
+   "share_destroyed": 0.68,
+   "new_home_permits_since_fire": 11
+  },
+  {
+   "south": 34.05,
+   "west": -118.548,
+   "north": 34.053,
+   "east": -118.5444,
+   "homes_inspected": 79,
+   "share_destroyed": 0.92,
+   "new_home_permits_since_fire": 20
+  },
+  {
+   "south": 34.05,
+   "west": -118.5444,
+   "north": 34.053,
+   "east": -118.5408,
+   "homes_inspected": 84,
+   "share_destroyed": 0.51,
+   "new_home_permits_since_fire": 4
+  },
+  {
+   "south": 34.05,
+   "west": -118.5408,
+   "north": 34.053,
+   "east": -118.5372,
+   "homes_inspected": 99,
+   "share_destroyed": 0.51,
+   "new_home_permits_since_fire": 16
+  },
+  {
+   "south": 34.05,
+   "west": -118.5372,
+   "north": 34.053,
+   "east": -118.5336,
+   "homes_inspected": 72,
+   "share_destroyed": 0.29,
+   "new_home_permits_since_fire": 8
+  },
+  {
+   "south": 34.05,
+   "west": -118.5336,
+   "north": 34.053,
+   "east": -118.53,
+   "homes_inspected": 42,
+   "share_destroyed": 0.07,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.05,
+   "west": -118.53,
+   "north": 34.053,
+   "east": -118.5264,
+   "homes_inspected": 40,
+   "share_destroyed": 0.95,
+   "new_home_permits_since_fire": 12
+  },
+  {
+   "south": 34.05,
+   "west": -118.5264,
+   "north": 34.053,
+   "east": -118.5228,
+   "homes_inspected": 129,
+   "share_destroyed": 0.95,
+   "new_home_permits_since_fire": 46
+  },
+  {
+   "south": 34.05,
+   "west": -118.5228,
+   "north": 34.053,
+   "east": -118.5192,
+   "homes_inspected": 128,
+   "share_destroyed": 0.89,
+   "new_home_permits_since_fire": 30
+  },
+  {
+   "south": 34.05,
+   "west": -118.5192,
+   "north": 34.053,
+   "east": -118.5156,
+   "homes_inspected": 61,
+   "share_destroyed": 0.92,
+   "new_home_permits_since_fire": 21
+  },
+  {
+   "south": 34.05,
+   "west": -118.5156,
+   "north": 34.053,
+   "east": -118.512,
+   "homes_inspected": 33,
+   "share_destroyed": 0.7,
+   "new_home_permits_since_fire": 3
+  },
+  {
+   "south": 34.05,
+   "west": -118.512,
+   "north": 34.053,
+   "east": -118.5084,
+   "homes_inspected": 16,
+   "share_destroyed": 0.19,
+   "new_home_permits_since_fire": 2
+  },
+  {
+   "south": 34.05,
+   "west": -118.5084,
+   "north": 34.053,
+   "east": -118.5048,
+   "homes_inspected": 33,
+   "share_destroyed": 0.15,
+   "new_home_permits_since_fire": 1
+  },
+  {
+   "south": 34.053,
+   "west": -118.5516,
+   "north": 34.056,
+   "east": -118.548,
+   "homes_inspected": 33,
+   "share_destroyed": 0.48,
+   "new_home_permits_since_fire": 6
+  },
+  {
+   "south": 34.053,
+   "west": -118.548,
+   "north": 34.056,
+   "east": -118.5444,
+   "homes_inspected": 71,
+   "share_destroyed": 0.56,
+   "new_home_permits_since_fire": 15
+  },
+  {
+   "south": 34.053,
+   "west": -118.5444,
+   "north": 34.056,
+   "east": -118.5408,
+   "homes_inspected": 12,
+   "share_destroyed": 0.75,
+   "new_home_permits_since_fire": 3
+  },
+  {
+   "south": 34.053,
+   "west": -118.5408,
+   "north": 34.056,
+   "east": -118.5372,
+   "homes_inspected": 53,
+   "share_destroyed": 0.28,
+   "new_home_permits_since_fire": 4
+  },
+  {
+   "south": 34.053,
+   "west": -118.5372,
+   "north": 34.056,
+   "east": -118.5336,
+   "homes_inspected": 49,
+   "share_destroyed": 0.71,
+   "new_home_permits_since_fire": 12
+  },
+  {
+   "south": 34.053,
+   "west": -118.5336,
+   "north": 34.056,
+   "east": -118.53,
+   "homes_inspected": 32,
+   "share_destroyed": 0.25,
+   "new_home_permits_since_fire": 2
+  },
+  {
+   "south": 34.053,
+   "west": -118.5264,
+   "north": 34.056,
+   "east": -118.5228,
+   "homes_inspected": 48,
+   "share_destroyed": 0.9,
+   "new_home_permits_since_fire": 9
+  },
+  {
+   "south": 34.053,
+   "west": -118.5228,
+   "north": 34.056,
+   "east": -118.5192,
+   "homes_inspected": 77,
+   "share_destroyed": 0.75,
+   "new_home_permits_since_fire": 7
+  },
+  {
+   "south": 34.053,
+   "west": -118.5192,
+   "north": 34.056,
+   "east": -118.5156,
+   "homes_inspected": 17,
+   "share_destroyed": 0.41,
+   "new_home_permits_since_fire": 3
+  },
+  {
+   "south": 34.053,
+   "west": -118.5084,
+   "north": 34.056,
+   "east": -118.5048,
+   "homes_inspected": 31,
+   "share_destroyed": 0.35,
+   "new_home_permits_since_fire": 2
+  },
+  {
+   "south": 34.056,
+   "west": -118.5516,
+   "north": 34.059,
+   "east": -118.548,
+   "homes_inspected": 54,
+   "share_destroyed": 0.17,
+   "new_home_permits_since_fire": 1
+  },
+  {
+   "south": 34.056,
+   "west": -118.548,
+   "north": 34.059,
+   "east": -118.5444,
+   "homes_inspected": 64,
+   "share_destroyed": 0.5,
+   "new_home_permits_since_fire": 7
+  },
+  {
+   "south": 34.056,
+   "west": -118.5444,
+   "north": 34.059,
+   "east": -118.5408,
+   "homes_inspected": 68,
+   "share_destroyed": 0.18,
+   "new_home_permits_since_fire": 2
+  },
+  {
+   "south": 34.056,
+   "west": -118.5408,
+   "north": 34.059,
+   "east": -118.5372,
+   "homes_inspected": 33,
+   "share_destroyed": 0.27,
+   "new_home_permits_since_fire": 1
+  },
+  {
+   "south": 34.056,
+   "west": -118.5372,
+   "north": 34.059,
+   "east": -118.5336,
+   "homes_inspected": 12,
+   "share_destroyed": 0.25,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.059,
+   "west": -118.5516,
+   "north": 34.062,
+   "east": -118.548,
+   "homes_inspected": 53,
+   "share_destroyed": 0.3,
+   "new_home_permits_since_fire": 4
+  },
+  {
+   "south": 34.059,
+   "west": -118.548,
+   "north": 34.062,
+   "east": -118.5444,
+   "homes_inspected": 50,
+   "share_destroyed": 0.06,
+   "new_home_permits_since_fire": 2
+  },
+  {
+   "south": 34.059,
+   "west": -118.5444,
+   "north": 34.062,
+   "east": -118.5408,
+   "homes_inspected": 48,
+   "share_destroyed": 0.12,
+   "new_home_permits_since_fire": 2
+  },
+  {
+   "south": 34.059,
+   "west": -118.5048,
+   "north": 34.062,
+   "east": -118.5012,
+   "homes_inspected": 18,
+   "share_destroyed": 0.06,
+   "new_home_permits_since_fire": 1
+  },
+  {
+   "south": 34.062,
+   "west": -118.5552,
+   "north": 34.065,
+   "east": -118.5516,
+   "homes_inspected": 10,
+   "share_destroyed": 0.2,
+   "new_home_permits_since_fire": 1
+  },
+  {
+   "south": 34.062,
+   "west": -118.5516,
+   "north": 34.065,
+   "east": -118.548,
+   "homes_inspected": 32,
+   "share_destroyed": 0.09,
+   "new_home_permits_since_fire": 1
+  },
+  {
+   "south": 34.062,
+   "west": -118.548,
+   "north": 34.065,
+   "east": -118.5444,
+   "homes_inspected": 10,
+   "share_destroyed": 0.0,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.062,
+   "west": -118.5444,
+   "north": 34.065,
+   "east": -118.5408,
+   "homes_inspected": 19,
+   "share_destroyed": 0.0,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.062,
+   "west": -118.5048,
+   "north": 34.065,
+   "east": -118.5012,
+   "homes_inspected": 19,
+   "share_destroyed": 0.11,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.065,
+   "west": -118.5552,
+   "north": 34.068,
+   "east": -118.5516,
+   "homes_inspected": 14,
+   "share_destroyed": 0.71,
+   "new_home_permits_since_fire": 1
+  },
+  {
+   "south": 34.068,
+   "west": -118.5624,
+   "north": 34.071,
+   "east": -118.5588,
+   "homes_inspected": 48,
+   "share_destroyed": 0.15,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.068,
+   "west": -118.5552,
+   "north": 34.071,
+   "east": -118.5516,
+   "homes_inspected": 46,
+   "share_destroyed": 0.41,
+   "new_home_permits_since_fire": 6
+  },
+  {
+   "south": 34.068,
+   "west": -118.5516,
+   "north": 34.071,
+   "east": -118.548,
+   "homes_inspected": 18,
+   "share_destroyed": 0.06,
+   "new_home_permits_since_fire": 1
+  },
+  {
+   "south": 34.071,
+   "west": -118.566,
+   "north": 34.074,
+   "east": -118.5624,
+   "homes_inspected": 33,
+   "share_destroyed": 0.18,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.071,
+   "west": -118.5624,
+   "north": 34.074,
+   "east": -118.5588,
+   "homes_inspected": 87,
+   "share_destroyed": 0.0,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.071,
+   "west": -118.5588,
+   "north": 34.074,
+   "east": -118.5552,
+   "homes_inspected": 18,
+   "share_destroyed": 0.22,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.071,
+   "west": -118.5552,
+   "north": 34.074,
+   "east": -118.5516,
+   "homes_inspected": 21,
+   "share_destroyed": 0.14,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.071,
+   "west": -118.5516,
+   "north": 34.074,
+   "east": -118.548,
+   "homes_inspected": 81,
+   "share_destroyed": 0.21,
+   "new_home_permits_since_fire": 7
+  },
+  {
+   "south": 34.071,
+   "west": -118.548,
+   "north": 34.074,
+   "east": -118.5444,
+   "homes_inspected": 18,
+   "share_destroyed": 0.0,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.074,
+   "west": -118.566,
+   "north": 34.077,
+   "east": -118.5624,
+   "homes_inspected": 37,
+   "share_destroyed": 0.0,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.074,
+   "west": -118.5624,
+   "north": 34.077,
+   "east": -118.5588,
+   "homes_inspected": 42,
+   "share_destroyed": 0.36,
+   "new_home_permits_since_fire": 3
+  },
+  {
+   "south": 34.074,
+   "west": -118.5588,
+   "north": 34.077,
+   "east": -118.5552,
+   "homes_inspected": 37,
+   "share_destroyed": 0.59,
+   "new_home_permits_since_fire": 4
+  },
+  {
+   "south": 34.074,
+   "west": -118.5552,
+   "north": 34.077,
+   "east": -118.5516,
+   "homes_inspected": 54,
+   "share_destroyed": 0.0,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.074,
+   "west": -118.5516,
+   "north": 34.077,
+   "east": -118.548,
+   "homes_inspected": 98,
+   "share_destroyed": 0.13,
+   "new_home_permits_since_fire": 8
+  },
+  {
+   "south": 34.074,
+   "west": -118.548,
+   "north": 34.077,
+   "east": -118.5444,
+   "homes_inspected": 29,
+   "share_destroyed": 0.52,
+   "new_home_permits_since_fire": 8
+  },
+  {
+   "south": 34.077,
+   "west": -118.5768,
+   "north": 34.08,
+   "east": -118.5732,
+   "homes_inspected": 10,
+   "share_destroyed": 0.1,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.077,
+   "west": -118.5732,
+   "north": 34.08,
+   "east": -118.5696,
+   "homes_inspected": 35,
+   "share_destroyed": 0.03,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.077,
+   "west": -118.5696,
+   "north": 34.08,
+   "east": -118.566,
+   "homes_inspected": 17,
+   "share_destroyed": 0.47,
+   "new_home_permits_since_fire": 5
+  },
+  {
+   "south": 34.077,
+   "west": -118.566,
+   "north": 34.08,
+   "east": -118.5624,
+   "homes_inspected": 71,
+   "share_destroyed": 0.13,
+   "new_home_permits_since_fire": 5
+  },
+  {
+   "south": 34.077,
+   "west": -118.5624,
+   "north": 34.08,
+   "east": -118.5588,
+   "homes_inspected": 72,
+   "share_destroyed": 0.42,
+   "new_home_permits_since_fire": 12
+  },
+  {
+   "south": 34.077,
+   "west": -118.5588,
+   "north": 34.08,
+   "east": -118.5552,
+   "homes_inspected": 12,
+   "share_destroyed": 1.0,
+   "new_home_permits_since_fire": 3
+  },
+  {
+   "south": 34.077,
+   "west": -118.5552,
+   "north": 34.08,
+   "east": -118.5516,
+   "homes_inspected": 11,
+   "share_destroyed": 0.55,
+   "new_home_permits_since_fire": 0
+  },
+  {
+   "south": 34.077,
+   "west": -118.5516,
+   "north": 34.08,
+   "east": -118.548,
+   "homes_inspected": 36,
+   "share_destroyed": 0.33,
+   "new_home_permits_since_fire": 1
+  }
+ ],
+ "sources": [
+  "CAL FIRE DINS (CC BY)",
+  "City of Los Angeles, LADBS building permits (data.lacity.org)"
+ ],
+ "built_on": "2026-11-20"
+}
