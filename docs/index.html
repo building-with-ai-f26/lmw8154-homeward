@@ -294,7 +294,7 @@
               <li><strong>Hosting:</strong> a small Node server on Render (free tier), with this Product Page staying on GitHub Pages.</li>
               <li><strong>Database and sign-in:</strong> none. The app saves nothing on the server, so it doesn't need either.</li>
               <li><strong>Security:</strong> the OpenRouter key lives only in Render's settings, the AI route is rate-limited per visitor with a daily cap and a size limit, the OpenRouter key has a monthly spending cap, and PostHog masks every input. Details in <code>SECURITY.md</code>.</li>
-              <li><strong>Cost per run:</strong> the calculator is free. Each AI summary is estimated at a few cents, to be measured on the live app.</li>
+              <li><strong>Cost per run:</strong> the calculator is free. Each AI summary costs about a cent: the 20 summaries in the live security tests cost $0.22 in total.</li>
             </ul>
           </div>
         </div>
@@ -402,12 +402,13 @@
               <li><strong>Cost & time this week:</strong> $0.24 · 5 hours</li>
             </ul>
           </div>
-          <div class="log-entry">
+          <div class="log-entry done">
             <h3>Build 3 · Build.exe: The Core Workflow (Due Nov 23)</h3>
             <ul>
-              <li><strong>What shipped:</strong> [End-to-end workflow working with real inputs + PostHog funnel events]</li>
-              <li><strong>What broke / changed in PRD:</strong> [Fill in]</li>
-              <li><strong>Cost & time this week:</strong> $[0.00] · [0] hours</li>
+              <li><strong>What shipped:</strong> Homeward pivoted and went live at <a href="https://homeward-ccma.onrender.com">homeward-ccma.onrender.com</a> (Render, beginner lane, no database or sign-in). It is now a rebuild, sell, or hold decision tool for Pacific Palisades homeowners: a calculator comparing three paths under slow, typical and fast recovery, a break-even scale, projection ranges, a rebuild-or-sell-the-lot check, family decision mode, a plain-language "what does this mean?", an AI summary that only sees rounded numbers, a private share link and a printable one-pager. A Recovery pulse page shows Palisades damage, rebuild permits, completions, sales and insurance history from public data, including a block-by-block grid. The Conflict Tracker and Business Directory are gone. Security audit in <code>SECURITY.md</code>; AGENTS.md now has Shipping, Ask me first, and rules from real mistakes.</li>
+              <li><strong>Things learned with AI:</strong> Passing tests on my laptop didn't mean the live app was safe. The first live security test let 15 of 30 AI calls through instead of 5, because behind Render's proxies my one laptop looked like three visitors; it only showed up when I tested the real URL. Privacy needs checking in places I wouldn't have thought of: session replay would have recorded the dollar results on screen, so the calculator is now hidden from replays. And every dataset needed its terms checked before use, which ruled out Zillow and Redfin.</li>
+              <li><strong>What broke / changed in PRD:</strong> I pivoted away from pasting emails from the builder, HOA, insurer and city, because I didn't want the product built on other people's messages, and the question my parents actually ask is about money and timing. FHFA publishes no Pacific Palisades ZIP prices after 2021 (most sales there use jumbo loans or cash), so HMDA mortgage data became the price source, and the app shows ranges, not forecasts. My OpenRouter key was set to expire Dec 5, before Build 5, so I replaced it with a key that has a $4 monthly cap. A hidden screen-reader label made pages scroll sideways on phones; fixed. PRD v3 covers the new scope, privacy and hosting.</li>
+              <li><strong>Cost & time this week:</strong> $0.22 · 3 hours</li>
             </ul>
           </div>
           <div class="log-entry">
