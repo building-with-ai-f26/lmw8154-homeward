@@ -77,17 +77,21 @@
     if (kind === "percent") return v + "%";
     return String(v);
   }
-  function parse(kind, text) {
-    const n = Number(String(text).replace(/[^0-9.]/g, ""));
-    if (!Number.isFinite(n) || String(text).trim() === "") return null;
-    if (kind === "dollars" || kind === "monthly") return n / 1e6;
-    return n;
+  const parse = C.parseAmount;
+  // "Use my own numbers": which boxes still need filling in.
+  let blanks = new Set();
+  function visibleMoneyInputs() {
+    return [...form.querySelectorAll("input[data-kind='dollars'], input[data-kind='monthly']")]
+      .filter((inp) => !inp.closest("[data-for]").hidden);
   }
   function fieldKey(input) { return input.name === "homeValueStanding" ? "homeValueStanding" : input.name; }
 
   function fillForm() {
     form.querySelectorAll("input[data-kind]").forEach((inp) => {
-      if (document.activeElement !== inp) inp.value = display(inp.dataset.kind, state[fieldKey(inp)]);
+      const key = fieldKey(inp);
+      if (blanks.has(key)) { if (document.activeElement !== inp) inp.value = ""; inp.placeholder = "e.g. 2.4M"; }
+      else if (document.activeElement !== inp) inp.value = display(inp.dataset.kind, state[key]);
+      inp.closest(".money-field").classList.toggle("needs", blanks.has(key));
     });
     form.querySelectorAll('input[type="range"]').forEach((inp) => {
       inp.value = state[inp.name];
@@ -97,6 +101,7 @@
     form.querySelector(`input[name="speed"][value="${state.speed}"]`).checked = true;
     form.querySelectorAll("[data-for]").forEach((el) => { el.hidden = !el.dataset.for.split(" ").includes(state.situation); });
     $("example-tag").textContent = edited ? "Your numbers · saved on this device" : "Example numbers · tap any box to edit";
+    updateWaiting();
   }
 
   // ---------- Animated numbers ----------
@@ -150,6 +155,7 @@
       : `Values could fall up to ${Math.abs(g).toFixed(1)}% a year and holding would still come out ahead.`;
     $("verdict-sub").textContent = `${gText} Your ${speed.label.toLowerCase()} scenario projects ${C.money(c.priceN)} in ${yearN}.`;
     drawGauge(c, s, speed, yearN);
+    $("explain-text").textContent = explanation(result, yearN);
 
     // Paths
     const better = c.sellLater >= c.sellNowAtN ? 1 : 0;
@@ -172,6 +178,29 @@
     drawChart(result, yearN);
     renderLotCheck(result.lotCheck);
     renderFamily(s, c, titles);
+  }
+
+  // Plain-language reading of the break-even, built from the family's own numbers.
+  function explanation(result, yearN) {
+    const s = result.inputs, c = result.chosen;
+    const carry = C.carrying(s, s.sellInYears);
+    const costs = `${s.sellingCostPct}% selling costs, ${s.sellInYears} years of monthly costs (about ${C.money(carry)})`;
+    const oop = c.outOfPocket > 0 ? `, the ${C.money(c.outOfPocket)} of rebuilding that insurance doesn't cover` : "";
+    const earn = `what that money could have earned at ${s.returnPct}% a year (it would grow to about ${C.money(c.sellNowAtN)} by ${yearN})`;
+    let first;
+    if (s.situation === "lot") first = `If you rebuild and sell in ${yearN}, the home has to sell for at least ${C.money(c.breakEven)} for you to end up with more than selling the lot today for about ${C.money(c.sellNow)} after costs. That price covers ${costs}${oop}, and ${earn}.`;
+    else if (s.situation === "rebuilding") first = `If you hold until ${yearN} instead of selling when the rebuild is done in ${thisYear + c.sellNowYear}, the home has to sell for at least ${C.money(c.breakEven)} to come out ahead. That price covers ${costs}${oop}, and ${earn}.`;
+    else first = `If you hold until ${yearN}, the home has to sell for at least ${C.money(c.breakEven)} to beat selling now for about ${C.money(c.sellNow)} after costs. That price covers ${costs}, and ${earn}.`;
+    const diff = c.priceN - c.breakEven;
+    const second = `Your ${C.SPEEDS[s.speed].label.toLowerCase()} recovery scenario projects ${C.money(c.priceN)}, which is ${C.money(Math.abs(diff))} ${diff >= 0 ? "above" : "below"} that line. Try Slow and Fast to see how much room there is.`;
+    return `${first} ${second}`;
+  }
+
+  function updateWaiting() {
+    const needed = visibleMoneyInputs().some((inp) => blanks.has(fieldKey(inp)));
+    $("results").classList.toggle("waiting", needed);
+    $("waiting-note").hidden = !needed;
+    $("mobile-bar").hidden = needed;
   }
 
   function drawGauge(c, s, speed, yearN) {
@@ -354,6 +383,7 @@
       const v = parse(t.dataset.kind, t.value);
       if (v === null) return;
       state[fieldKey(t)] = v;
+      if (blanks.delete(fieldKey(t))) { t.closest(".money-field").classList.remove("needs"); updateWaiting(); }
       edited = true;
       render(); remember(); // the calculator caps out-of-range numbers itself
     }
@@ -373,6 +403,25 @@
     people.push({ name: `Person ${people.length + 1}`, weights: { money: 3, stay: 3, hassle: 3, sooner: 3 } });
     renderPeopleEditors(); changed(false);
     track("family_member_added", { people: people.length });
+  });
+
+  // ---------- Start fresh / reset ----------
+  $("fresh-btn").addEventListener("click", () => {
+    blanks = new Set(visibleMoneyInputs().map(fieldKey));
+    edited = true;
+    fillForm(); remember();
+    const first = visibleMoneyInputs()[0];
+    if (first) first.focus();
+    track("start_fresh", { situation: state.situation });
+  });
+  $("reset-btn").addEventListener("click", () => {
+    const situation = state.situation;
+    state = Object.assign({}, C.DEFAULTS, { homeValueStanding: 3.0, situation });
+    people = EXAMPLE_PEOPLE.map((p) => ({ name: p.name, weights: Object.assign({}, p.weights) }));
+    blanks = new Set();
+    edited = false;
+    renderPeopleEditors(); fillForm(); render(); remember();
+    track("reset_examples", {});
   });
 
   // ---------- AI summary ----------
@@ -448,6 +497,11 @@
       const src = document.createElement("span"); src.textContent = `City of LA, LADBS · data pulled ${isNaN(dt) ? d.built_on : dt.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`;
       const link = document.createElement("a"); link.href = "/pulse"; link.textContent = "See the recovery pulse";
       strip.append(a, src, link);
+      const hint = $("speed-data");
+      hint.replaceChildren();
+      const go = document.createElement("a"); go.href = "/pulse"; go.textContent = "See the recovery pulse →";
+      hint.append(`So far in Pacific Palisades: ${d.since_fire.new_home_permits.toLocaleString("en-US")} new-home permits since the fire, ${d.since_fire.completions.toLocaleString("en-US")} homes finished. `, go);
+      hint.hidden = false;
     } catch (e) { /* context is optional */ }
   }
 

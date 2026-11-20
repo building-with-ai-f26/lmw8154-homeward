@@ -196,6 +196,24 @@ details.how th, details.how td { text-align: left; padding: 4px 12px 4px 0; bord
   .decide { padding-bottom: 96px; }
 }
 
+/* Start fresh / reset */
+.start-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-top: 14px; }
+.app-btn.small { min-height: 44px; padding: 9px 14px; font-size: 0.875rem; }
+.link-btn { border: 0; background: none; padding: 10px 0; font: 600 0.875rem var(--font-body); color: var(--app-accent); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.money-field.needs input { border-color: var(--app-clay); box-shadow: 0 0 0 3px rgba(194, 97, 31, 0.15); }
+.decide-results.waiting > :not(.waiting-note) { opacity: 0.3; pointer-events: none; filter: grayscale(0.4); }
+.waiting-note { margin: 0; padding: 14px 18px; border-left: 3px solid var(--app-clay); background: #F6ECDA; color: var(--app-ink); font-weight: 600; }
+
+/* Plain-language explanation inside the dark verdict panel */
+.explain { position: relative; margin-top: 14px; color: var(--app-night-muted); font-size: 0.9375rem; }
+.explain summary { cursor: pointer; color: var(--app-sky); font-weight: 600; width: fit-content; }
+.explain summary:focus-visible { outline: 2px solid var(--app-sky); outline-offset: 3px; }
+.explain p { margin: 10px 0 0; max-width: 70ch; color: var(--app-night-text); line-height: 1.6; }
+
+/* Real data hint under the recovery speed picker */
+.speed-data { margin: 8px 0 0; font-size: 0.8125rem; color: #3C4651; padding: 8px 10px; background: #EEF3F6; border-radius: 4px; }
+.speed-data a { font-weight: 600; }
+
 /* Reduce motion: no transitions anywhere in the app. */
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 

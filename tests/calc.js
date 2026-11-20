@@ -59,6 +59,18 @@ check("results are finite numbers", [r.chosen.sellNow, r.chosen.sellLater, r.cho
 r = C.run(JSON.parse('{"__proto__": {"polluted": true}, "situation": "standing", "evil": 1}'));
 check("odd keys in a shared link are ignored", r.inputs.polluted === undefined && r.inputs.evil === undefined && ({}).polluted === undefined && r.inputs.situation === "standing");
 
+// 4b. Typing amounts in different ways (dollar boxes are in $ millions).
+const P = C.parseAmount;
+near("'2,400,000' -> 2.4", P("dollars", "2,400,000"), 2.4);
+near("'$2.4M' -> 2.4", P("dollars", "$2.4M"), 2.4);
+near("'2.4 million' -> 2.4", P("dollars", "2.4 million"), 2.4);
+near("'750K' -> 0.75", P("dollars", "750K"), 0.75);
+near("'5,500' monthly -> 0.0055", P("monthly", "5,500"), 0.0055);
+near("'6%' -> 6", P("percent", "6%"), 6);
+check("'abc' is rejected", P("dollars", "abc") === null);
+check("empty box is rejected", P("dollars", "") === null);
+check("'2.4M' in a years box is rejected", P("years", "2.4M") === null);
+
 // 5. Family decision mode.
 r = C.run({});
 const onlyStay = C.familyFit(r.inputs, r.chosen, [{ name: "A", weights: { money: 0, stay: 5, hassle: 0, sooner: 0 } }]);

@@ -52,6 +52,11 @@
           <h2 id="in-h">Your situation</h2>
           <span class="example-tag" id="example-tag">Example numbers · tap any box to edit</span>
         </div>
+        <div class="start-row no-print">
+          <button type="button" class="app-btn ghost small" id="fresh-btn">Use my own numbers</button>
+          <button type="button" class="link-btn" id="reset-btn">Reset to examples</button>
+        </div>
+        <p class="fine" style="margin: 8px 0 0">Type amounts any way you like: 2,400,000, 2.4M or 750K.</p>
 
         <fieldset class="field-set">
           <legend>Your property today</legend>
@@ -64,23 +69,23 @@
 
         <div id="money-fields">
           <label class="money-field" data-for="lot"><span>Lot value today<span class="hint">What the empty lot would sell for</span></span>
-            <input name="lotValue" data-kind="dollars" inputmode="numeric" autocomplete="off" /></label>
+            <input name="lotValue" data-kind="dollars" inputmode="text" autocomplete="off" /></label>
           <label class="money-field" data-for="lot rebuilding"><span>Home value once rebuilt<span class="hint">In today's dollars</span></span>
-            <input name="homeValue" data-kind="dollars" inputmode="numeric" autocomplete="off" /></label>
+            <input name="homeValue" data-kind="dollars" inputmode="text" autocomplete="off" /></label>
           <label class="money-field" data-for="standing"><span>Home value today</span>
-            <input name="homeValueStanding" data-kind="dollars" inputmode="numeric" autocomplete="off" /></label>
+            <input name="homeValueStanding" data-kind="dollars" inputmode="text" autocomplete="off" /></label>
           <label class="money-field" data-for="lot rebuilding"><span>Rebuild cost still to pay</span>
-            <input name="rebuildCostLeft" data-kind="dollars" inputmode="numeric" autocomplete="off" /></label>
+            <input name="rebuildCostLeft" data-kind="dollars" inputmode="text" autocomplete="off" /></label>
           <label class="money-field" data-for="lot rebuilding"><span>Insurance money still coming<span class="hint">For the rebuild</span></span>
-            <input name="insuranceLeft" data-kind="dollars" inputmode="numeric" autocomplete="off" /></label>
+            <input name="insuranceLeft" data-kind="dollars" inputmode="text" autocomplete="off" /></label>
           <label class="money-field" data-for="lot"><span>Insurance you'd keep if you sell<span class="hint">Depends on your policy. Ask your insurer.</span></span>
-            <input name="insuranceIfSell" data-kind="dollars" inputmode="numeric" autocomplete="off" /></label>
+            <input name="insuranceIfSell" data-kind="dollars" inputmode="text" autocomplete="off" /></label>
           <label class="money-field" data-for="lot rebuilding"><span>Years until the rebuild is done</span>
             <input name="yearsToRebuild" data-kind="years" inputmode="numeric" autocomplete="off" /></label>
           <label class="money-field" data-for="lot rebuilding standing"><span>Monthly costs<span class="hint">Mortgage, property tax, HOA, upkeep</span></span>
-            <input name="monthlyCarry" data-kind="monthly" inputmode="numeric" autocomplete="off" /></label>
+            <input name="monthlyCarry" data-kind="monthly" inputmode="text" autocomplete="off" /></label>
           <label class="money-field" data-for="lot rebuilding standing"><span>Monthly home insurance</span>
-            <input name="monthlyInsurance" data-kind="monthly" inputmode="numeric" autocomplete="off" /></label>
+            <input name="monthlyInsurance" data-kind="monthly" inputmode="text" autocomplete="off" /></label>
           <label class="money-field" data-for="lot rebuilding standing"><span>Sell later, in how many years</span>
             <input name="sellInYears" data-kind="years" inputmode="numeric" autocomplete="off" /></label>
           <label class="money-field" data-for="lot rebuilding standing"><span>Selling costs<span class="hint">Agent fees and closing</span></span>
@@ -97,6 +102,7 @@
             <label><input type="radio" name="speed" value="fast" /><span>Fast</span></label>
           </div>
           <p class="speed-note" id="speed-note"></p>
+          <p class="speed-data" id="speed-data" hidden></p>
         </fieldset>
 
         <div id="sliders">
@@ -111,6 +117,7 @@
       </form>
 
       <section class="decide-results ph-no-capture" id="results" aria-label="Results" aria-live="polite">
+        <p class="waiting-note" id="waiting-note" hidden>Fill in the highlighted boxes on the left to see your results.</p>
         <div class="verdict">
           <svg class="contours" id="contours" aria-hidden="true" viewBox="0 0 900 340" preserveAspectRatio="xMidYMid slice"></svg>
           <div class="verdict-top">
@@ -121,6 +128,10 @@
             <p class="big num" id="breakeven"></p>
           </div>
           <p class="sub num" id="verdict-sub"></p>
+          <details class="explain" id="explain">
+            <summary>What does this mean?</summary>
+            <p id="explain-text"></p>
+          </details>
           <svg class="gauge" id="gauge" viewBox="0 0 680 110" role="img"></svg>
         </div>
 

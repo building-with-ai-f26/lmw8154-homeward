@@ -51,7 +51,7 @@ private/, data/        Git-ignored; never committed, never served
 - **Where:** PostHog's official snippet sits in the `<head>` of every page in `docs/` and `public/`. Region US (`https://us.i.posthog.com`). The `phc_` project key is public by design.
 - **What's collected:** pageviews, autocaptured clicks, and session replay with every input masked.
 - **What's never collected:** on the Decide page, the inputs form (`#inputs`) and results (`#results`) have `ph-no-capture`, so replays and click capture skip everything a family types or sees as a result. Shared-link numbers are removed from the address bar before PostHog loads.
-- **Custom events:** `scenario_changed` (situation, speed), `summary_requested` (situation, speed), `share_link_created`, `print_clicked`, `family_member_added` (people count), `pulse_grid_mode` (mode). Never send dollar amounts, names or addresses.
+- **Custom events:** `scenario_changed` (situation, speed), `summary_requested` (situation, speed), `share_link_created`, `print_clicked`, `family_member_added` (people count), `start_fresh` (situation), `reset_examples`, `pulse_grid_mode` (mode). Never send dollar amounts, names or addresses.
 
 ## 5. Shipping (deploying to Render)
 First deploy (the human does steps 1–4; the agent can guide):

@@ -176,6 +176,22 @@
     return sign + "$" + Math.round(a * 1000) + "K";
   }
 
+  // Reads what someone typed in a box. Dollar boxes accept "2,400,000", "$2.4M", "2.4 million",
+  // "750K" or "750 thousand". Returns millions for dollar boxes, a plain number otherwise, or null.
+  function parseAmount(kind, text) {
+    const t = String(text == null ? "" : text).trim().toLowerCase().replace(/[$,%\s]/g, "");
+    const m = t.match(/^(\d*\.?\d+)(m|mm|mil|million|k|thousand)?$/);
+    if (!m) return null;
+    let n = Number(m[1]);
+    if (!Number.isFinite(n)) return null;
+    if (kind === "dollars" || kind === "monthly") {
+      if (m[2] && m[2][0] === "m") n *= 1e6;
+      else if (m[2]) n *= 1e3;
+      return n / 1e6;
+    }
+    return m[2] ? null : n;
+  }
+
   // Rounded copy for the AI summary: no more detail than it needs.
   function roundedForSummary(result) {
     const s = result.inputs, c = result.chosen;
@@ -191,7 +207,7 @@
   }
 
   const api = { SPEEDS, SITUATIONS, DEFAULTS, LIMITS, PRIORITIES, FIT, normalize, carrying, scenario, lotCheck,
-                familyFit, run, projection, money, roundedForSummary };
+                familyFit, run, projection, money, roundedForSummary, parseAmount };
   if (typeof module === "object" && module.exports) module.exports = api;
   else root.HomewardCalc = api;
 })(typeof window !== "undefined" ? window : globalThis);
