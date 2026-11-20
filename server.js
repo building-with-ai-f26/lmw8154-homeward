@@ -1,36 +1,53 @@
-// Homeward Build 1 prototype: a small local web server with no dependencies.
-// Start it with `npm start`, then open http://localhost:3000.
+// Homeward web server: no dependencies, stores nothing.
+// Locally: `npm start`, then open http://localhost:3000. On Render: started the same way.
+//
+// What it does:
+//   - serves the app pages (public/) and an allowlist of shared files from docs/
+//   - POST /api/summary: turns rounded numbers into a plain-language summary with the AI
+// What it never does: save anything a visitor types, or serve any file not on the allowlist.
 const http = require("node:http");
 const fs = require("node:fs");
 const path = require("node:path");
-const { SYSTEM_PROMPT, RESPONSE_SCHEMA, buildUserMessage } = require("./prompt.js");
+const { SYSTEM_PROMPT, RESPONSE_SCHEMA, validateNumbers, buildUserMessage, cleanAnswer } = require("./summary-prompt.js");
 
-// Read OPENROUTER_API_KEY (and the optional OPENROUTER_MODEL) from .env.
+// Read OPENROUTER_API_KEY (and the optional OPENROUTER_MODEL) from .env when running locally.
+// On Render these come from the service's Environment settings instead.
 try {
   process.loadEnvFile(path.join(__dirname, ".env"));
 } catch {
-  // No .env file. callModel() reports a clear error instead of crashing here.
+  // No .env file: fine on Render, and the summary route reports a clear error locally.
 }
 
 const MODEL = process.env.OPENROUTER_MODEL || "anthropic/claude-opus-5.5";
 const PORT = Number(process.env.PORT) || 3000;
-// Saved claims live in data/, which git ignores. The sample test uses its own file.
-const DATA_FILE = process.env.HOMEWARD_DATA_FILE || path.join(__dirname, "data", "claims.json");
-const PAGE = path.join(__dirname, "public", "index.html");
+const ON_RENDER = !!process.env.RENDER;
+const BIND = process.env.BIND_HOST || (ON_RENDER ? "0.0.0.0" : "127.0.0.1");
+const FAKE_AI = process.env.HOMEWARD_FAKE_AI === "1"; // tests only: no network, no cost
 
-// ---------- Shared pages and files from docs/ ----------
-// The Business Directory and Recovery Resources pages (and the theme, fonts, photos and
-// data they use) are served straight from docs/, the same files GitHub Pages
-// publishes, so there is one copy of each. Only what's listed here can be served:
-// nothing else in the repo (data/, private/, .env, server code) is reachable.
+// Only answer requests addressed to this app. This blocks DNS-rebinding tricks and
+// other sites pointing their own domain at the server.
+const ALLOWED_HOSTS = new Set([`localhost:${PORT}`, `127.0.0.1:${PORT}`]);
+for (const h of [process.env.RENDER_EXTERNAL_HOSTNAME, process.env.PUBLIC_HOST]) if (h) ALLOWED_HOSTS.add(h.toLowerCase());
+
+// ---------- Files we serve (nothing else is reachable) ----------
+const PUBLIC = path.join(__dirname, "public");
 const DOCS = path.join(__dirname, "docs");
-const DOCS_FILES = new Map([
-  ["/business-map.html", "business-map.html"],
-  ["/resources.html", "resources.html"],
-  ["/editorial.css", "editorial.css"],
-  ["/nav.js", "nav.js"],
+const PAGES = new Map([
+  ["/", path.join(PUBLIC, "index.html")],
+  ["/decide", path.join(PUBLIC, "decide.html")],
+  ["/pulse", path.join(PUBLIC, "pulse.html")],
 ]);
-const DOCS_FOLDERS = new Set(["images", "fonts", "map-data", "resources-data"]);
+const FILES = new Map([
+  ["/app.css", path.join(PUBLIC, "app.css")],
+  ["/calc.js", path.join(PUBLIC, "calc.js")],
+  ["/decide.js", path.join(PUBLIC, "decide.js")],
+  ["/pulse.js", path.join(PUBLIC, "pulse.js")],
+  ["/landing.js", path.join(PUBLIC, "landing.js")],
+  ["/resources.html", path.join(DOCS, "resources.html")],
+  ["/editorial.css", path.join(DOCS, "editorial.css")],
+  ["/nav.js", path.join(DOCS, "nav.js")],
+]);
+const DOCS_FOLDERS = new Set(["images", "fonts", "market-data", "resources-data"]);
 const TYPES = {
   ".html": "text/html; charset=utf-8",
   ".css": "text/css; charset=utf-8",
@@ -40,21 +57,57 @@ const TYPES = {
   ".webp": "image/webp",
   ".woff2": "font/woff2",
   ".txt": "text/plain; charset=utf-8",
+  ".md": "text/plain; charset=utf-8",
 };
-const FOLDER_FILE_TYPES = new Set([".jpg", ".webp", ".woff2", ".json", ".txt"]);
+const FOLDER_FILE_TYPES = new Set([".jpg", ".webp", ".woff2", ".json", ".txt", ".md"]);
 
-// Returns the docs/ file for a URL path, or null if it isn't one we serve.
-function docsFileFor(urlPath) {
-  if (DOCS_FILES.has(urlPath)) return path.join(DOCS, DOCS_FILES.get(urlPath));
+function fileFor(urlPath) {
+  if (PAGES.has(urlPath)) return PAGES.get(urlPath);
+  if (FILES.has(urlPath)) return FILES.get(urlPath);
   // One folder plus one plain file name, e.g. /images/coast-bluff-1536.webp. The pattern
-  // rules out "..", slashes and %-encoded tricks, so a path can't leave its folder.
+  // rules out "..", extra slashes and %-encoded tricks, so a path can't leave its folder.
   const m = urlPath.match(/^\/([a-z-]+)\/([A-Za-z0-9][A-Za-z0-9._-]*)$/);
   if (!m || !DOCS_FOLDERS.has(m[1]) || !FOLDER_FILE_TYPES.has(path.extname(m[2]))) return null;
   const file = path.join(DOCS, m[1], m[2]);
   return file.startsWith(path.join(DOCS, m[1]) + path.sep) ? file : null; // belt and braces
 }
 
-async function sendDocsFile(res, file) {
+// ---------- Security headers on every response ----------
+// PostHog loads its script from us-assets.i.posthog.com and sends events to us.i.posthog.com.
+const CSP = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline' https://us-assets.i.posthog.com",
+  "connect-src 'self' https://us.i.posthog.com https://us-assets.i.posthog.com",
+  "img-src 'self' data: https://us.i.posthog.com",
+  "style-src 'self' 'unsafe-inline'",
+  "font-src 'self'",
+  "worker-src 'self' blob:",
+  "frame-ancestors 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "object-src 'none'",
+].join("; ");
+
+function baseHeaders(type) {
+  const h = {
+    "Content-Type": type,
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "X-Frame-Options": "DENY",
+    "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=()",
+    "Content-Security-Policy": CSP,
+    "Cross-Origin-Opener-Policy": "same-origin",
+  };
+  if (ON_RENDER) h["Strict-Transport-Security"] = "max-age=31536000";
+  return h;
+}
+
+function sendJson(res, status, data, extra = {}) {
+  res.writeHead(status, Object.assign(baseHeaders("application/json; charset=utf-8"), { "Cache-Control": "no-store" }, extra));
+  res.end(JSON.stringify(data));
+}
+
+async function sendFile(res, file) {
   let body;
   try {
     body = await fs.promises.readFile(file);
@@ -62,203 +115,137 @@ async function sendDocsFile(res, file) {
     if (err.code === "ENOENT" || err.code === "EISDIR") return sendJson(res, 404, { error: "Not found" });
     throw err;
   }
-  res.writeHead(200, {
-    "Content-Type": TYPES[path.extname(file)] || "application/octet-stream",
-    "X-Content-Type-Options": "nosniff", // the browser must use the type above, never guess
-  });
+  const type = TYPES[path.extname(file)] || "application/octet-stream";
+  res.writeHead(200, Object.assign(baseHeaders(type), { "Cache-Control": type.startsWith("text/html") ? "no-cache" : "public, max-age=3600" }));
   res.end(body);
 }
 
-// ---------- Saved data ----------
+// ---------- Rate limits for the paid AI route ----------
+// Per visitor: 5 summaries per 10 minutes and 20 per day. Whole app: 200 per day.
+// Kept in memory, so they reset if the server restarts (noted in SECURITY.md).
+const LIMITS = {
+  burst: { max: Number(process.env.RL_BURST || 5), windowMs: 10 * 60 * 1000 },
+  daily: { max: Number(process.env.RL_DAILY || 20), windowMs: 24 * 60 * 60 * 1000 },
+  global: { max: Number(process.env.RL_GLOBAL || 200), windowMs: 24 * 60 * 60 * 1000 },
+};
+const hits = new Map(); // visitor -> timestamps
+let globalHits = [];
 
-function emptyStore() {
-  return { threads: 0, nextId: 1, claims: [], conflicts: [], questions: [], totalCost: 0 };
-}
-
-function loadStore() {
-  try {
-    return JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
-  } catch (err) {
-    if (err.code === "ENOENT") return emptyStore();
-    throw err;
+function clientId(req) {
+  // On Render the app sits behind a proxy that adds the visitor's address to X-Forwarded-For.
+  // The last entry is the one the proxy added itself, so a visitor can't fake it.
+  if (ON_RENDER || process.env.TRUST_PROXY === "1") {
+    const xff = String(req.headers["x-forwarded-for"] || "").split(",").map((s) => s.trim()).filter(Boolean);
+    if (xff.length) return xff[xff.length - 1];
   }
+  return req.socket.remoteAddress || "unknown";
 }
 
-function saveStore(store) {
-  fs.mkdirSync(path.dirname(DATA_FILE), { recursive: true });
-  const tmp = DATA_FILE + ".tmp";
-  fs.writeFileSync(tmp, JSON.stringify(store, null, 2));
-  fs.renameSync(tmp, DATA_FILE); // swap in one step, so a crash can't leave a half-written file
+function rateLimit(id, now = Date.now()) {
+  const mine = (hits.get(id) || []).filter((t) => now - t < LIMITS.daily.windowMs);
+  globalHits = globalHits.filter((t) => now - t < LIMITS.global.windowMs);
+  const burst = mine.filter((t) => now - t < LIMITS.burst.windowMs).length;
+  if (burst >= LIMITS.burst.max) return { ok: false, retry: 600, why: "You've asked for several summaries in a row. Try again in about 10 minutes." };
+  if (mine.length >= LIMITS.daily.max) return { ok: false, retry: 3600, why: "You've reached today's limit for AI summaries. The calculator still works." };
+  if (globalHits.length >= LIMITS.global.max) return { ok: false, retry: 3600, why: "Homeward has reached today's limit for AI summaries. The calculator still works." };
+  mine.push(now); hits.set(id, mine); globalHits.push(now);
+  return { ok: true };
 }
+// Forget old visitors now and then so memory can't grow without limit.
+setInterval(() => {
+  const now = Date.now();
+  for (const [id, list] of hits) if (!list.some((t) => now - t < LIMITS.daily.windowMs)) hits.delete(id);
+}, 60 * 60 * 1000).unref();
 
 // ---------- The AI call ----------
-
-async function callModel(userMessage) {
-  const key = process.env.OPENROUTER_API_KEY;
-  if (!key || key.includes("replace-with-your-key")) {
-    throw new Error("OPENROUTER_API_KEY is missing from .env.");
+async function callModel(numbers) {
+  if (FAKE_AI) {
+    return { answer: { summary: "Test summary.", questions: ["Test question?"] }, cost: 0 };
   }
+  const key = process.env.OPENROUTER_API_KEY;
+  if (!key || key.includes("replace-with-your-key")) throw Object.assign(new Error("The AI summary isn't set up on this server."), { status: 503 });
   const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${key}`,
-      "Content-Type": "application/json",
-      "X-Title": "Homeward (local prototype)",
-    },
+    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json", "X-Title": "Homeward" },
     body: JSON.stringify({
       model: MODEL,
-      max_tokens: 16000,
+      max_tokens: 1200,
       reasoning: { effort: "low" },
-      response_format: {
-        type: "json_schema",
-        json_schema: { name: "homeward_analysis", strict: true, schema: RESPONSE_SCHEMA },
-      },
+      response_format: { type: "json_schema", json_schema: { name: "homeward_summary", strict: true, schema: RESPONSE_SCHEMA } },
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
-        { role: "user", content: userMessage },
+        { role: "user", content: buildUserMessage(numbers) },
       ],
       usage: { include: true },
     }),
-    signal: AbortSignal.timeout(180_000),
+    signal: AbortSignal.timeout(60_000),
   });
-
   const body = await res.json().catch(() => null);
   if (!res.ok || body?.error) {
-    throw new Error(`OpenRouter error ${res.status}: ${body?.error?.message || "no details"}`);
+    console.error("OpenRouter error", res.status, body?.error?.message);
+    throw Object.assign(new Error("The AI summary is unavailable right now. Try again later."), { status: 502 });
   }
-  const choice = body?.choices?.[0];
-  if (choice?.finish_reason === "length") {
-    throw new Error("The AI's answer was cut off because it ran too long. Try a shorter thread.");
-  }
-  let result;
-  try {
-    result = JSON.parse(choice?.message?.content ?? "");
-  } catch {
-    throw new Error("The AI's answer wasn't in the expected format. Try again.");
-  }
-  return { result, cost: body.usage?.cost ?? null };
+  let answer;
+  try { answer = cleanAnswer(JSON.parse(body?.choices?.[0]?.message?.content ?? "")); }
+  catch { throw Object.assign(new Error("The AI's answer wasn't in the expected format. Try again."), { status: 502 }); }
+  return { answer, cost: body.usage?.cost ?? null };
 }
 
-// ---------- One analysis: extract, compare, save ----------
-
-async function analyzeThread(text, store) {
-  const { result, cost } = await callModel(buildUserMessage(store, text));
-  const thread = store.threads + 1;
-
-  // Give each new claim a permanent id (c1, c2, ...), remembering the AI's temporary ref (n1, n2, ...).
-  const refToId = new Map();
-  const newClaimIds = [];
-  for (const c of result.claims) {
-    const id = `c${store.nextId++}`;
-    refToId.set(c.ref, id);
-    newClaimIds.push(id);
-    store.claims.push({ id, thread, party: c.party, topic: c.topic, date: c.date, statement: c.statement, quote: c.quote });
-  }
-
-  // Conflicts must point at real claims. Drop any that don't, rather than show made-up statements.
-  const known = new Set(store.claims.map((c) => c.id));
-  const resolve = (ref) => refToId.get(ref) ?? (known.has(ref) ? ref : null);
-  const newConflictIds = [];
-  for (const k of result.conflicts) {
-    const earlier = resolve(k.earlier);
-    const later = resolve(k.later);
-    if (!earlier || !later || earlier === later) {
-      console.warn("Skipped a conflict that pointed at unknown claims:", k);
-      continue;
-    }
-    const id = `k${store.conflicts.length + 1}`;
-    newConflictIds.push(id);
-    store.conflicts.push({ id, thread, kind: k.kind, topic: k.topic, summary: k.summary, earlier, later });
-  }
-
-  for (const q of result.open_questions) {
-    store.questions.push({ thread, topic: q.topic, question: q.question, ask: q.ask });
-  }
-
-  store.threads = thread;
-  store.totalCost += cost ?? 0;
-  return { thread, newClaimIds, newConflictIds, newQuestions: result.open_questions.length, cost };
-}
-
-// What the page needs: conflicts come with both full statements attached.
-function publicState(store) {
-  const byId = new Map(store.claims.map((c) => [c.id, c]));
-  return {
-    model: MODEL,
-    threads: store.threads,
-    totalCost: store.totalCost,
-    claims: store.claims,
-    conflicts: store.conflicts.map((k) => ({ ...k, earlier: byId.get(k.earlier), later: byId.get(k.later) })),
-    questions: store.questions,
-  };
-}
-
-// ---------- Web server ----------
-
-function readBody(req, limit = 500_000) {
+function readBody(req, limit = 4096) {
   return new Promise((resolve, reject) => {
     const chunks = [];
     let size = 0;
     req.on("data", (chunk) => {
       size += chunk.length;
-      if (size > limit) {
-        reject(new Error("That text is too long (over 500 KB)."));
-        req.destroy();
-      } else {
-        chunks.push(chunk);
-      }
+      if (size > limit) { reject(Object.assign(new Error("Request too large."), { status: 413 })); req.destroy(); }
+      else chunks.push(chunk);
     });
     req.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
     req.on("error", reject);
   });
 }
 
-function sendJson(res, status, data) {
-  res.writeHead(status, { "Content-Type": "application/json" });
-  res.end(JSON.stringify(data));
-}
-
-const ALLOWED_HOSTS = new Set([`localhost:${PORT}`, `127.0.0.1:${PORT}`]);
-
+// ---------- Web server ----------
 const server = http.createServer(async (req, res) => {
   try {
-    // Only answer this computer's own browser. This blocks other websites from
-    // sending requests here and spending your OpenRouter credit.
-    if (!ALLOWED_HOSTS.has(req.headers.host)) return sendJson(res, 403, { error: "Forbidden" });
-    if (req.method === "POST" && !String(req.headers["content-type"]).startsWith("application/json")) {
-      return sendJson(res, 415, { error: "Expected JSON" });
+    const host = String(req.headers.host || "").toLowerCase();
+    if (!ALLOWED_HOSTS.has(host)) return sendJson(res, 403, { error: "Forbidden" });
+    const urlPath = String(req.url || "/").split("?")[0];
+
+    if (req.method === "GET" && urlPath === "/healthz") return sendJson(res, 200, { ok: true });
+
+    if (req.method === "POST" && urlPath === "/api/summary") {
+      // Only this app's own pages may call the paid route: same-origin JSON requests.
+      const origin = String(req.headers.origin || "");
+      const okOrigin = [...ALLOWED_HOSTS].some((h) => origin === `https://${h}` || origin === `http://${h}`);
+      if (!okOrigin) return sendJson(res, 403, { error: "Forbidden" });
+      if (!String(req.headers["content-type"]).startsWith("application/json")) return sendJson(res, 415, { error: "Expected JSON" });
+
+      const limit = rateLimit(clientId(req));
+      if (!limit.ok) return sendJson(res, 429, { error: limit.why }, { "Retry-After": String(limit.retry) });
+
+      let payload;
+      try { payload = JSON.parse(await readBody(req)); } catch (err) {
+        return sendJson(res, err.status || 400, { error: err.status === 413 ? "Request too large." : "Expected JSON" });
+      }
+      const numbers = validateNumbers(payload && payload.numbers);
+      if (!numbers) return sendJson(res, 400, { error: "Those numbers don't look right. Reload the page and try again." });
+
+      const started = Date.now();
+      const { answer, cost } = await callModel(numbers);
+      // Log the cost and timing only, never the numbers.
+      console.log(`summary ok in ${Date.now() - started} ms, cost ${cost ?? "n/a"}`);
+      return sendJson(res, 200, answer);
     }
 
-    if (req.method === "GET" && req.url === "/") {
-      res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
-      return res.end(fs.readFileSync(PAGE));
-    }
-    if (req.method === "GET" && req.url === "/api/state") {
-      return sendJson(res, 200, publicState(loadStore()));
-    }
-    if (req.method === "POST" && req.url === "/api/analyze") {
-      const { text } = JSON.parse(await readBody(req));
-      if (typeof text !== "string" || !text.trim()) {
-        return sendJson(res, 400, { error: "Paste an email thread or letter first." });
-      }
-      const store = loadStore();
-      const run = await analyzeThread(text, store);
-      saveStore(store);
-      return sendJson(res, 200, { run, state: publicState(store) });
-    }
-    if (req.method === "GET") {
-      const file = docsFileFor(req.url.split("?")[0]);
-      if (file) return sendDocsFile(res, file);
-    }
-    if (req.method === "POST" && req.url === "/api/clear") {
-      const store = emptyStore();
-      saveStore(store);
-      return sendJson(res, 200, { state: publicState(store) });
+    if (req.method === "GET" || req.method === "HEAD") {
+      const file = fileFor(urlPath);
+      if (file) return sendFile(res, file);
     }
     sendJson(res, 404, { error: "Not found" });
   } catch (err) {
     console.error(err);
-    sendJson(res, 500, { error: err.message });
+    if (!res.headersSent) sendJson(res, err.status || 500, { error: err.status ? err.message : "Something went wrong." });
   }
 });
 
@@ -268,10 +255,10 @@ if (require.main === module) {
     else console.error(err);
     process.exit(1);
   });
-  server.listen(PORT, "127.0.0.1", () => {
+  server.listen(PORT, BIND, () => {
     console.log(`Homeward is running at http://localhost:${PORT}  (model: ${MODEL})`);
-    console.log("Press Ctrl+C to stop.");
+    if (!ON_RENDER) console.log("Press Ctrl+C to stop.");
   });
 }
 
-module.exports = { analyzeThread, emptyStore, loadStore, saveStore, publicState, MODEL, DATA_FILE, server, PORT };
+module.exports = { server, PORT, LIMITS, rateLimit, fileFor };

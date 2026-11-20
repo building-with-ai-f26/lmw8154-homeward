@@ -1,14 +1,15 @@
 {
   "name": "homeward",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "private": true,
-  "description": "Local prototype: tracks what the HOA, builder, insurer, and city said, and flags contradictions.",
+  "description": "Homeward: helps Pacific Palisades homeowners compare rebuilding, selling and holding after the January 2025 fire.",
   "engines": {
     "node": ">=21"
   },
   "scripts": {
     "start": "node server.js",
-    "test": "node tests/server-routes.js && node tests/posthog-pages.js",
-    "test:samples": "node tests/run-samples.js"
+    "test": "node tests/calc.js && node tests/server-routes.js && node tests/posthog-pages.js",
+    "check:live": "node scripts/check-live-rate-limit.js",
+    "build:data": "python3 scripts/build_market_data.py"
   }
 }

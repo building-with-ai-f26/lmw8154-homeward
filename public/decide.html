@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Rebuild, sell, or hold? · Homeward</title>
+  <meta name="description" content="Compare rebuilding, selling and holding after the Palisades fire, with your own numbers. Your numbers stay on your device." />
+  <!-- A shared link carries its numbers after the "#". Read them, then wipe them from the
+       address bar before analytics loads, so they never reach PostHog or any server. -->
+  <script>
+    (function () {
+      if (location.hash.indexOf("#s=") === 0) {
+        window.__homewardShared = location.hash.slice(3);
+        history.replaceState(null, "", location.pathname + location.search);
+      }
+    })();
+  </script>
+  <link rel="preload" href="/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="/editorial.css" />
+  <link rel="stylesheet" href="/app.css" />
+  <!-- PostHog analytics (official snippet; see AGENTS.md). The project key is public by design.
+       Session replay masks every input; elements marked ph-no-capture are never recorded. -->
+  <script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],Object.defineProperty(u,"toString",{configurable:!0,enumerable:!0,writable:!0,value:function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e}}),Object.defineProperty(u.people,"toString",{configurable:!0,enumerable:!0,writable:!0,value:function(){return u.toString(1)+".people (stub)"}}),o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagResult isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_sRzVSDyumMdiaAiGXNeokJrLuEGThqKGVdKUsqGx2yfT', {
+      api_host: 'https://us.i.posthog.com',
+      defaults: '2026-08-30',
+      person_profiles: 'identified_only',
+      autocapture: true,
+      capture_pageview: true,
+      disable_session_recording: false,
+      session_recording: { maskAllInputs: true },
+    })
+  </script>
+</head>
+<body class="app">
+  <script src="/nav.js"></script>
+  <main class="app-wrap">
+    <header class="app-head">
+      <div style="flex: 1 1 520px">
+        <p class="eyebrow">Pacific Palisades · after the January 2025 fire</p>
+        <h1>Rebuild, sell, or hold?</h1>
+      </div>
+      <p class="lede">Three paths, one set of numbers. Pick how fast you think the neighborhood recovers and see where each path lands. Projections, not predictions. Your numbers stay on this device.</p>
+    </header>
+
+    <div class="decide">
+      <!-- Everything a family types is masked from analytics (ph-no-capture). -->
+      <form class="decide-inputs ph-no-capture" id="inputs" aria-labelledby="in-h" novalidate>
+        <div class="group-head">
+          <h2 id="in-h">Your situation</h2>
+          <span class="example-tag" id="example-tag">Example numbers · tap any box to edit</span>
+        </div>
+
+        <fieldset class="field-set">
+          <legend>Your property today</legend>
+          <div class="segmented" id="situation">
+            <label><input type="radio" name="situation" value="lot" checked /><span>Burned lot</span></label>
+            <label><input type="radio" name="situation" value="rebuilding" /><span>Rebuilding</span></label>
+            <label><input type="radio" name="situation" value="standing" /><span>Home survived</span></label>
+          </div>
+        </fieldset>
+
+        <div id="money-fields">
+          <label class="money-field" data-for="lot"><span>Lot value today<span class="hint">What the empty lot would sell for</span></span>
+            <input name="lotValue" data-kind="dollars" inputmode="numeric" autocomplete="off" /></label>
+          <label class="money-field" data-for="lot rebuilding"><span>Home value once rebuilt<span class="hint">In today's dollars</span></span>
+            <input name="homeValue" data-kind="dollars" inputmode="numeric" autocomplete="off" /></label>
+          <label class="money-field" data-for="standing"><span>Home value today</span>
+            <input name="homeValueStanding" data-kind="dollars" inputmode="numeric" autocomplete="off" /></label>
+          <label class="money-field" data-for="lot rebuilding"><span>Rebuild cost still to pay</span>
+            <input name="rebuildCostLeft" data-kind="dollars" inputmode="numeric" autocomplete="off" /></label>
+          <label class="money-field" data-for="lot rebuilding"><span>Insurance money still coming<span class="hint">For the rebuild</span></span>
+            <input name="insuranceLeft" data-kind="dollars" inputmode="numeric" autocomplete="off" /></label>
+          <label class="money-field" data-for="lot"><span>Insurance you'd keep if you sell<span class="hint">Depends on your policy. Ask your insurer.</span></span>
+            <input name="insuranceIfSell" data-kind="dollars" inputmode="numeric" autocomplete="off" /></label>
+          <label class="money-field" data-for="lot rebuilding"><span>Years until the rebuild is done</span>
+            <input name="yearsToRebuild" data-kind="years" inputmode="numeric" autocomplete="off" /></label>
+          <label class="money-field" data-for="lot rebuilding standing"><span>Monthly costs<span class="hint">Mortgage, property tax, HOA, upkeep</span></span>
+            <input name="monthlyCarry" data-kind="monthly" inputmode="numeric" autocomplete="off" /></label>
+          <label class="money-field" data-for="lot rebuilding standing"><span>Monthly home insurance</span>
+            <input name="monthlyInsurance" data-kind="monthly" inputmode="numeric" autocomplete="off" /></label>
+          <label class="money-field" data-for="lot rebuilding standing"><span>Sell later, in how many years</span>
+            <input name="sellInYears" data-kind="years" inputmode="numeric" autocomplete="off" /></label>
+          <label class="money-field" data-for="lot rebuilding standing"><span>Selling costs<span class="hint">Agent fees and closing</span></span>
+            <input name="sellingCostPct" data-kind="percent" inputmode="decimal" autocomplete="off" /></label>
+          <label class="money-field" data-for="lot rebuilding standing"><span>What sale money could earn<span class="hint">Per year, if you sell</span></span>
+            <input name="returnPct" data-kind="percent" inputmode="decimal" autocomplete="off" /></label>
+        </div>
+
+        <fieldset class="field-set">
+          <legend>How fast does the neighborhood recover?</legend>
+          <div class="segmented" id="speed">
+            <label><input type="radio" name="speed" value="slow" /><span>Slow</span></label>
+            <label><input type="radio" name="speed" value="typical" checked /><span>Typical</span></label>
+            <label><input type="radio" name="speed" value="fast" /><span>Fast</span></label>
+          </div>
+          <p class="speed-note" id="speed-note"></p>
+        </fieldset>
+
+        <div id="sliders">
+          <label class="slider" data-for="lot rebuilding"><span class="row">Rebuild cost overrun <output id="o-overrunPct"></output></span>
+            <input type="range" name="overrunPct" min="0" max="60" step="5" /></label>
+          <label class="slider"><span class="row">Insurance premium growth <output id="o-premiumGrowthPct"></output></span>
+            <input type="range" name="premiumGrowthPct" min="0" max="50" step="5" /></label>
+          <label class="slider" data-for="lot rebuilding"><span class="row">Premium for homes built to new fire codes <output id="o-newCodePremiumPct"></output></span>
+            <input type="range" name="newCodePremiumPct" min="0" max="25" step="1" /></label>
+        </div>
+        <p class="fine" style="margin-top: 18px">Leaves out rent or living costs that happen on every path.</p>
+      </form>
+
+      <section class="decide-results ph-no-capture" id="results" aria-label="Results" aria-live="polite">
+        <div class="verdict">
+          <svg class="contours" id="contours" aria-hidden="true" viewBox="0 0 900 340" preserveAspectRatio="xMidYMid slice"></svg>
+          <div class="verdict-top">
+            <div style="flex: 1 1 300px">
+              <p class="label">The number that decides it</p>
+              <p class="sentence" id="verdict-sentence"></p>
+            </div>
+            <p class="big num" id="breakeven"></p>
+          </div>
+          <p class="sub num" id="verdict-sub"></p>
+          <svg class="gauge" id="gauge" viewBox="0 0 680 110" role="img"></svg>
+        </div>
+
+        <div class="paths" id="paths">
+          <article><h3 id="p0-t"></h3><p class="value num" id="p0-v"></p><p class="note num" id="p0-n"></p></article>
+          <article><h3 id="p1-t"></h3><p class="value num" id="p1-v"></p><p class="note num" id="p1-n"></p></article>
+          <article><h3 id="p2-t"></h3><p class="value num" id="p2-v"></p><p class="note num" id="p2-n"></p></article>
+        </div>
+
+        <figure style="margin: 0">
+          <figcaption class="figure-head">
+            <span class="small-caps" id="chart-title">Projected home value</span>
+            <span class="fine">Your inputs · assumptions, not forecasts</span>
+          </figcaption>
+          <svg class="chart" id="chart" viewBox="0 0 700 290" role="img"></svg>
+        </figure>
+
+        <div class="panel-row" id="lot-check-row">
+          <section aria-labelledby="lc-h">
+            <h2 id="lc-h" class="small-caps" style="margin: 0 0 6px">Rebuild or sell the lot?</h2>
+            <p style="margin: 0" id="lc-text"></p>
+            <div class="check-bar" aria-hidden="true"><span id="lc-bar"></span></div>
+            <p class="fine" id="lc-fine"></p>
+          </section>
+        </div>
+
+        <section class="family" aria-labelledby="fam-h">
+          <div class="figure-head" style="border: 0; padding: 0">
+            <h2 id="fam-h" class="small-caps" style="margin: 0">Family decision mode</h2>
+            <span class="fine">Each person rates what matters, 0 to 5</span>
+          </div>
+          <div class="family-people" id="people"></div>
+          <button type="button" class="app-btn ghost no-print" id="add-person">Add a family member</button>
+          <div class="fit-bars" id="fit-bars" style="margin-top: 22px"></div>
+          <p class="fine" id="fit-note"></p>
+        </section>
+
+        <div class="panel-row">
+          <section aria-labelledby="ai-h">
+            <div class="figure-head" style="border: 0; padding: 0 0 10px">
+              <h2 id="ai-h" class="small-caps" style="margin: 0">In plain language</h2>
+              <span class="fine">Sends rounded numbers only, never names or addresses</span>
+            </div>
+            <div id="ai-out">
+              <p class="ai-text muted" style="font-size: 1.05rem">Get a short explanation of your results and questions to ask a CPA or realtor.</p>
+            </div>
+            <button type="button" class="app-btn solid no-print" id="ai-btn">Explain my results</button>
+            <p class="status-msg" id="ai-status" role="status"></p>
+          </section>
+          <div class="actions no-print">
+            <button type="button" class="app-btn solid" id="share-btn">Copy private link</button>
+            <button type="button" class="app-btn ghost" id="print-btn">Print one-pager</button>
+            <p class="fine" id="share-status" role="status">Your numbers travel inside the link. Nothing is stored on our server.</p>
+          </div>
+        </div>
+
+        <details class="how">
+          <summary>How this is calculated</summary>
+          <ul>
+            <li>Selling early: the sale price minus selling costs. That money is assumed to earn your chosen rate until the later sale date, so both paths are compared at the same time.</li>
+            <li>Selling later: the projected price minus selling costs, rebuild costs not covered by insurance (with your overrun), and your monthly costs until the sale, with insurance premiums rising each year.</li>
+            <li>Break-even: the sale price at that later date where both paths come out equal.</li>
+            <li>Recovery speeds are assumptions: slow is &minus;2% a year, typical +3%, fast +6%. Nobody knows which will happen.</li>
+            <li>Not included: rent or living costs that happen on every path, taxes, and loan details. Ask a CPA about taxes before deciding.</li>
+          </ul>
+          <p style="margin: 10px 0 4px">How family decision mode scores each path (0 = poor fit, 1 = best fit). Money comes from the calculator.</p>
+          <div class="table-wrap"><table id="fit-table"></table></div>
+        </details>
+
+        <div class="context-strip no-print" id="context"></div>
+        <p class="fine">Not financial, tax or legal advice.</p>
+      </section>
+    </div>
+  </main>
+  <!-- Phones: the results sit below the inputs, so keep the key number in view. -->
+  <a class="mobile-bar no-print ph-no-capture" href="#results" id="mobile-bar"><span>Break-even <strong class="num" id="mb-value"></strong></span><span>See results ↓</span></a>
+  <script src="/calc.js"></script>
+  <script src="/decide.js"></script>
+</body>
+</html>

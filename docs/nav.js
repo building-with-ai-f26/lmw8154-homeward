@@ -1,20 +1,26 @@
 // Shared navigation bar for every Homeward page.
 // One file serves both places these pages run:
-//   - the local app (http://localhost:3000): first link is the Conflict Tracker at "/"
-//   - GitHub Pages: the tracker only runs on your own computer, so the first link
-//     is "Homeward" and goes to the project page (index.html)
+//   - the Homeward app (Render, or http://localhost:3000): Home, Decide, Recovery pulse, Resources
+//   - GitHub Pages (the Product Page): Product Page, Resources, and a link to the live app
 // Include it as the first thing inside <body>: <script src="nav.js"></script>
 (function () {
-  const isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
-  const here = location.pathname.split("/").pop() || (isLocal ? "" : "index.html");
+  // The live app's address. Fill in after the first Render deploy (see AGENTS.md, Shipping).
+  const APP_URL = "";
+  const onPages = /github\.io$/.test(location.hostname);
+  const here = location.pathname.replace(/\/$/, "") || "/";
 
-  const links = [
-    isLocal
-      ? { href: "/", page: "", label: "Conflict Tracker" }
-      : { href: "index.html", page: "index.html", label: "Homeward" },
-    { href: "business-map.html", page: "business-map.html", label: "Business Directory" },
-    { href: "resources.html", page: "resources.html", label: "Recovery Resources" },
-  ];
+  const links = onPages
+    ? [
+        { href: "index.html", match: ["index.html", ""], label: "Product Page" },
+        { href: "resources.html", match: ["resources.html"], label: "Recovery Resources" },
+      ]
+    : [
+        { href: "/", match: ["/"], label: "Homeward" },
+        { href: "/decide", match: ["/decide"], label: "Decide" },
+        { href: "/pulse", match: ["/pulse"], label: "Recovery pulse" },
+        { href: "/resources.html", match: ["/resources.html"], label: "Resources" },
+      ];
+  const page = onPages ? location.pathname.split("/").pop() : here;
 
   const nav = document.createElement("nav");
   nav.className = "site-nav";
@@ -25,9 +31,19 @@
     const a = document.createElement("a");
     a.href = l.href;
     a.textContent = l.label;
-    if (l.page === here) a.setAttribute("aria-current", "page");
+    if (l.match.includes(page)) a.setAttribute("aria-current", "page");
     const li = document.createElement("li");
     li.append(a);
+    list.append(li);
+  }
+
+  // On the Product Page, link to the live app once it has an address.
+  if (onPages && APP_URL) {
+    const app = document.createElement("a");
+    app.href = APP_URL;
+    app.textContent = "Open the app";
+    const li = document.createElement("li");
+    li.append(app);
     list.append(li);
   }
 

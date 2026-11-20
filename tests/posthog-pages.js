@@ -1,8 +1,8 @@
 // Checks the AGENTS.md analytics rules. Free and instant; reads files only.
 //   - every HTML page in docs/ and public/ includes the PostHog snippet (US host,
 //     a real project key, inputs masked in session replay)
-//   - the Conflict Tracker keeps ph-no-capture on the thread box and results,
-//     and still sends the thread_analyzed and conflict_flagged events
+//   - the Decide page keeps ph-no-capture on everything a family types or sees,
+//     wipes shared-link numbers before PostHog loads, and its events carry no numbers or names
 //
 // Run it with: npm test
 const fs = require("node:fs");
@@ -29,16 +29,23 @@ for (const page of pages) {
   check(`${page}: session replay masks all inputs`, /session_recording:\s*\{\s*maskAllInputs:\s*true\s*\}/.test(html));
 }
 
-// Conflict Tracker: masking and custom events
-const tracker = fs.readFileSync(path.join(ROOT, "public", "index.html"), "utf8");
-for (const id of ["input", "totals", "claims", "conflicts", "questions"]) {
-  const tag = tracker.match(new RegExp(`<[^>]*id="${id}"[^>]*>`));
-  check(`tracker: #${id} has ph-no-capture`, !!tag && /class="[^"]*\bph-no-capture\b/.test(tag[0]));
+// Decide page: nothing a family types or sees as a result reaches analytics.
+const decide = fs.readFileSync(path.join(ROOT, "public", "decide.html"), "utf8");
+const decideJs = fs.readFileSync(path.join(ROOT, "public", "decide.js"), "utf8");
+for (const id of ["inputs", "results"]) {
+  const tag = decide.match(new RegExp(`<[^>]*id="${id}"[^>]*>`));
+  check(`decide: #${id} has ph-no-capture`, !!tag && /class="[^"]*\bph-no-capture\b/.test(tag[0]));
 }
-check('tracker: sends "thread_analyzed" with conflict_count and duration_ms',
-  /track\("thread_analyzed", \{ conflict_count: [^,]+, duration_ms: [^}]+\}\)/.test(tracker));
-check('tracker: sends "conflict_flagged" with party_pair only',
-  /track\("conflict_flagged", \{ party_pair: pair \}\)/.test(tracker));
+check("decide: shared-link numbers are wiped from the address bar before PostHog loads",
+  decide.indexOf("history.replaceState") > -1 && decide.indexOf("history.replaceState") < decide.indexOf("posthog.init"));
+for (const ev of ["scenario_changed", "summary_requested", "share_link_created", "print_clicked", "family_member_added"]) {
+  check(`decide: sends "${ev}"`, decideJs.includes(`track("${ev}"`));
+}
+// Every event's properties are labels or counts only: never dollar amounts or names.
+const calls = [...decideJs.matchAll(/track\("([a-z_]+)", (\{[^}]*\})\)/g)];
+const allowed = /^\{\s*(?:(?:situation: state\.situation|speed: state\.speed|people: people\.length)(?:,\s*)?)*\s*\}$/;
+check(`decide: ${calls.length} analytics calls found`, calls.length >= 5);
+for (const [, ev, props] of calls) check(`decide: "${ev}" sends only labels or counts ${props}`, allowed.test(props));
 
 console.log(failures ? `\n${failures} check(s) failed.` : "\nAll PostHog checks passed.");
 process.exit(failures ? 1 : 0);

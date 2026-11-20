@@ -3,60 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Homeward</title>
-  <!-- Theme, font and photos are served from docs/ by server.js (one shared copy). -->
+  <meta name="robots" content="noindex" />
+  <title>Homeward · Rebuild, sell, or hold?</title>
+  <meta name="description" content="For Pacific Palisades homeowners after the January 2025 fire: compare rebuilding, selling and holding with your own numbers, and see how the neighborhood is recovering." />
   <link rel="preload" href="/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/editorial.css" />
-  <style>
-    .page-banner img { height: clamp(180px, 30vh, 340px); }
-
-    textarea {
-      width: 100%;
-      min-height: 200px;
-      padding: 16px 18px;
-      font: 0.9rem/1.55 ui-monospace, Menlo, monospace;
-      color: var(--ink);
-      background: #fff;
-      border: 1px solid var(--rule);
-      border-bottom: 2px solid var(--ink);
-      border-radius: 0;
-      resize: vertical;
-    }
-    textarea:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
-    .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 16px; }
-    button:disabled { opacity: 0.5; cursor: wait; }
-    #status { color: var(--muted); font-size: 0.92rem; }
-    #status.error { color: #9E2552; font-weight: 650; }
-    #totals { margin-top: 14px; }
-    .empty { color: var(--muted); font-style: italic; }
-
-    /* Claims table */
-    .table-wrap { overflow-x: auto; margin-top: 14px; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
-    @media (max-width: 700px) { table { min-width: 640px; } } /* scrolls sideways inside .table-wrap on phones */
-    th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
-    th { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); border-bottom-color: var(--ink); }
-    tr.new td { background: var(--tint-ocean); }
-    td.nowrap { white-space: nowrap; }
-
-    /* Conflicts: a poppy rule on the left; new ones get an ocean tint */
-    .conflict { border-left: 3px solid var(--poppy); padding: 6px 0 6px 22px; margin: 22px 0 30px; }
-    .conflict.new { background: var(--tint-ocean); padding: 18px 20px 18px 22px; }
-    .conflict > div:first-child strong { font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; }
-    .conflict p { margin: 8px 0 0; max-width: 72ch; }
-    .badge {
-      display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-      padding: 3px 9px; border-radius: 2px; background: var(--tint-poppy); color: #8C4A12; margin-right: 10px; vertical-align: 3px;
-    }
-    .sides { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 16px; }
-    .side { border-top: 1px solid var(--ink); padding-top: 12px; }
-    .side .who { font-weight: 700; font-size: 0.92rem; }
-    .quote { color: var(--muted); font-size: 0.88rem; margin-top: 8px; font-style: italic; }
-
-    ul.questions { margin: 14px 0 0; padding-left: 20px; }
-    ul.questions li { margin-bottom: 12px; }
-    .ask { font-weight: 700; }
-  </style>
+  <link rel="stylesheet" href="/app.css" />
   <!-- PostHog analytics (official snippet; see AGENTS.md). The project key is public by design.
        Session replay masks every input; elements marked ph-no-capture are never recorded. -->
   <script>
@@ -72,200 +24,59 @@
     })
   </script>
 </head>
-<body>
+<body class="app">
   <script src="/nav.js"></script>
-  <figure class="page-banner">
-    <picture><source type="image/webp" srcset="/images/beach-clouds-640.webp 640w, /images/beach-clouds-1024.webp 1024w, /images/beach-clouds-1536.webp 1536w" sizes="100vw" /><img src="/images/beach-clouds-1024.jpg" srcset="/images/beach-clouds-640.jpg 640w, /images/beach-clouds-1024.jpg 1024w, /images/beach-clouds-1536.jpg 1536w" sizes="100vw" width="1536" height="1761" fetchpriority="high" decoding="async" style="--pos: 50% 60%" alt="A wide sandy beach with patches of grass, a few people near the water, and white clouds over the mountains." /></picture>
-  </figure>
-  <main class="wrap">
-    <header class="page-head">
-      <span class="kicker">Homeward · runs on your computer</span>
-      <h1 class="page-title">Conflict Tracker</h1>
-      <p class="lede">Paste one email thread or letter. Homeward pulls out what each party said and flags when they contradict each other.</p>
-    </header>
-
-    <section class="block">
-      <h2>Add a message</h2>
-      <textarea id="input" class="ph-no-capture" placeholder="Paste an email thread or letter from the HOA, builder, insurer, or city…"></textarea>
-      <div class="row">
-        <button id="analyze" class="btn">Analyze</button>
-        <button id="clear" class="btn btn-ghost">Clear all</button>
-        <span id="status"></span>
+  <section class="land-hero">
+    <picture><source type="image/webp" srcset="/images/coast-bluff-640.webp 640w, /images/coast-bluff-1024.webp 1024w, /images/coast-bluff-1536.webp 1536w" sizes="100vw" /><img src="/images/coast-bluff-1536.jpg" srcset="/images/coast-bluff-640.jpg 640w, /images/coast-bluff-1024.jpg 1024w, /images/coast-bluff-1536.jpg 1536w" sizes="100vw" width="1536" height="2048" fetchpriority="high" decoding="async" alt="The Pacific Palisades coastline seen from the bluffs: a long sandy beach, Pacific Coast Highway lined with palm trees, and mountains under a blue sky." /></picture>
+    <div class="shade" aria-hidden="true"></div>
+    <svg class="contours" id="contours" aria-hidden="true" viewBox="0 0 1440 680" preserveAspectRatio="xMidYMid slice"></svg>
+    <div class="app-wrap land-hero-inner">
+      <div style="flex: 1 1 560px">
+        <p class="eyebrow">For Pacific Palisades homeowners · after the January 2025 fire</p>
+        <h1>Rebuild,<br />sell, or hold?</h1>
       </div>
-      <p class="meta ph-no-capture" id="totals"></p>
+      <div class="side">
+        <p>See what each path could mean for your family, with your own numbers and an honest read on how the neighborhood is recovering.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px">
+          <a class="app-btn light" href="/decide">Compare my options
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+          </a>
+          <a class="app-btn outline" href="/pulse">Recovery pulse</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="app-wrap">
+    <section class="kpis" aria-label="The neighborhood today" id="land-kpis">
+      <div><p class="k num" id="k1">59%</p><p class="d">of inspected homes were destroyed</p><p class="s">CAL FIRE</p></div>
+      <div><p class="k num" id="k2">–</p><p class="d">new-home permits since the fire</p><p class="s" id="k2s">City of LA, LADBS</p></div>
+      <div><p class="k num" id="k3">–</p><p class="d">homes completed so far</p><p class="s">Certificates of occupancy · LADBS</p></div>
+      <div><p class="k num" id="k4">–</p><p class="d" id="k4d">home purchases with a mortgage last year</p><p class="s">HMDA</p></div>
     </section>
 
-    <section class="block">
-      <h2>Claims</h2>
-      <div id="claims" class="ph-no-capture"></div>
+    <section class="land-three" aria-label="What Homeward does">
+      <div>
+        <p class="n num">01</p>
+        <h2>Your numbers, side by side</h2>
+        <p class="muted">Sell now, rebuild and sell later, or rebuild and stay, and the one number that decides between them.</p>
+      </div>
+      <div>
+        <p class="n num">02</p>
+        <h2>Ranges, not guesses</h2>
+        <p class="muted">Nobody knows where prices go next. Choose a slow, typical or fast recovery and watch what changes.</p>
+      </div>
+      <div>
+        <p class="n num">03</p>
+        <h2>Private by design</h2>
+        <p class="muted">No account. What you type stays on your device, and our server never stores it.</p>
+      </div>
     </section>
-
-    <section class="block">
-      <h2>Flagged conflicts</h2>
-      <div id="conflicts" class="ph-no-capture"></div>
-    </section>
-
-    <section class="block">
-      <h2>Open questions</h2>
-      <div id="questions" class="ph-no-capture"></div>
-    </section>
-
-    <section class="block">
-      <h2>Rebuild progress in the Palisades</h2>
-      <p>See which homes are being rebuilt on the Pali Post's Rebuild Map, an independent site run by the Palisadian-Post.</p>
-      <a class="text-link" href="https://map.palipost.com" target="_blank" rel="noopener noreferrer">View the Pali Post's Rebuild Map &rarr;</a>
-      <p class="meta">External link. Not affiliated with Homeward.</p>
-    </section>
-
+    <footer class="app-foot">
+      <span>Projections, not predictions. Not financial, tax or legal advice.</span>
+      <span>Data: CAL FIRE (CC BY) · City of Los Angeles, LADBS · HMDA</span>
+    </footer>
   </main>
-  <footer class="wrap page-foot">Homeward flags conflicts between what parties said. It doesn’t decide who is right or what to do.</footer>
-
-  <script>
-    // Everything from the AI is shown with textContent, never as HTML,
-    // so text inside a pasted email can't run code on this page.
-    const $ = (sel) => document.querySelector(sel);
-    function el(tag, text, className) {
-      const node = document.createElement(tag);
-      if (text != null) node.textContent = text;
-      if (className) node.className = className;
-      return node;
-    }
-    const money = (n) => (n == null ? "cost not reported" : "$" + n.toFixed(4));
-
-    // ---------- Analytics (PostHog) ----------
-    // Only counts, timings and party roles are sent. Never thread text, statements,
-    // quotes, names or addresses. Party values are limited to the app's four roles.
-    const PARTIES = new Set(["HOA", "builder", "insurer", "city"]);
-    const role = (p) => (PARTIES.has(p) ? p : "other");
-    function track(event, props) {
-      if (window.posthog && typeof window.posthog.capture === "function") window.posthog.capture(event, props);
-    }
-    function trackAnalysis(run, state, durationMs) {
-      track("thread_analyzed", { conflict_count: run.newConflictIds.length, duration_ms: durationMs });
-      const byId = new Map(state.conflicts.map((k) => [k.id, k]));
-      for (const id of run.newConflictIds) {
-        const k = byId.get(id);
-        if (!k) continue;
-        // Sorted so "city vs builder" and "builder vs city" count as the same pair.
-        const pair = [role(k.earlier?.party), role(k.later?.party)]
-          .sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }))
-          .join(" vs ");
-        track("conflict_flagged", { party_pair: pair });
-      }
-    }
-
-    async function api(path, body) {
-      const options = body === undefined ? {} : {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      };
-      const res = await fetch(path, options);
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.error || "Something went wrong.");
-      return data;
-    }
-
-    function setStatus(text, isError = false) {
-      $("#status").textContent = text;
-      $("#status").className = isError ? "error" : "";
-    }
-
-    function render(state, run) {
-      const newClaims = new Set(run?.newClaimIds || []);
-      const newConflicts = new Set(run?.newConflictIds || []);
-      $("#totals").textContent =
-        `${state.threads} message(s) analyzed · ${state.claims.length} claims · ${state.conflicts.length} conflicts · ` +
-        `total AI cost ${money(state.totalCost)} · model ${state.model}`;
-
-      // (1) Claims table, oldest first
-      const claimsBox = $("#claims");
-      claimsBox.replaceChildren();
-      if (!state.claims.length) {
-        claimsBox.append(el("p", "No claims yet.", "empty"));
-      } else {
-        const table = el("table");
-        const head = el("tr");
-        ["Date", "Party", "Topic", "Statement", "Msg #"].forEach((h) => head.append(el("th", h)));
-        table.append(head);
-        [...state.claims].sort((a, b) => a.date.localeCompare(b.date)).forEach((c) => {
-          const tr = el("tr", null, newClaims.has(c.id) ? "new" : "");
-          tr.append(el("td", c.date, "nowrap"), el("td", c.party), el("td", c.topic), el("td", c.statement), el("td", String(c.thread)));
-          table.append(tr);
-        });
-        const wrap = el("div", null, "table-wrap");
-        wrap.append(table);
-        claimsBox.append(wrap);
-      }
-
-      // (2) Conflicts, newest first, both statements side by side
-      const conflictsBox = $("#conflicts");
-      conflictsBox.replaceChildren();
-      if (!state.conflicts.length) {
-        conflictsBox.append(el("p", "No conflicts flagged.", "empty"));
-      }
-      [...state.conflicts].reverse().forEach((k) => {
-        const card = el("div", null, "conflict" + (newConflicts.has(k.id) ? " new" : ""));
-        const title = el("div");
-        title.append(el("span", k.kind, "badge"), el("strong", k.topic));
-        card.append(title, el("p", k.summary));
-        const sides = el("div", null, "sides");
-        [k.earlier, k.later].forEach((c) => {
-          const side = el("div", null, "side");
-          side.append(el("div", `${c.party} · ${c.date}`, "who"), el("div", c.statement), el("div", `“${c.quote}”`, "quote"));
-          sides.append(side);
-        });
-        card.append(sides);
-        conflictsBox.append(card);
-      });
-
-      // (3) Open questions, with who to ask
-      const questionsBox = $("#questions");
-      questionsBox.replaceChildren();
-      if (!state.questions.length) {
-        questionsBox.append(el("p", "No open questions.", "empty"));
-      } else {
-        const list = el("ul", null, "questions");
-        state.questions.forEach((q) => {
-          const li = el("li");
-          li.append(el("span", `Ask the ${q.ask}: `, "ask"), document.createTextNode(q.question), el("span", ` (${q.topic})`, "meta"));
-          list.append(li);
-        });
-        questionsBox.append(list);
-      }
-    }
-
-    $("#analyze").addEventListener("click", async () => {
-      const text = $("#input").value;
-      if (!text.trim()) return setStatus("Paste an email thread or letter first.", true);
-      $("#analyze").disabled = $("#clear").disabled = true;
-      setStatus("Analyzing… this can take up to a minute.");
-      const started = performance.now();
-      try {
-        const { run, state } = await api("/api/analyze", { text });
-        render(state, run);
-        trackAnalysis(run, state, Math.round(performance.now() - started));
-        $("#input").value = "";
-        setStatus(`Message ${run.thread}: ${run.newClaimIds.length} new claims, ${run.newConflictIds.length} new conflicts · ${money(run.cost)}. New items are highlighted.`);
-      } catch (err) {
-        setStatus(err.message, true);
-      } finally {
-        $("#analyze").disabled = $("#clear").disabled = false;
-      }
-    });
-
-    $("#clear").addEventListener("click", async () => {
-      if (!confirm("Delete all saved claims, conflicts, and questions?")) return;
-      try {
-        const { state } = await api("/api/clear", {});
-        render(state);
-        setStatus("Cleared. Starting fresh.");
-      } catch (err) {
-        setStatus(err.message, true);
-      }
-    });
-
-    api("/api/state").then((state) => render(state)).catch((err) => setStatus(err.message, true));
-  </script>
+  <script src="/landing.js"></script>
 </body>
 </html>
