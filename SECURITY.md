@@ -1,7 +1,7 @@
 # SECURITY.md — Homeward security audit (Build 3)
 
 **Lane:** Beginner. **App type:** AI app, no database, no sign-in.
-**Last updated:** Nov 19, 2026. **Live URL:** _added after the first Render deploy_.
+**Last updated:** Nov 19, 2026. **Live URL:** https://homeward-ccma.onrender.com
 
 ## What the app holds
 - **Nothing on the server.** The calculator runs in the browser. What a family types stays in that browser (a convenience copy in its local storage) or in a share link they choose to create. The server has no database and writes no files.
@@ -15,8 +15,8 @@
 | 1 | **Secret key search, repo:** searched for `sb_secret_`, `service_role`, `sk-or-`, `sk-ant-`, `sk-proj-`, `sk_live_` in every tracked file | Only the placeholder `sk-or-v1-replace-with-your-key` in `.env.example`, and the search pattern itself in `scripts/check-live-rate-limit.js` | None needed. Real key lives only in `.env` (git-ignored) and Render's settings |
 | 2 | **Secret key search, Git history:** `git log -p --all` for real key patterns | Nothing found. `.env` was never committed | None needed |
 | 3 | **Secret key search, live site:** `npm run check:live` fetches every page and script the app serves and searches them | _Run after deploy; screenshot in submission_ | — |
-| 4 | **Rate limit on the paid route:** 30 calls in a row (`tests/server-routes.js` locally, `npm run check:live` on the live site) | Calls after the visitor's 5th in 10 minutes return **429** with a plain message and `Retry-After` | Added per-visitor limits (5 per 10 min, 20 per day) and an app-wide cap (200 per day) |
-| 5 | **Spending cap:** OpenRouter key | Key has a spending limit set in OpenRouter | _Confirm the limit resets monthly (see "Left to do")_ |
+| 4 | **Rate limit on the paid route:** 30 calls in a row (`tests/server-routes.js` locally, `npm run check:live` on the live site) | **Found on the first live run:** 15 of 30 calls got through instead of 5. Behind Render, the address I used to identify a visitor was a proxy address that changed between requests, so one visitor looked like three. | Visitors are now identified by Cloudflare's `CF-Connecting-IP` header, plus a new app-wide cap of 20 summaries per 10 minutes so a faked address can't get around it. Per-visitor limits: 5 per 10 min, 20 per day; app-wide: 200 per day. Test added. Live re-run: _see screenshot_ |
+| 5 | **Spending cap:** OpenRouter key | The key had a $4 limit, but it was set to expire Dec 5, 2026, before Build 5 is due | Replaced with a new key: $4 limit that resets monthly, expiring after the course. Updated in Render and `.env` |
 | 6 | **Other websites calling the paid route** | Before: the old local app trusted any request from localhost | Route now requires a same-origin `Origin` header and JSON; tested: other origin → 403, no origin → 403, text → 415 |
 | 7 | **Host header / DNS rebinding** | Only the app's own host names are answered; anything else → 403 | Kept from Build 2, extended to Render's host name |
 | 8 | **Path traversal and file exposure:** `.env`, server code, `private/`, `data/`, `../` and `%2e%2e` tricks, removed files | All 404 (tested, 34 paths) | Strict allowlist of files and folders |
@@ -36,9 +36,9 @@
 - Live (a few cents): `npm run check:live -- https://<app>.onrender.com` → the key search result, then calls 1–30 with their status codes.
 
 ## Left to do / known limits
-- **Confirm the OpenRouter spending cap is monthly.** The key has a dollar limit; check in OpenRouter's key settings that it resets monthly rather than being a one-time total.
+- **Delete the old OpenRouter key** (expires Dec 5) once the new key is confirmed working on the live app.
 - **Rate limits reset when the server restarts.** They're kept in memory, and Render's free tier restarts the app after 15 minutes idle. The daily caps are therefore "per running server". The OpenRouter spending cap is the hard backstop.
-- **Visitor identity for the rate limit** uses the last address in `X-Forwarded-For` added by Render's proxy. If several visitors share a proxy address, they share a limit (stricter, not looser).
+- **Visitor identity for the rate limit** uses Cloudflare's `CF-Connecting-IP` (falling back to the first `X-Forwarded-For` address). If that header were ever missing, a visitor could fake their address; the app-wide caps (20 per 10 minutes, 200 per day) and the $4 monthly key cap still bound the cost.
 - **The CSP allows inline scripts,** because PostHog's official snippet and the share-link scrub are inline. Script sources are still limited to this site and PostHog.
 - **Share links contain the family's numbers** (and any names typed into family decision mode). They're never sent to the server, but anyone who has the link can read them. The page says so when the link is copied.
 - **Local storage:** the browser keeps the last numbers for convenience. Anyone using the same browser profile can see them.

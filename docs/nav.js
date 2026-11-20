@@ -5,7 +5,7 @@
 // Include it as the first thing inside <body>: <script src="nav.js"></script>
 (function () {
   // The live app's address. Fill in after the first Render deploy (see AGENTS.md, Shipping).
-  const APP_URL = "";
+  const APP_URL = "https://homeward-ccma.onrender.com";
   const onPages = /github\.io$/.test(location.hostname);
   const here = location.pathname.replace(/\/$/, "") || "/";
 

@@ -121,22 +121,29 @@ async function sendFile(res, file) {
 }
 
 // ---------- Rate limits for the paid AI route ----------
-// Per visitor: 5 summaries per 10 minutes and 20 per day. Whole app: 200 per day.
+// Per visitor: 5 summaries per 10 minutes and 20 per day.
+// Whole app: 20 per 10 minutes and 200 per day, so even a visitor who fakes their
+// address can't run up the bill. The OpenRouter key's $4 monthly cap is the final backstop.
 // Kept in memory, so they reset if the server restarts (noted in SECURITY.md).
 const LIMITS = {
   burst: { max: Number(process.env.RL_BURST || 5), windowMs: 10 * 60 * 1000 },
   daily: { max: Number(process.env.RL_DAILY || 20), windowMs: 24 * 60 * 60 * 1000 },
   global: { max: Number(process.env.RL_GLOBAL || 200), windowMs: 24 * 60 * 60 * 1000 },
+  globalBurst: { max: Number(process.env.RL_GLOBAL_BURST || 20), windowMs: 10 * 60 * 1000 },
 };
 const hits = new Map(); // visitor -> timestamps
 let globalHits = [];
 
 function clientId(req) {
-  // On Render the app sits behind a proxy that adds the visitor's address to X-Forwarded-For.
-  // The last entry is the one the proxy added itself, so a visitor can't fake it.
+  // On Render the app sits behind Cloudflare and Render's own proxies. Cloudflare sets
+  // CF-Connecting-IP to the visitor's real address and overwrites any value a visitor sends.
+  // (The first live test showed the LAST X-Forwarded-For entry is a proxy address that
+  // changes between requests, which split one visitor into several. Fixed here.)
   if (ON_RENDER || process.env.TRUST_PROXY === "1") {
+    const cf = String(req.headers["cf-connecting-ip"] || req.headers["true-client-ip"] || "").trim();
+    if (cf) return cf;
     const xff = String(req.headers["x-forwarded-for"] || "").split(",").map((s) => s.trim()).filter(Boolean);
-    if (xff.length) return xff[xff.length - 1];
+    if (xff.length) return xff[0];
   }
   return req.socket.remoteAddress || "unknown";
 }
@@ -147,6 +154,7 @@ function rateLimit(id, now = Date.now()) {
   const burst = mine.filter((t) => now - t < LIMITS.burst.windowMs).length;
   if (burst >= LIMITS.burst.max) return { ok: false, retry: 600, why: "You've asked for several summaries in a row. Try again in about 10 minutes." };
   if (mine.length >= LIMITS.daily.max) return { ok: false, retry: 3600, why: "You've reached today's limit for AI summaries. The calculator still works." };
+  if (globalHits.filter((t) => now - t < LIMITS.globalBurst.windowMs).length >= LIMITS.globalBurst.max) return { ok: false, retry: 600, why: "Homeward is getting a lot of summary requests right now. Try again in about 10 minutes." };
   if (globalHits.length >= LIMITS.global.max) return { ok: false, retry: 3600, why: "Homeward has reached today's limit for AI summaries. The calculator still works." };
   mine.push(now); hits.set(id, mine); globalHits.push(now);
   return { ok: true };
@@ -261,4 +269,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { server, PORT, LIMITS, rateLimit, fileFor };
+module.exports = { server, PORT, LIMITS, rateLimit, fileFor, clientId };

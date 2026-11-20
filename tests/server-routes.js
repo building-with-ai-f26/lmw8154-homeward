@@ -129,7 +129,18 @@ async function main() {
     const last = await post(good);
     check("a refused call explains itself and says when to retry", last.status === 429 && !!last.headers["retry-after"] && /Try again|limit/.test(last.body), last.body);
 
-    // 6. Oversized request is refused (checked last: it never reaches the rate limit's count)
+    // 6. Behind Render's proxies, one visitor stays one visitor even as proxy addresses change
+    const { clientId } = require("../server.js");
+    process.env.TRUST_PROXY = "1";
+    const fake = (h) => ({ headers: h, socket: { remoteAddress: "10.0.0.1" } });
+    check("visitor = Cloudflare's CF-Connecting-IP, not the changing proxy address",
+      clientId(fake({ "cf-connecting-ip": "203.0.113.7", "x-forwarded-for": "203.0.113.7, 10.1.1.1" })) === "203.0.113.7" &&
+      clientId(fake({ "cf-connecting-ip": "203.0.113.7", "x-forwarded-for": "203.0.113.7, 10.9.9.9" })) === "203.0.113.7");
+    check("without Cloudflare's header, the first X-Forwarded-For address is used",
+      clientId(fake({ "x-forwarded-for": "198.51.100.4, 10.1.1.1" })) === "198.51.100.4");
+    delete process.env.TRUST_PROXY;
+
+    // 7. Oversized request is refused (checked last: it never reaches the rate limit's count)
     const huge = await request(port, "/api/summary", { method: "POST", headers: { "Content-Type": "application/json", Origin: origin }, body: "x".repeat(10000) });
     check("oversized summary request is refused", huge.status === 413 || huge.status === 429, `status ${huge.status}`);
   } finally {
