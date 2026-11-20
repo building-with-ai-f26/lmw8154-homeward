@@ -192,7 +192,7 @@
     <div class="wrap hero-inner">
       <span class="kicker">NYU Stern · Building with AI · Fall 2026</span>
       <h1>Homeward</h1>
-      <p class="tagline">Homeward is a single source of truth for families rebuilding after a wildfire. It tracks what the HOA, builder, insurer, and city each said, and flags when they contradict each other.</p>
+      <p class="tagline">Homeward helps Pacific Palisades homeowners decide whether to rebuild, sell, or hold after the January 2025 fire, using their own numbers and an honest look at how the neighborhood is recovering.</p>
       <div class="hero-actions">
         <a class="btn" href="#live-demo" onclick="window.posthog && posthog.capture('clicked_try_product')">See the Product →</a>
         <a class="text-link" href="#prd">Read the Living PRD</a>
@@ -212,15 +212,15 @@
           <span class="kicker">01 · Showcase</span>
           <h2>Product Showcase (Prototype / Live App / 2-Min Video)</h2>
           <p class="status">
-            <strong>Current Status:</strong> Build 2: local app with real AI analysis and PostHog analytics
+            <strong>Current Status:</strong> Build 3: Homeward is now a rebuild, sell, or hold decision tool, deploying to Render (live link coming)
           </p>
           <p class="caption">
-            One full user action: paste a thread, AI analysis, conflicts flagged. A fictional sample thread between the HOA and the builder is pasted in; the AI pulls out 7 claims in one analysis ($0.036); and Homeward flags two reversals, each with both statements, dates and quotes side by side. The claims table and open questions are left out of this image to keep it short. The text box was refilled with the same thread for this image, since the app clears it after analyzing.
+            The Decide page with example numbers (not real data) for a family whose home burned. It compares selling the lot now, rebuilding and selling in 2029, and rebuilding and staying, and shows the break-even sale price on a scale next to today's value and the chosen recovery speed. All the math runs in the browser; nothing a family types is stored on the server.
           </p>
         </div></div>
         <figure class="showcase-figure">
-          <img src="conflict-tracker-build2.png" width="2400" height="3279" loading="lazy"
-               alt="The Conflict Tracker with a fictional HOA and builder email thread pasted in, a summary line reading 1 message analyzed, 7 claims, 2 conflicts, total AI cost $0.0358, and two flagged reversals shown side by side with dates and quotes: the HOA first required clay tile and later dropped the requirement, and the builder first said clay tile was in scope at no extra cost and later estimated $38,000 more." />
+          <img src="decide-build3.jpg" width="2560" height="2700" loading="lazy"
+               alt="The Homeward Decide page. On the left, example inputs: lot value $2.4M, home value once rebuilt $4.6M, rebuild cost still to pay $1.8M, insurance still coming $900K. On the right, a dark panel says rebuilding and selling in 2029 beats selling the lot now only if the rebuilt home sells for more than $4.24M, with a scale marking that break-even, today's value of $4.60M and a typical-recovery projection of $5.03M. Below, three paths: sell the lot now $2.26M, rebuild then sell $3.28M, rebuild and stay $6.18M, and a chart of projected home value from 2026 to 2036 under slow, typical and fast recovery." />
         </figure>
       </div>
     </section>
@@ -243,11 +243,6 @@
           </div>
           <div class="resource">
             <span class="num">ii.</span>
-            <p>See which Palisades businesses are open or rebuilding in our Business Directory, compiled from published news reports.</p>
-            <a class="text-link" href="business-map.html">View the Business Directory →</a>
-          </div>
-          <div class="resource">
-            <span class="num">iii.</span>
             <p>Find mental health support, community recovery groups, and city, county and state services for Palisades fire survivors.</p>
             <a class="text-link" href="resources.html">Recovery Resources →</a>
           </div>
@@ -268,6 +263,40 @@
           <picture class="g-b"><source type="image/webp" srcset="images/beach-breakwater-640.webp 640w, images/beach-breakwater-1024.webp 1024w, images/beach-breakwater-1536.webp 1536w" sizes="(max-width: 600px) 100vw, 58vw" /><img src="images/beach-breakwater-1024.jpg" srcset="images/beach-breakwater-640.jpg 640w, images/beach-breakwater-1024.jpg 1024w, images/beach-breakwater-1536.jpg 1536w" sizes="(max-width: 600px) 100vw, 58vw" width="1536" height="2048" loading="lazy" decoding="async" style="--pos: 50% 62%" alt="Waves washing up a sandy beach beside a rock breakwater, with a grassy slope in the foreground and mountains along the coast." /></picture>
           <picture class="g-c"><source type="image/webp" srcset="images/sunset-ridge-640.webp 640w, images/sunset-ridge-984.webp 984w" sizes="(max-width: 600px) 50vw, 25vw" /><img src="images/sunset-ridge-984.jpg" srcset="images/sunset-ridge-640.jpg 640w, images/sunset-ridge-984.jpg 984w" sizes="(max-width: 600px) 50vw, 25vw" width="984" height="2048" loading="lazy" decoding="async" style="--pos: 50% 40%" alt="The sun setting behind a dark ridge, lighting up scrub-covered hills and a hazy sky." /></picture>
           <picture class="g-d"><source type="image/webp" srcset="images/beach-clouds-640.webp 640w, images/beach-clouds-1024.webp 1024w, images/beach-clouds-1536.webp 1536w" sizes="(max-width: 600px) 50vw, 33vw" /><img src="images/beach-clouds-1024.jpg" srcset="images/beach-clouds-640.jpg 640w, images/beach-clouds-1024.jpg 1024w, images/beach-clouds-1536.jpg 1536w" sizes="(max-width: 600px) 50vw, 33vw" width="1536" height="1761" loading="lazy" decoding="async" style="--pos: 50% 55%" alt="A wide sandy beach with patches of grass, a few people near the water, and white clouds over the mountains." /></picture>
+        </div>
+
+        <div class="version split">
+          <div class="label"><div class="sticky">
+            <h3 class="version-title">PRD v3</h3>
+            <span class="version-meta">Build 3 · updated Nov 19, 2026</span>
+          </div></div>
+          <div class="content measure">
+            <p><strong>What changed:</strong> Homeward pivoted. It no longer asks families to paste emails from their builder, HOA, insurer or city. I didn't want the product built on other people's and companies' messages, and the question my parents actually ask is about money and timing: rebuild, sell, or hold?</p>
+            <h3>1. Target user and the job to be done</h3>
+            <p>Pacific Palisades homeowners after the January 2025 Palisades fire: families whose home burned (deciding whether to sell the lot, rebuild and sell later, or rebuild and stay) and neighbors whose home survived among empty lots (deciding whether to sell now or hold). Often parents in their 60s or 70s, deciding together with adult children. The job: understand what each path could mean for the family, using their own numbers and an honest picture of how the neighborhood is recovering.</p>
+            <h3>2. Scope and explicit non-goals</h3>
+            <ul>
+              <li><strong>Scenario calculator:</strong> sell now, rebuild then sell, or hold, over 10 years, under slow, typical and fast recovery.</li>
+              <li><strong>Break-even:</strong> the one number that decides between rebuilding and selling, shown on a scale next to the family's own estimate.</li>
+              <li><strong>Projection ranges and "what would it take" sliders:</strong> recovery speed, cost overruns, insurance premiums, a premium for homes rebuilt to the new fire codes.</li>
+              <li><strong>Rebuild-or-sell-the-lot check</strong> and <strong>family decision mode</strong> (each family member rates what matters).</li>
+              <li><strong>Recovery pulse:</strong> Pacific Palisades damage, rebuild permits, completions, sales and insurance history from public data, as neighborhood totals and a block-by-block grid.</li>
+              <li><strong>AI summary</strong> in plain language, with questions to ask a CPA or realtor.</li>
+              <li><strong>Private share link and printable one-pager.</strong></li>
+            </ul>
+            <p><strong>Non-goals:</strong> no single-number price forecasts, no "you should sell," no tax, legal or financial advice, no comparable sales, no accounts, and nothing about individual homes, lots or neighbors.</p>
+            <h3>3. How it works</h3>
+            <p>All the math runs in the browser. What a family types stays on their device; the server stores nothing. The only server call is the AI summary, which receives rounded numbers only, never names or addresses. Neighborhood data comes from public sources, prepared ahead of time by <code>scripts/build_market_data.py</code> and published as neighborhood totals in <code>docs/market-data/</code>: CAL FIRE damage inspections (CC BY), City of Los Angeles building permits (LADBS), HMDA mortgage data, California Department of Insurance policy counts and the FHFA LA-area price index.</p>
+            <p><strong>Riskiest assumption:</strong> that a handful of honest scenarios, tied to the family's own numbers and real recovery data, helps a family decide better rather than giving false confidence. <strong>Second risk:</strong> people may read projections as predictions, so every range is tied to a stated assumption the user chooses.</p>
+            <p><strong>Honest limit:</strong> the fire was less than two years ago, so price data after it is thin. FHFA publishes no Pacific Palisades ZIP-level prices after 2021, and HMDA leaves out cash purchases. Homeward leans on rebuild progress, damage, insurance signals and the family's own scenarios rather than a price trend.</p>
+            <h3>4. Hosting, database and security (Build 3)</h3>
+            <ul>
+              <li><strong>Hosting:</strong> a small Node server on Render (free tier), with this Product Page staying on GitHub Pages.</li>
+              <li><strong>Database and sign-in:</strong> none. The app saves nothing on the server, so it doesn't need either.</li>
+              <li><strong>Security:</strong> the OpenRouter key lives only in Render's settings, the AI route is rate-limited per visitor with a daily cap and a size limit, the OpenRouter key has a monthly spending cap, and PostHog masks every input. Details in <code>SECURITY.md</code>.</li>
+              <li><strong>Cost per run:</strong> the calculator is free. Each AI summary is estimated at a few cents, to be measured on the live app.</li>
+            </ul>
+          </div>
         </div>
 
         <div class="version split">

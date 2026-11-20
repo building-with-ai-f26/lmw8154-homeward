@@ -1,11 +1,11 @@
-# [Project Name]
+# Homeward
 
-> **One-line pitch:** [Who is this for, and what job does it do for them?]
+> **One-line pitch:** For Pacific Palisades homeowners after the January 2025 fire: compare rebuilding, selling and holding with your own numbers, and see how the neighborhood is recovering.
 
-- **Builder:** [Your Name] (`@github-handle`)
-- **Pod:** [Pod Name / Number]
-- **Product Page & Living PRD:** [Add your GitHub Pages URL]
-- **App:** runs locally through Week 4; add a cloud URL in Build 5.
+- **Builder:** Laura Wendelin
+- **Product Page & Living PRD:** https://building-with-ai-f26.github.io/lmw8154-homeward/
+- **App:** hosted on Render (link on the Product Page). Run it locally with `npm start`; see [`AGENTS.md`](./AGENTS.md).
+- **Security:** see [`SECURITY.md`](./SECURITY.md).
 
 ## Start here: Build 1
 

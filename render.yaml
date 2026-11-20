@@ -1,0 +1,18 @@
+# Render Blueprint for Homeward (Build 3). One free Node web service, no database.
+# The OpenRouter key is entered by hand in Render's dashboard (sync: false), never stored here.
+services:
+  - type: web
+    name: homeward
+    runtime: node
+    plan: free
+    buildCommand: npm test
+    startCommand: npm start
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: OPENROUTER_MODEL
+        value: anthropic/claude-opus-5.5
