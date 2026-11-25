@@ -82,6 +82,27 @@
             <input name="insuranceIfSell" data-kind="dollars" inputmode="text" autocomplete="off" /></label>
           <label class="money-field" data-for="lot rebuilding"><span>Years until the rebuild is done</span>
             <input name="yearsToRebuild" data-kind="years" inputmode="numeric" autocomplete="off" /></label>
+          <details class="estimate" id="estimate" data-for="lot rebuilding">
+            <summary>Not sure? Estimate it from your permit date</summary>
+            <div class="est-body">
+              <div class="est-row">
+                <label><span>Permit issued, or expected</span>
+                  <span class="est-pair">
+                    <select id="est-month" aria-label="Permit month"><option value="">Month</option></select>
+                    <select id="est-year" aria-label="Permit year"><option value="">Year</option></select>
+                  </span></label>
+                <label><span>Home size</span>
+                  <select id="est-size">
+                    <option value="all">Not sure</option>
+                    <option value="small">Under 3,000 sq ft</option>
+                    <option value="medium">3,000–4,500 sq ft</option>
+                    <option value="large">Over 4,500 sq ft</option>
+                  </select></label>
+              </div>
+              <div id="est-out" aria-live="polite"></div>
+              <p class="fine" id="est-note"></p>
+            </div>
+          </details>
           <label class="money-field" data-for="lot rebuilding standing"><span>Monthly costs<span class="hint">Mortgage, property tax, HOA, upkeep</span></span>
             <input name="monthlyCarry" data-kind="monthly" inputmode="text" autocomplete="off" /></label>
           <label class="money-field" data-for="lot rebuilding standing"><span>Monthly home insurance</span>

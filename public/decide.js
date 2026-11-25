@@ -471,6 +471,78 @@
   });
   $("print-btn").addEventListener("click", () => { track("print_clicked", {}); window.print(); });
 
+  // ---------- "When will my rebuild finish?" ----------
+  // Uses neighborhood curves from public permit data. The permit month and size picked
+  // here stay in this browser; analytics only hear which button was used.
+  const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const SIZE_KEYS = ["all", "small", "medium", "large"];
+  let timing = null, timingState = "idle";
+  function monthsAhead(n) {
+    const d = new Date(); d.setDate(15); d.setMonth(d.getMonth() + Math.round(n));
+    return `${MON[d.getMonth()]} ${d.getFullYear()}`;
+  }
+  function setupEstimate() {
+    const ms = $("est-month"), ys = $("est-year");
+    MON.forEach((m, i) => ms.append(new Option(m, String(i + 1))));
+    for (let y = 2025; y <= Math.max(thisYear + 2, 2028); y++) ys.append(new Option(String(y), String(y)));
+    $("estimate").addEventListener("toggle", loadTiming);
+    ["est-month", "est-year", "est-size"].forEach((id) => $(id).addEventListener("change", drawEstimate));
+  }
+  async function loadTiming() {
+    if (!$("estimate").open || timingState !== "idle") return;
+    timingState = "loading";
+    try {
+      const res = await fetch("/market-data/rebuild-timing.json");
+      if (!res.ok) throw new Error(String(res.status));
+      timing = await res.json();
+      timingState = "ready";
+      const dt = new Date(timing.data_date + "T12:00:00");
+      const note = $("est-note");
+      note.replaceChildren();
+      const link = document.createElement("a"); link.href = "/pulse#forecast-h"; link.textContent = "How this is estimated";
+      note.append(`Based on ${timing.since_fire.permits.toLocaleString("en-US")} Palisades rebuild permits since the fire (${timing.since_fire.finished} finished so far) and ${timing.slower.permits} new-home permits from 2020–2024. City of LA data pulled ${MON[dt.getMonth()]} ${dt.getDate()}, ${dt.getFullYear()}. Finished means the City issued a certificate of occupancy. Estimates, not promises. `, link);
+    } catch (e) {
+      timingState = "error";
+    }
+    drawEstimate();
+  }
+  function drawEstimate() {
+    const out = $("est-out");
+    out.replaceChildren();
+    if (timingState === "error") { out.textContent = "Couldn't load the neighborhood data. Try reloading the page."; return; }
+    if (timingState !== "ready") return;
+    const sizeKey = SIZE_KEYS.includes($("est-size").value) ? $("est-size").value : "all";
+    const r = C.rebuildEstimate(timing, $("est-year").value, $("est-month").value, sizeKey, new Date());
+    if (!r) { const p = document.createElement("p"); p.className = "fine"; p.style.margin = "0"; p.textContent = "Pick the month your permit was issued, or when you expect it."; out.append(p); return; }
+    const cases = [
+      ["faster", "At the pace of rebuilds so far", r.faster],
+      ["slower", "At the pace before the fire", r.slower],
+    ];
+    cases.forEach(([key, title, c]) => {
+      const box = document.createElement("div"); box.className = "est-case" + (key === "slower" ? " slow" : "");
+      const t = document.createElement("span"); t.className = "t"; t.textContent = title;
+      const v = document.createElement("span"); v.className = "v";
+      const when = document.createElement("strong");
+      when.textContent = c.likely < 1 ? "any time now" : monthsAhead(c.likely);
+      v.append(c.likely < 1 ? "Likely finished " : "Likely finished around ", when);
+      const rng = document.createElement("span"); rng.className = "r";
+      const hi = c.high > 60 ? `${monthsAhead(60).slice(-4)} or later` : monthsAhead(c.high);
+      rng.textContent = `Most homes like yours: ${c.low < 1 ? "now" : monthsAhead(c.low)} to ${hi}`;
+      const b = document.createElement("button"); b.type = "button";
+      b.textContent = `Use ${c.years} year${c.years === 1 ? "" : "s"}`;
+      b.setAttribute("aria-pressed", String(state.yearsToRebuild === c.years));
+      b.addEventListener("click", () => {
+        state.yearsToRebuild = c.years;
+        blanks.delete("yearsToRebuild");
+        changed(true);
+        drawEstimate();
+        track("rebuild_estimate_used", { pace: key, size: sizeKey });
+      });
+      box.append(t, v, rng, b);
+      out.append(box);
+    });
+  }
+
   // ---------- Decoration and context ----------
   function drawContours() {
     const svg = $("contours");
@@ -517,5 +589,6 @@
   renderPeopleEditors();
   drawContours();
   render();
+  setupEstimate();
   loadContext();
 })();

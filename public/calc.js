@@ -192,6 +192,53 @@
     return m[2] ? null : n;
   }
 
+  // ---------- When will a rebuild finish? ----------
+  // Uses the neighborhood curves in /market-data/rebuild-timing.json (log-normal fits of
+  // permit-to-certificate times). Nothing about the family's home leaves the browser.
+  function normCdf(z) { // Abramowitz-Stegun 7.1.26, good to ~1e-7
+    const x = Math.abs(z) / Math.SQRT2, t = 1 / (1 + 0.3275911 * x);
+    const y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x);
+    return z >= 0 ? 0.5 * (1 + y) : 0.5 * (1 - y);
+  }
+  function normInv(p) { // Acklam's approximation
+    const a = [-39.69683028665376, 220.9460984245205, -275.9285104469687, 138.357751867269, -30.66479806614716, 2.506628277459239];
+    const b = [-54.47609879822406, 161.5858368580409, -155.6989798598866, 66.80131188771972, -13.28068155288572];
+    const c = [-0.007784894002430293, -0.3223964580411365, -2.400758277161838, -2.549732539343734, 4.374664141464968, 2.938163982698783];
+    const d = [0.007784695709041462, 0.3224671290700398, 2.445134137142996, 3.754408661907416];
+    p = clamp(p, 1e-9, 1 - 1e-9);
+    if (p < 0.02425) { const q = Math.sqrt(-2 * Math.log(p)); return (((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) / ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1); }
+    if (p > 1 - 0.02425) { const q = Math.sqrt(-2 * Math.log(1 - p)); return -(((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) / ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1); }
+    const q = p - 0.5, r = q * q;
+    return (((((a[0] * r + a[1]) * r + a[2]) * r + a[3]) * r + a[4]) * r + a[5]) * q / (((((b[0] * r + b[1]) * r + b[2]) * r + b[3]) * r + b[4]) * r + 1);
+  }
+  const DAY = 86400000;
+  // Days from the permit until a share `q` of homes like this one are finished, given the
+  // home is still unfinished `elapsed` days after its permit.
+  function finishDays(curve, elapsed, q) {
+    const mu = Math.log(curve.median_days), sg = curve.sigma;
+    const sNow = elapsed > 0 ? 1 - normCdf((Math.log(elapsed) - mu) / sg) : 1;
+    return Math.exp(mu + sg * normInv(1 - sNow * (1 - q)));
+  }
+  // permitYear/permitMonth: when the permit was (or is expected to be) issued. size: small,
+  // medium, large or "all". today: a Date. Returns months from today, for each case.
+  function rebuildEstimate(timing, permitYear, permitMonth, size, today) {
+    if (!timing || !timing.faster || !timing.slower) return null;
+    const y = Number(permitYear), m = Number(permitMonth);
+    if (!Number.isInteger(y) || !Number.isInteger(m) || m < 1 || m > 12 || y < 2025 || y > 2032) return null;
+    const permit = Date.UTC(y, m - 1, 15);
+    const now = today instanceof Date ? today.getTime() : Date.now();
+    const elapsed = (now - permit) / DAY; // negative when the permit isn't issued yet
+    const sizes = timing.faster.by_size || {};
+    const fast = Object.prototype.hasOwnProperty.call(sizes, size) ? sizes[size] : timing.faster.all;
+    const one = (curve) => {
+      const months = (q) => Math.max(0, (finishDays(curve, Math.max(0, elapsed), q) - elapsed) / 30.44);
+      const r = { low: months(0.1), likely: months(0.5), high: months(0.9) };
+      r.years = Math.min(LIMITS.yearsToRebuild[1], Math.max(LIMITS.yearsToRebuild[0], Math.round(r.likely / 12)));
+      return r;
+    };
+    return { monthsSincePermit: elapsed / 30.44, faster: one(fast), slower: one(timing.slower) };
+  }
+
   // Rounded copy for the AI summary: no more detail than it needs.
   function roundedForSummary(result) {
     const s = result.inputs, c = result.chosen;
@@ -207,7 +254,7 @@
   }
 
   const api = { SPEEDS, SITUATIONS, DEFAULTS, LIMITS, PRIORITIES, FIT, normalize, carrying, scenario, lotCheck,
-                familyFit, run, projection, money, roundedForSummary, parseAmount };
+                familyFit, run, projection, money, roundedForSummary, parseAmount, rebuildEstimate, normCdf, normInv };
   if (typeof module === "object" && module.exports) module.exports = api;
   else root.HomewardCalc = api;
 })(typeof window !== "undefined" ? window : globalThis);

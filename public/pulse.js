@@ -68,6 +68,63 @@
     $("permits-note").textContent = `New single-family home permits only. The current month is left out because it isn't over yet. ${p.definition}`;
   }
 
+  // ---------- Finish forecast ----------
+  function monthName(key) { return `${MON[Number(key.slice(5)) - 1]} ${key.slice(0, 4)}`; }
+  function forecast(t) {
+    const svg = $("forecast-chart");
+    const rows = t.months;
+    const total = t.since_fire.permits;
+    const top = Math.ceil(total / 250) * 250;
+    const x0 = 56, x1 = 1000, n = rows.length;
+    const x = (i) => x0 + (i / (n - 1)) * (x1 - x0);
+    const y = (v) => 246 - (v / top) * 222;
+    const g = el("g", { "font-size": 11, fill: "#4F5964" });
+    for (let v = 0; v <= top; v += top / 5) {
+      g.append(el("line", { x1: x0, x2: x1, y1: y(v), y2: y(v), stroke: "#E6E0D4" }));
+      g.append(el("text", { x: x0 - 8, y: y(v) + 4, "text-anchor": "end", class: "num" }, fmtInt(v)));
+    }
+    rows.forEach((r, i) => { if (r.month.endsWith("-01")) g.append(el("text", { x: x(i), y: 266, "text-anchor": "middle" }, r.month.slice(0, 4))); });
+    svg.append(g);
+    // Permits issued so far: the ceiling if every permitted home gets built.
+    svg.append(el("line", { x1: x0, x2: x1, y1: y(total), y2: y(total), stroke: "#121A22", "stroke-dasharray": "3 4" }));
+    svg.append(el("text", { x: x0 + 6, y: y(total) - 7, "font-size": 12, "font-weight": 600, fill: "#121A22" }, `${fmtInt(total)} rebuild permits issued so far`));
+    const proj = rows.map((r, i) => [i, r]).filter(([, r]) => r.faster != null);
+    const pts = (key) => proj.map(([i, r]) => `${x(i).toFixed(1)},${y(r[key]).toFixed(1)}`);
+    svg.append(el("polygon", { points: pts("faster").concat(pts("slower").reverse()).join(" "), fill: "#1B4F72", "fill-opacity": 0.1 }));
+    svg.append(el("polyline", { points: pts("slower").join(" "), fill: "none", stroke: "#8A939C", "stroke-width": 2, "stroke-dasharray": "6 4" }));
+    svg.append(el("polyline", { points: pts("faster").join(" "), fill: "none", stroke: "#1B4F72", "stroke-width": 2.5, "stroke-dasharray": "6 4" }));
+    const done = rows.map((r, i) => [i, r]).filter(([, r]) => r.finished != null);
+    svg.append(el("polyline", { points: done.map(([i, r]) => `${x(i).toFixed(1)},${y(r.finished).toFixed(1)}`).join(" "), fill: "none", stroke: "#D9822B", "stroke-width": 3 }));
+    const [ni, nowRow] = done[done.length - 1];
+    svg.append(el("circle", { cx: x(ni), cy: y(nowRow.finished), r: 4.5, fill: "#D9822B" }));
+    svg.append(el("line", { x1: x(ni), x2: x(ni), y1: 48, y2: 246, stroke: "#B8B0A2", "stroke-dasharray": "2 4" }));
+    svg.append(el("text", { x: x(ni) - 8, y: 64, "text-anchor": "end", "font-size": 12, fill: "#4F5964" }, "Today"));
+    svg.append(el("text", { x: x(ni) + 8, y: 64, "font-size": 12, fill: "#4F5964" }, "Projected"));
+    const last = rows[n - 1];
+    const endLabel = (v, text, color, dy) => {
+      svg.append(el("text", { x: x1 + 10, y: y(v) + 4 + dy, "font-size": 12, "font-weight": 600, fill: color, class: "num" }, `${fmtInt(v)} ${text}`));
+    };
+    const gap = y(last.slower) - y(last.faster) < 30 ? 9 : 0;
+    endLabel(last.faster, "faster", "#1B4F72", -gap);
+    endLabel(last.slower, "slower", "#4F5964", gap);
+    // Plain-language summary: when half of the permitted homes would be done.
+    const half = Math.ceil(total / 2);
+    const firstAt = (key) => { const r = rows.find((q) => q[key] != null && q[key] >= half); return r ? monthName(r.month) : null; };
+    const fHalf = firstAt("faster"), sHalf = firstAt("slower");
+    const lede = $("forecast-lede");
+    lede.replaceChildren();
+    const b1 = document.createElement("strong"); b1.textContent = fHalf || `after ${last.month.slice(0, 4)}`;
+    const b2 = document.createElement("strong"); b2.textContent = sHalf || `after ${last.month.slice(0, 4)}`;
+    lede.append(`${fmtInt(t.since_fire.finished)} of ${fmtInt(total)} permitted rebuilds are finished. At the pace so far, half would be done by `, b1, `. At the pace Palisades homes were built before the fire: `, b2, ".");
+    svg.setAttribute("aria-label", `Rebuilt homes finished in Pacific Palisades, so far and projected to ${monthName(last.month)}. ${fmtInt(nowRow.finished)} finished as of ${monthName(nowRow.month)}. Projected ${fmtInt(last.faster)} at the pace of rebuilds so far, or ${fmtInt(last.slower)} at the pre-fire pace, out of ${fmtInt(total)} permits.`);
+    const ul = $("forecast-method");
+    t.method.forEach((m) => { const li = document.createElement("li"); li.textContent = m; ul.append(li); });
+    const sz = t.faster.by_size;
+    const mo = (d) => Math.round(d / 30.44);
+    $("forecast-observed").textContent = `Typical time from permit to finished at the pace so far: about ${mo(t.faster.all.median_days)} months (${sz.small.label.toLowerCase()}: ${mo(sz.small.median_days)}; ${sz.medium.label}: ${mo(sz.medium.median_days)}; ${sz.large.label.toLowerCase()}: ${mo(sz.large.median_days)}). Before the fire: about ${mo(t.slower.median_days)} months.`;
+    $("forecast-caveats").textContent = t.caveats.join(" ");
+  }
+
   // ---------- Block grid ----------
   const RAMPS = {
     destroyed: { colors: ["#EDE7DC", "#F2CFA3", "#E3A066", "#C56A35", "#8E3B1C"], cuts: [0.2, 0.4, 0.6, 0.8], labels: ["Under 20%", "20–40%", "40–60%", "60–80%", "80% or more"] },
@@ -165,10 +222,11 @@
     svg.setAttribute("aria-label", `Los Angeles area home price index since 2019, set to 100 in 2019. It reached ${Math.round(vals[vals.length - 1])} in quarter ${last.quarter} of ${last.year}.`);
   }
 
-  Promise.all(["damage", "permits", "grid", "hmda", "insurance", "la-metro-hpi"].map(get))
-    .then(([damage, permits, grid, hmda, insurance, hpi]) => {
+  Promise.all(["damage", "permits", "grid", "hmda", "insurance", "la-metro-hpi", "rebuild-timing"].map(get))
+    .then(([damage, permits, grid, hmda, insurance, hpi, timing]) => {
       kpis(damage, permits, hmda);
       permitsChart(permits);
+      forecast(timing);
       gridData = grid;
       drawGrid("destroyed");
       document.querySelectorAll('input[name="grid-mode"]').forEach((r) => r.addEventListener("change", () => {

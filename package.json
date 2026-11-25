@@ -10,6 +10,6 @@
     "start": "node server.js",
     "test": "node tests/calc.js && node tests/server-routes.js && node tests/posthog-pages.js",
     "check:live": "node scripts/check-live-rate-limit.js",
-    "build:data": "python3 scripts/build_market_data.py"
+    "build:data": "python3 scripts/build_market_data.py && python3 scripts/build_rebuild_timing.py"
   }
 }

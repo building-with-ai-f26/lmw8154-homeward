@@ -87,5 +87,25 @@ check("summary payload has only the expected fields",
   keys === "breakEven,breakEvenGrowthPct,fastSellLater,homeValue,outOfPocket,overrunPct,premiumGrowthPct,returnPct,sellInYears,sellLater,sellNow,situation,slowSellLater,speed", keys);
 check("summary payload is rounded to $50K", Math.abs(sent.sellLater * 20 - Math.round(sent.sellLater * 20)) < 1e-9);
 
+// 7. "When will my rebuild finish?" (log-normal curve, median 600 days, spread 0.4)
+near("normal curve: 90th percentile point", C.normInv(0.9), 1.28155, 0.0005);
+near("normal curve: area left of 1.28155", C.normCdf(1.28155), 0.9, 0.0005);
+const T = { faster: { all: { median_days: 600, sigma: 0.4 }, by_size: { small: { median_days: 400, sigma: 0.4 } } }, slower: { median_days: 1000, sigma: 0.7 } };
+const day0 = new Date(Date.UTC(2026, 0, 15)); // permit issued the same day
+const e0 = C.rebuildEstimate(T, 2026, 1, "all", day0);
+near("permit issued today: likely finish = median, 600 days", e0.faster.likely, 600 / 30.44, 0.01);
+near("permit issued today: early end = 600 x e^(0.4 x -1.28155) = 359.3 days", e0.faster.low, 359.3 / 30.44, 0.02);
+check("permit issued today: rounds to 2 years for the calculator", e0.faster.years === 2, e0.faster.years);
+const later = new Date(Date.UTC(2026, 0, 15) + 600 * 86400000); // still not finished 600 days in
+const e1 = C.rebuildEstimate(T, 2026, 1, "all", later);
+near("unfinished at the median: half of what's left done in 600 x e^(0.4 x 0.6745) - 600 = 185.8 days", e1.faster.likely, 185.8 / 30.44, 0.03);
+const e2 = C.rebuildEstimate(T, 2026, 7, "all", day0); // permit expected in 181 days
+near("permit not issued yet: wait for it, then the median", e2.faster.likely, (600 + 181) / 30.44, 0.01);
+check("a size with its own curve uses it", Math.abs(C.rebuildEstimate(T, 2026, 1, "small", day0).faster.likely - 400 / 30.44) < 0.01);
+check("an unknown size falls back to all homes", Math.abs(C.rebuildEstimate(T, 2026, 1, "__proto__", day0).faster.likely - 600 / 30.44) < 0.01);
+check("slower case is slower", e0.slower.likely > e0.faster.likely);
+check("bad month or year -> no estimate", C.rebuildEstimate(T, 2026, 13, "all", day0) === null && C.rebuildEstimate(T, "", 3, "all", day0) === null && C.rebuildEstimate(T, 1999, 3, "all", day0) === null);
+check("years for the calculator stay between 1 and 6", [e0, e1, e2].every((e) => e.faster.years >= 1 && e.slower.years <= 6));
+
 console.log(failures ? `\n${failures} calculator check(s) failed.` : "\nAll calculator checks passed.");
 process.exit(failures ? 1 : 0);

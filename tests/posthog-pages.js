@@ -38,12 +38,13 @@ for (const id of ["inputs", "results"]) {
 }
 check("decide: shared-link numbers are wiped from the address bar before PostHog loads",
   decide.indexOf("history.replaceState") > -1 && decide.indexOf("history.replaceState") < decide.indexOf("posthog.init"));
-for (const ev of ["scenario_changed", "summary_requested", "share_link_created", "print_clicked", "family_member_added"]) {
+for (const ev of ["scenario_changed", "summary_requested", "share_link_created", "print_clicked", "family_member_added", "rebuild_estimate_used"]) {
   check(`decide: sends "${ev}"`, decideJs.includes(`track("${ev}"`));
 }
 // Every event's properties are labels or counts only: never dollar amounts or names.
 const calls = [...decideJs.matchAll(/track\("([a-z_]+)", (\{[^}]*\})\)/g)];
-const allowed = /^\{\s*(?:(?:situation: state\.situation|speed: state\.speed|people: people\.length)(?:,\s*)?)*\s*\}$/;
+const allowed = /^\{\s*(?:(?:situation: state\.situation|speed: state\.speed|people: people\.length|pace: key|size: sizeKey)(?:,\s*)?)*\s*\}$/;
+check("decide: the estimate's size label comes from a fixed list", /const SIZE_KEYS = \["all", "small", "medium", "large"\]/.test(decideJs) && /SIZE_KEYS\.includes\(/.test(decideJs));
 check(`decide: ${calls.length} analytics calls found`, calls.length >= 5);
 for (const [, ev, props] of calls) check(`decide: "${ev}" sends only labels or counts ${props}`, allowed.test(props));
 

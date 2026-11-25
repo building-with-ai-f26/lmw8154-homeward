@@ -214,6 +214,33 @@ details.how th, details.how td { text-align: left; padding: 4px 12px 4px 0; bord
 .speed-data { margin: 8px 0 0; font-size: 0.8125rem; color: #3C4651; padding: 8px 10px; background: #EEF3F6; border-radius: 4px; }
 .speed-data a { font-weight: 600; }
 
+/* "When will my rebuild finish?" helper, under the years box */
+.estimate { border-bottom: 1px solid var(--app-line); padding: 8px 0 10px; font-size: 0.875rem; color: #3C4651; }
+.estimate summary { cursor: pointer; color: var(--app-accent); font-weight: 600; width: fit-content; padding: 4px 0; }
+.estimate summary:focus-visible { outline: 2px solid var(--app-accent); outline-offset: 3px; }
+.est-body { margin-top: 10px; padding: 14px; background: #EEF3F6; border-radius: var(--radius); }
+.est-row { display: flex; flex-wrap: wrap; gap: 12px 16px; }
+.est-row label { display: flex; flex-direction: column; gap: 4px; font-size: 0.8125rem; font-weight: 600; color: var(--app-ink); }
+.est-pair { display: flex; gap: 6px; }
+.est-body select { min-height: 44px; font: 500 0.9375rem var(--font-body); color: var(--app-ink); border: 1px solid #A79F90; border-radius: var(--radius); background: #FFFFFF; padding: 8px 10px; }
+.est-body select:focus { outline: 2px solid var(--app-accent); outline-offset: 1px; }
+#est-out:not(:empty) { margin-top: 14px; display: grid; gap: 10px; }
+.est-case { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4px 12px; padding: 10px 12px; background: #FFFFFF; border-radius: var(--radius); border-left: 3px solid var(--app-accent); }
+.est-case.slow { border-left-color: var(--app-clay); }
+.est-case .t { grid-column: 1; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--app-muted); }
+.est-case .v { grid-column: 1; font-size: 1rem; color: var(--app-ink); }
+.est-case .v strong { font-weight: 700; }
+.est-case .r { grid-column: 1; font-size: 0.8125rem; color: var(--app-muted); }
+.est-case button { grid-column: 2; grid-row: 1 / span 3; min-height: 44px; padding: 8px 12px; border: 1px solid var(--app-accent); border-radius: var(--radius); background: #FFFFFF; color: var(--app-accent); font: 600 0.8125rem var(--font-body); cursor: pointer; white-space: nowrap; }
+.est-case button:hover, .est-case button[aria-pressed="true"] { background: var(--app-accent); color: #FFFFFF; }
+.est-case button:focus-visible { outline: 2px solid var(--app-accent); outline-offset: 2px; }
+#est-note { margin: 10px 0 0; }
+@media (max-width: 420px) { .est-case { grid-template-columns: 1fr; } .est-case button { grid-column: 1; grid-row: auto; justify-self: start; } }
+
+/* Recovery pulse: finish forecast */
+.forecast-lede { margin: 6px 0 14px; max-width: 75ch; font-size: 1.0625rem; color: var(--app-ink); }
+.forecast-lede strong { font-weight: 700; }
+
 /* Reduce motion: no transitions anywhere in the app. */
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 
@@ -224,6 +251,7 @@ details.how th, details.how td { text-align: left; padding: 4px 12px 4px 0; bord
   .decide { display: block; padding: 0; }
   .decide-inputs { max-width: none; margin-bottom: 12pt; }
   .money-field input, .segmented { border: 0; box-shadow: none; }
+  .estimate { display: none; }
   .verdict { background: #fff; color: #000; border: 1px solid #000; }
   .verdict .sentence, .verdict .sub, .verdict .label { color: #000; }
   .app-head { padding-top: 0; }
